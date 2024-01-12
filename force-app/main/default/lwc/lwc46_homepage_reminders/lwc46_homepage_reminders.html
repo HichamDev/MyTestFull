@@ -1,0 +1,12 @@
+<template>
+    <template if:true={displayTitle}>
+        <div class="slds-card ">
+            <div class="slds-text-align_center title">
+                {labels.lbl_Title}
+            </div>
+            <template for:each={l_reminders} for:item="rem">
+                <c-lwc45_reminder key={rem} reminder={rem}  ></c-lwc45_reminder>
+            </template>
+        </div>
+    </template>
+</template>

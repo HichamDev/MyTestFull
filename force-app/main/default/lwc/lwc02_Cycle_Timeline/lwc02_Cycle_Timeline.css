@@ -1,0 +1,14 @@
+progress {
+  width: 100%;
+  border: none;
+  -webkit-appearance: none;
+  /* border-radius: 16px !important; */
+}
+::-webkit-progress-bar {
+  background-color:rgb(221, 219, 218);
+  /* border-radius: 16px !important; */
+}
+/*
+  ::-webkit-progress-value {
+    background-color: #6ca5c2;
+  } */

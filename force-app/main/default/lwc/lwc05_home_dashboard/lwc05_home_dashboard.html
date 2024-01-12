@@ -1,0 +1,101 @@
+<template>
+
+    <!--<lightning-card style="z-index: 1000;">--><!--title={labels.title}-->
+      <div class="dashboard-container">
+        <!-- progress bar -->
+        <c-lwc02_-cycle_-timeline ></c-lwc02_-cycle_-timeline> 
+        <!-- <div class="chart slds-m-around_medium" lwc:dom="manual"></div> -->
+        <!-- <div class="slds-grid slds-wrap">
+            <div class="chart-container slds-size--4-of-12">
+              <canvas class="myChart"></canvas>
+            </div>
+            <div class="chart-container slds-size--4-of-12">
+              <canvas class="myChart2"></canvas>
+            </div>
+            <div class="chart-container slds-size--4-of-12">
+              <canvas class="myChart3"></canvas>
+            </div>
+          </div> -->  
+        <br/><br/>
+        <!-- dealer -->
+        <template if:true={contact}>
+          
+          <div class="slds-grid slds-gutters dashboardContainer">
+
+            <template if:true={indicators}>
+
+              <template for:each={indicators} for:item="kpi">
+
+                <!-- If STYLE = TEXT -->
+                <template if:true={kpi.isText}>
+
+                  <div key={kpi.label} class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 numberContainer">
+                    <span style="text-align: center;">
+                      <div class="slds-text-title_caps">{kpi.label}</div>
+                      <div class="slds-text-heading_large kpiValue">
+                        {kpi.vString1}
+                      </div>
+                      <br/>
+                    </span>
+                  </div>
+
+                </template>
+
+
+                <!-- If STYLE = NUMBER -->
+                <template if:true={kpi.isNumber}>
+
+                  <div key={kpi.label} class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 numberContainer">
+                    <span style="text-align: center;">
+                      <div class="slds-text-title_caps">{kpi.label}</div>
+                      <div class="slds-text-heading_large kpiValue">
+                        <template if:true={kpi.isCurrencyDecimal1}>
+                          <lightning-formatted-number value={kpi.vDecimal1} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </template>
+                        <template if:true={kpi.isPercentDecimal1}>
+                          <lightning-formatted-number value={kpi.vDecimal1} format-style="percent" ></lightning-formatted-number>
+                        </template>
+                        <template if:true={kpi.isNbDecimal1}>
+                          <lightning-formatted-number value={kpi.vDecimal1} format-style="decimal" ></lightning-formatted-number>
+                        </template>
+                      </div>
+                      <br/>
+                    </span>
+                  </div>
+
+                </template>
+                
+                <!-- IF STYLE = DONUGHT-->
+                <template if:true={kpi.isDonught}>
+
+                  <div key={kpi.label} class="slds-col slds-size_1-of-1 slds-large-size_1-of-2" >
+                    <span style="text-align: center;">
+                      <div class="slds-text-title_caps">{kpi.label}</div>
+                      <div class="slds-text-heading_large">
+                        <div class={kpi.vString1} lwc:dom="manual" style="text-align: center; height: 60px;"></div>
+                        <div class="donut-inner">
+                          {kpi.vDecimal4} {kpi.vDecimal4Txt}
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+
+                </template>
+
+              </template>
+
+
+            </template>
+
+          </div>
+
+        </template>
+
+        <!-- BUTTON ACTION -->
+        <div class="slds-text-align_center" if:true={displaySeeMoreBtn}>
+          <a  class="btn" onclick={navigateToFollowUp}>{labels.lbl_btn}</a>
+        </div>
+      </div>
+
+    <!--</lightning-card>-->
+  </template>

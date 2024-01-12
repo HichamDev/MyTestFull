@@ -1,0 +1,151 @@
+<template>
+    <!-- MODAL EMAIL FORM -->
+    <template if:true={openEmail}>
+    
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            
+            <div class="slds-modal__container modal-custom">
+                <span class="testtest">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium slds-hyphenate">{label.lbl_Title}</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={close}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">{label.lbl_Close}</span>
+                        </button>
+                    </header>
+                        
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        
+                        <template if:true={displaySelectTemplate}>
+                            <select class="slds-select selectTemplate" id="select-01" onchange={handleChangeEmailTemplate}>
+                                <template for:each={optionsEmailTemplate} for:item="listViewItem">
+                                    <option key={listViewItem.value} value={listViewItem.value}>{listViewItem.label}</option>
+                                </template>
+                            </select>
+                        </template>
+
+                        <br/>
+                        <br/>
+
+                        <template if:false={hideRecipientEdition}>
+                            <!-- Send to specific / all -->
+                            <lightning-radio-group name="radioGroup"
+                                                options={optionsRadio}
+                                                value={valueRadio}
+                                                type="button"
+                                                onchange={handleChangeTargetType}></lightning-radio-group>
+
+                            <!-- TO --> 
+                            <!--<template if:true={isSelectedSpecific}>-->
+                            <c-lwc04_lookup onsearch={handleSearch} 
+                                            label={label.lbl_To} 
+                                            is-multi-entry="true" 
+                                            onselectionchange={handleSelectionChange}
+                                            selection={selectedtargets} 
+                                            search-type={contactType} ></c-lwc04_lookup>
+                            <!--</template>-->
+                        </template>
+
+                        <template if:true={displaySendToManager}>
+                            <!-- Option - Add the manager in copy -->
+                            <input type="checkbox" value={sendToManager} onclick={handleChangeSendToManager}/> {label.lbl_add_my_manager}
+                            <br/>
+                        </template>
+
+                        <!-- FORM -->
+                        <br/>
+                        <label for="inputSubject" class="slds-form-element__label">{label.lbl_Subject}</label>
+                        <input id="inputSubject" 
+                                type="text"
+                                class="inputSubject slds-input"
+                                name="insubject" 
+                                value={subject}
+                                onchange={genericOnChange} ></input>
+                        <br/><br/>
+
+                        <template if:true={displayBackgroundImages}>
+                            <span class="slds-form-element__label">{label.lbl_Send_Email_Background}</span> <br/>
+                            <template for:each={l_backgroundImages} for:item="link">
+                                <img key={link} class="backgroundImgOption" src={link} onclick={onchangeBackgroundImage}/>
+                            </template>
+                            <br/><br/>
+                        </template>
+                        
+                        <template if:true={displayPreview}>
+                            <lightning-input type="text" 
+                                            name="inemailtitle" 
+                                            label={label.lbl_Send_Email_Title}
+                                            value={emailTitle}
+                                            onchange={onchangeTitle} ></lightning-input>
+                            <br/>
+                        </template>
+
+                        <template if:true={displayPreviewSubtitle}>
+                            <lightning-input type="text" 
+                                            name="inemailsubtitle" 
+                                            label={label.lbl_Send_Email_Subtitle}
+                                            value={emailSubTitle}
+                                            onchange={onchangeSubTitle} ></lightning-input>
+                            <br/>
+                        </template>
+
+                        <lightning-input-rich-text
+                                        name="inbody"
+                                        label={label.lbl_Body}
+                                        label-visible="true"
+                                        value={body}
+                                        onchange={onchangeBody}
+                                        disabled-categories="['INSERT_CONTENT']" ></lightning-input-rich-text>
+
+                        <br/><br/>
+                        <div class="addFile">{label.lbl_File_Attach}</div>
+                        &nbsp;
+                        <div class="addFile sizeMax">{label.lbl_File_Attach_SizeMax}</div>
+                        
+                        <!-- ATTACHMENTS -->
+                        <lightning-file-upload
+                            name="emailFiles"
+                            accept={acceptedFormats}
+                            record-id={contactId}
+                            onuploadfinished={handleUploadFinished}
+                            multiple>
+                        </lightning-file-upload>
+                        <template if:true={uploadedFiles} >
+                            <template for:each={uploadedFiles} for:item="file">
+                                <lightning-pill key={file.documentId} name={file.documentId} label={file.name} onremove={handleRemoveFile} > 
+                                    <lightning-icon icon-name="standard:file" variant="circle"  alternative-text={file.name}></lightning-icon>
+                                </lightning-pill>
+                            </template>
+                        </template>
+
+                        <br/>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        
+                        <lightning-button label={label.lbl_Close} variant="neutral" onclick={close}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <lightning-button label={label.lbl_Send} variant="brand" onclick={send}></lightning-button>
+                        <template if:true={isLoading}>
+                            <div style="position: relative; margin-left: 25px;">
+                                <lightning-spinner size="small"></lightning-spinner>
+                            </div>
+                        </template>
+                    </footer>
+                </span>
+
+                <template if:true={displayPreview}>
+                    <span class="testtest">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium slds-hyphenate">Preview</h2>
+                        </header>
+                        
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                            <lightning-formatted-rich-text value={contentPreview}></lightning-formatted-rich-text>
+                        </div>
+                    </span>
+                </template>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

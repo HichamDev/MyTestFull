@@ -1,0 +1,105 @@
+<template>
+
+    <template if:true={ord}>
+
+        <div class="order-list" if:true={displayBlock}>
+
+            <div class="order-list_title">
+    
+                <h2 class="title-order">
+                    {labels.lbl_Title}
+                </h2>
+    
+            </div>
+    
+            <div class="order-list_container">                  
+
+                <div class="slds-col slds-size_1-of-1">
+                    <span class="elem">
+                    <span class="label">
+                        <template if:true={isITA}>
+                            {orderFieldShipmentRef}
+                        </template>
+                        <template if:true={isFRA}>
+                            {labels.lbl_subtitle_expedition}
+                        </template>
+                        </span>
+                        <span class="value">
+                        <template if:true={ord.LU_Shipment_Follow_Up_URL__c}>
+                            <a style="color:#042B60;" href={ord.LU_Shipment_Follow_Up_URL__c} target="_blank">
+                                {ord.LU_Shipment_Ref__c}
+                            </a>
+                        </template> 
+                        <template if:false={ord.LU_Shipment_Follow_Up_URL__c}>
+                            {ord.LU_Shipment_Ref__c}
+                        </template>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <span class="elem">
+                        <span class="label">
+                            {orderFieldTransporter}
+                        </span>
+                        <span class="value">
+                            {ord.LU_Transporter__c}
+                        </span>
+                    </span>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <span class="elem">
+                        <span class="label">
+                            {orderFieldShippingDate}
+                        </span>
+                        <span class="value">
+                            <lightning-formatted-date-time key={order} value={ord.LU_Shipping_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time>
+                        </span>
+                    </span>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1">
+                    <span class="elem">
+                        <span class="label">
+                            {orderFieldShippingAddress}
+                        </span>
+                        <span class="value">
+                            
+                            <!-- <template if:true={ord.LU_Shipping_Comment__c}>
+                                <b>{ord.LU_Shipping_Comment__c}</b>
+                            </template> -->
+
+                            <!-- <template if:true={displaySenderName}>
+                                {ord.BillToContact.Name}<br/>
+                            </template> -->
+
+                            <template if:true={ord.ShippingStreet}>
+                                {ord.ShippingStreet}<br/>
+                            </template>
+                            
+                            <template if:true={ord.LU_Shipping_Street_1__c}>
+                                {ord.LU_Shipping_Street_1__c}<br/>
+                            </template>
+
+                            <template if:true={ord.LU_Shipping_Street_2__c}>
+                                {ord.LU_Shipping_Street_2__c}<br/>
+                            </template>
+
+                            {ord.ShippingPostalCode}&nbsp;{ord.ShippingCity}
+
+                            <template if:true={ord.LU_Shipping_Street_3__c}>
+                                <br/>{ord.LU_Shipping_Street_3__c}<br/>
+                            </template>
+                        </span>
+                    </span>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </template>
+
+</template>

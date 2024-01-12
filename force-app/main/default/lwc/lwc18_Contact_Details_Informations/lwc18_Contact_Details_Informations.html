@@ -1,0 +1,544 @@
+<template>
+
+    <template if:true={objectInfo}>
+
+        <section>
+            
+            <div class="displayOnMobile">
+                <c-lwc53_-contact_-details_-informations_sidebar ></c-lwc53_-contact_-details_-informations_sidebar>
+            </div>
+
+            <div class="container-order">
+                
+                <!-- BUTTONS -->
+                <div class="btn-group displayOnDesktop">
+
+                    <button onclick={toContactsPage} class="btn-action hideInfo btn-toContactPage" >
+                        {labels.lbl_Back}
+                    </button>
+
+                    <template if:true={isCustomer}>
+                        <template if:true={displayResendLink}>
+                            <c-lwc82_gdpr_resend_consent contactid={contact.Id} styleaction="button" styleclass="btn-whatsapp" onhideresend={hideResend}></c-lwc82_gdpr_resend_consent>
+                        </template>
+                        <button class="btn-whatsapp" onclick={handleEditCustomerOpen}>{labels.lbl_Customer_Edit}<img src={btn_edit} alt="" class="imgIcon"></button>
+                        <c-lwc27_deletecontact selectedcontact-id={contact.Id} ></c-lwc27_deletecontact>
+                    </template>
+
+                    <template if:true={isDealer}>
+                        <span class="lbl">{labels.lbl_Contact}</span>
+                        <button class="btn-whatsapp" onclick={createTicketManager}>Créer ticket bon de retour<img src={btn_edit} alt="" class="imgIcon"></button>
+                        <button class="btn-whatsapp" onclick={showWhatsapp}>{labels.lbl_Whatsapp}<img src={btn_whastapp} alt="" class="imgIcon"></button>
+                        <button class="btn-mail" onclick={showEmail}>{labels.lbl_Email}<img src={btn_mail} alt="" class="imgIcon"></button> 
+                    </template>
+                    
+                    <template if:true={isCustomer}>
+                        <br/>
+                    </template>
+                    
+               </div>
+                
+                
+                
+                <!-- IF THE CONTACT IS A CUSTOMER -->
+                <template if:true={isCustomer}>
+                    
+                    <div class="box-info">
+
+                        <p class="title-box">{labels.lbl_Title_personnal_infos}</p>
+
+                        <div class="line"></div>
+
+                        <div class="slds-grid slds-wrap" >
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{labels.lbl_lastOrderDate}</span><br/>
+                                        <span class="elem-value">{contact.LastDateToOrder__c}</span>
+                                    </div>
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LU_Sum_My_OrderItems_Last_Order__c.label}</span><br/><!-- typologie-->
+                                        <span class="elem-value">{contact.LU_Sum_My_OrderItems_Last_Order__c} €</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.Email.label}</span><br/><!-- typologie-->
+                                        <span class="elem-value">{contact.Email}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                        </div>                   
+                    </div>
+
+                    <div class="box-info">
+
+                        <p class="title-box">{labels.lbl_Title_Customer_GDPR}</p>
+
+                        <div class="line"></div>
+
+                        <div class="slds-grid slds-wrap" >
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{labels.lbl_GDPR_Status}</span><br/>
+                                        <span class="elem-value">
+                                            <template if:true={displayCheckIcon}>
+                                                <img  src={iconCheck} class="rgpd" title={labels.lbl_GDPR_Consent_Tick_Title} />
+                                            </template>
+                                            <template if:false={displayCheckIcon}>
+                                                <template if:false={displayResendLink}>
+                                                    <template if:false={displayResendYet}>
+                                                        <img  src={iconLock} class="rgpd" title={labels.lbl_GDPR_Consent_Locker_Title} />
+                                                    </template>
+                                                </template>
+                                            </template>
+                                            <template if:true={displayResendYet}>
+                                                {labels.lbl_GDPR_resentConsent}
+                                            </template>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LU_Consent_Answer_Date__c.label}</span><br/><!-- typologie-->
+                                        <span class="elem-value">
+                                            <lightning-formatted-date-time value={contact.LU_Consent_Answer_Date__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.HasOptedOutOfEmail.label}</span><br/><!-- typologie-->
+                                        <span class="elem-value">
+                                            <input type="checkbox" id="hasoptout" name="hasoptout" checked={contact.HasOptedOutOfEmail} disabled>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                        </div>                   
+                    </div>
+
+                    <!-- <div class="box-info">
+
+                        <p class="title-box">{labels.lbl_Note}</p>
+
+                        <div class="line"></div>
+
+                        <div class="slds-grid slds-wrap" >
+
+                            <div class="slds-col slds-size_1-of-1">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl"></span><br/>
+                                        <span class="elem-value">
+                                            <lightning-formatted-rich-text
+                                                value={contact.Lu_Notes__c}
+                                            ></lightning-formatted-rich-text>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                        </div>                   
+                    </div> -->
+
+
+                </template>
+
+                <!-- IF THE CONTACT IS A DEALER -->
+                <template if:true={isDealer}>
+
+                    <!-- LAST ORDER SECTION -->
+                    <div class="last-order box-info">
+
+                        <p class="title-box">{labels.lbl_Contact_LastOrder}</p>
+
+                        <div class="line"></div>
+
+                        <div class="slds-grid slds-wrap" >
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LastOrderDate__c.label}</span><br/>
+                                        <span class="elem-value">
+                                        <template if:false={isV2}>
+                                            <template if:true={contact.LastOrderDate__c}>
+                                                <lightning-formatted-date-time value={contact.LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                            </template>
+                                        </template>
+                                        <template if:true={isV2}>
+                                            <template if:true={contact.LU_LastOrderDate__c}>
+                                                <lightning-formatted-date-time value={contact.LU_LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                            </template>
+                                        </template>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.Last_Order_Total_Amount__c.label}</span><br/>
+                                        <span class="elem-value">
+                                            <lightning-formatted-number value={contact.Last_Order_Total_Amount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.Last_invoiced_order_date__c.label}</span><br/>
+                                        <span class="elem-value">
+                                            <template if:true={contact.Last_invoiced_order_date__c}>
+                                                <lightning-formatted-date-time value={contact.Last_invoiced_order_date__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                            </template>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+                        
+                        </div>
+
+
+                    </div>
+
+                    <div class="box-info">
+
+                        <p class="title-box">{labels.lbl_Fonction_Hierarchie}</p>
+
+                        <div class="line"></div>
+
+                        <div class="slds-grid slds-wrap" >
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.Title.label}</span><br/>
+                                        <span class="elem-value">{contact.Title}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LU_Tech_Sales_Segment__c.label}</span><br/><!-- typologie-->
+                                        <span class="elem-value">{contact.LU_Tech_Sales_Segment__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <template if:true={contact.Sponsor1stLevel__c}>
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LU_Sponsor_Level_1_Name__c.label}</span><br/><!-- signaleuse -->
+                                        <span class="elem-value">{contact.Sponsor1stLevel__r.STHID__c}</span>-<span class="elem-value">{contact.LU_Sponsor_Level_1_Name__c}</span>
+                                    </div>
+                                </span>
+                            </template>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.STHID__c.label}</span><br/><!-- matricule -->
+                                        <span class="elem-value">{contact.STHID__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{labels.field_dealer_seniority_segment}</span><br/><!-- ancienneté fonction -->
+                                        <span class="elem-value">{contact.DealerSenioritySegment__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.Parent_STH_Name__c.label}</span><br/><!-- recruteuse -->
+                                        <span class="elem-value">{contact.Parent_STH_Id__r.STHID__c}</span>-<span class="elem-value">{contact.Parent_STH_Name__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.AccountName__c.label}</span><br/>
+                                        <span class="elem-value">{contact.AccountName__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.ReportsToName__c.label}</span><br/>
+                                        <span class="elem-value">{contact.ReportsToName__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LocalAttribute1__c.label}</span><br/>
+                                        <span class="elem-value">{contact.LocalAttribute1__c}&nbsp;</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <template if:true={displayRecruitmentCampaign}>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                    <span >
+                                        <div class="elem">
+                                            <span class="elem-lbl">{labels.lbl_Contact_RecruitmentCampaign}</span><br/>
+                                            <span class="elem-value">{localAttribute5}&nbsp;</span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </template>
+                        </div>                   
+                    </div>
+            
+
+                    <div class="box-info">
+
+                        <p class="title-box">{labels.lbl_Infos_Diverses}</p>
+                    
+                        <div class="line"></div>
+                        
+                        <div class="slds-grid slds-wrap" >
+                            
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.DirectCommissionRate__c.label}</span><br/>
+                                        <span class="elem-value">{contact.DirectCommissionRate__c} %</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <!-- <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.BadDebt__c.label}</span><br/>
+                                        <span class="elem-value">
+                                            <input type="checkbox" id="baddept" name="baddept" checked={contact.BadDebt__c} disabled>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div> -->
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.MinOrder__c.label}</span><br/>
+                                        <span class="elem-value">
+                                            <lightning-formatted-number value={contact.MinOrder__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.LU_Number_Of_Inactive_Weeks__c.label}</span><br/><!--Nombres de semaines d'inactivité-->
+                                        <span class="elem-value">{contact.LU_Number_Of_Inactive_Weeks__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{labels.field_date_de_sortie}</span><br/>
+                                        <span class="elem-value">{contact.LocalAttribute3__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+            
+
+                    <div class="box-info" >
+                        
+                        <p class="title-box">{labels.lbl_Paiement_Compte}</p>
+                        
+                        <div class="line"></div>
+                        
+                        <div class="slds-grid slds-wrap" >
+                            
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.AllowedPaymentMode__c.label}</span><br/>
+                                        <span class="elem-value">{contact.AllowedPaymentMode__c}</span>
+                                    </div>
+                                </span> 
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">{objectInfo.fields.NbDaysForCreditLine__c.label}</span><br/>
+                                        <span class="elem-value">{contact.NbDaysForCreditLine__c}</span>
+                                    </div>
+                                </span>
+                            </div>
+                            
+                            
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12" if:true={isFRAUser}>
+                                <span >
+                                    <div class="elem">
+                                        <template if:false={isV2}>
+                                            <span class="elem-lbl">{objectInfo.fields.LoyaltyProgram1Balance__c.label}</span><br/>
+                                            <span class="elem-value">
+                                                <lightning-formatted-number value={contact.LoyaltyProgram1Balance__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                            </span>
+                                        </template>
+                                        <template if:true={isV2}>
+                                            <span class="elem-lbl">{counter1Name}</span><br/>
+                                            <span class="elem-value">
+                                                {counter1value}
+                                            </span>
+                                        </template>
+                                    </div>
+                                </span>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12" if:true={isFRAUser}>
+                                <span >
+                                    <div class="elem">
+                                        <template if:false={isV2}>
+                                            <span class="elem-lbl">{objectInfo.fields.LoyaltyProgram3Balance__c.label}</span><br/>
+                                            <span class="elem-value">
+                                                <lightning-formatted-number value={contact.LoyaltyProgram3Balance__c} maximum-fraction-digits="0"></lightning-formatted-number> {labels.lbl_Pts}
+                                            </span>
+                                        </template>
+                                        <template if:true={isV2}>
+                                            <span class="elem-lbl">{counter2Name}</span><br/>
+                                            <span class="elem-value">
+                                                {counter2value}
+                                            </span>
+                                        </template>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <!-- <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12" if:true={isFRAUser}>
+                                <span >
+                                    <div class="elem">
+                                        <template if:false={isV2}>
+                                            <span class="elem-lbl">{objectInfo.fields.LoyaltyProgram2Balance__c.label}</span><br/>
+                                            <span class="elem-value">
+                                                <lightning-formatted-number value={contact.LoyaltyProgram2Balance__c} maximum-fraction-digits="0"></lightning-formatted-number> {labels.lbl_Pts}
+                                            </span>
+                                        </template>
+                                        <template if:true={isV2}>
+                                            <span class="elem-lbl">{counter3Name}</span><br/>
+                                            <span class="elem-value">
+                                                {counter3value}
+                                            </span>
+                                        </template>
+                                    </div>
+                                </span>
+                            </div> -->
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12" if:true={isFRAUser}>
+                                <span >
+                                    <div class="elem">
+                                        <span class="elem-lbl">Montant exigible:</span><br/>
+                                        <span class="elem-value">
+                                            <lightning-formatted-number value={contact.CurrentBalance__c} minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number> EURO(S)
+                                        </span>
+                                    </div>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </template>
+
+            </div>
+
+        </section>
+
+    </template>
+
+
+    <br/><br/>
+
+    <!-- ACTIONS POPUPs -->
+    <!-- Email -->
+    <template if:true={displayEmail}>
+        <c-lwc03_emailform open-email={displayEmail} oncloseemail={hideEmailForm} selected-from-list={selectedReady} selectedtargets={l_manager}></c-lwc03_emailform>
+    </template>
+
+    <!-- Whatsapp -->
+    <template if:true={displayWhatsApp}>
+        <c-lwc42_communication_whatsapp onclosewhatsapp={hideWhatsApp} manager-mobile={contact.MobilePhone} ></c-lwc42_communication_whatsapp>
+    </template>
+
+    <!-- EDIT CUSTOMER -->
+    <template if:true={openCustomerEdit}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={labels.lbl_Close} onclick={handleEditCustomerOpen}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_Customer_Edit} {contact.FirstName} {contact.LastName}</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <c-lwc12_-end-customer_-form mode="edit" 
+                            customerid={contact.Id}
+                            oncloseendcustomerform={handleEditCustomerOpen} ></c-lwc12_-end-customer_-form>
+
+                </div>
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+    
+</template>

@@ -1,0 +1,167 @@
+<template>
+
+    <template if:true={isFRA}>
+
+        <div class="container-total">
+
+            <div class="order-price">
+
+                <div>
+                    <p class="order-price_title">{labels.lbl_Total_Label}
+                        <button style="margin-left: 10px; background-color: transparent;" onclick={showMore}>+</button>
+                    </p>
+                    
+                </div>
+
+                <div>
+                    <p class="order-price_item p-t">
+                        <lightning-formatted-number value={minimumAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        <span> {labels.lbl_HT}&nbsp;{labels.lbl_minimum}</span>
+                    </p>
+                    <span class="flex">
+                        <p class="order-price_item_small">
+                            <lightning-formatted-number value={totalHT} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            <span> {labels.lbl_HT}</span>
+                        </p>
+                        <p class="order-price_item_small m-0">
+                            <lightning-formatted-number value={totalTTC} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            <span> {labels.lbl_TTC}</span>
+                        </p>
+                    </span>
+                </div>
+        
+            </div>
+
+            <template if:true={displayMore}>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-1">
+                        <span>
+                            
+                            <table >
+                                <tr>
+                                    <td class="order-price_title titleColumn">{labels.lbl_htStanhome}</td>
+                                    <td class="order-price_item totalColumn">
+                                        <lightning-formatted-number value={htStanhome} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-price_title titleColumn">{labels.lbl_htFamilyExpert}</td>
+                                    <td class="order-price_item totalColumn">
+                                        <lightning-formatted-number value={htFamilyExpert} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-price_title titleColumn">{labels.lbl_htKiotis}</td>
+                                    <td class="order-price_item totalColumn">
+                                        <lightning-formatted-number value={htKiotis} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-price_title titleColumn">{labels.lbl_htFlormar}</td>
+                                    <td class="order-price_item totalColumn">
+                                        <lightning-formatted-number value={htFlormar} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-price_title titleColumn">{labels.lbl_htOthers}</td>
+                                    <td class="order-price_item totalColumn">
+                                        <lightning-formatted-number value={htOthers} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </span>
+                    </div>
+                </div>
+            </template>
+        
+        </div>
+
+    </template>
+    <template if:true={isITA}>
+        <div class="container-total">
+
+            <div class="order-price">
+
+                <div>
+                    <p class="order-price_title">{labels.lbl_Total_Label}
+                        <!-- <button style="margin-left: 10px; background-color: transparent;" onclick={showMore}>+</button> -->
+                    </p>
+                    
+                </div>
+                
+            </div>
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <span>
+
+                        <table>
+                            <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_totalAmountToSell}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={totalAmountToSell} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_personnalUseProduts}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={personalUseProducts} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_ProfessionalUseAmount}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={professionalUseAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="order-price_title titleColumn"><b>{labels.lbl_firstTotalAmount}</b></td>
+                                <td class="order-price_item totalColumn"><b>
+                                    <lightning-formatted-number value={firstTotalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </b>
+                                </td>
+                            </tr>
+                            <!--SFT-1661-->
+                            <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_OrderTotal_WorkMaterial}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={workMaterialAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_giftsAmount}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={giftsAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_commissions}</td>
+                                <td class="order-price_item totalColumn">
+                                    <lightning-formatted-number value={commissions} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td class="order-price_title titleColumn">{labels.lbl_discountForPersonalUse}</td>
+                                <td class="order-price_item totalColumn">
+                                    -&nbsp;<lightning-formatted-number value={discountForPersonalUse} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="order-price_title titleColumn"><b>{labels.lbl_totalAmount}</b></td>
+                                <td class="order-price_item totalColumn"><b>
+                                    <lightning-formatted-number value={totalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </span>
+                </div>
+            </div>
+        
+        </div>
+
+    </template>
+
+</template>

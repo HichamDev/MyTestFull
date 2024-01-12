@@ -1,0 +1,12 @@
+<template>
+    <template if:true={isFRA}>
+        <div class="content-detail">
+            <div class="info-user">
+                <div style="float: left;">
+                    <lightning-input type="checkbox" checked={isChecked} onchange={handleChange}></lightning-input>
+                </div>
+                <p>Je souhaite recevoir mon récapitulatif de commande en version papier</p>
+            </div>
+        </div>
+    </template>
+</template>

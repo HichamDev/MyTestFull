@@ -1,0 +1,14 @@
+<template>
+
+    <template if:true={isManager}>
+
+        <label class="slds-checkbox_toggle slds-grid label-switch">
+            <span class="slds-form-element__label slds-m-bottom_none label-left">{labels.lbl_Team}</span>
+            <input class="toggleType" id="toggleType" type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" onchange={handleToggle} checked={isClient}/>
+            <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
+            <span class="slds-checkbox_faux"></span>
+            </span>
+            <span class="slds-form-element__label slds-m-bottom_none label-right">{labels.lbl_Customer}</span>
+        </label>
+    </template>
+</template>

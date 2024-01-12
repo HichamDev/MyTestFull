@@ -1,0 +1,25 @@
+<template>
+    <!-- <lightning-button variant="brand" label={labels.lbl_button} onclick={openModal} class="slds-m-left_x-small"></lightning-button> -->
+
+    <!-- <button class="btn-contact" onclick={openModal} >{labels.lbl_button} <img src={btn_delete} class="imgIcon" ></button> -->
+    <!-- <img src={btn_delete} class="imgIcon" onclick={openModal} title={labels.lbl_button} /> -->
+    <button class="btn-secondary deleteButton" onclick={openModal}>
+        <img src={iconDelete} class="imgIcon deleteIcon" >
+    </button>
+    
+    <template if:true={open}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            
+            <div class="slds-modal__container">
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    {labels.lbl_confirmDeletion}<br/><br/>
+                    <lightning-button variant="brand" label={labels.lbl_confirmYes} onclick={deleteList} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label={labels.lbl_confirmNo}  onclick={cancel} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

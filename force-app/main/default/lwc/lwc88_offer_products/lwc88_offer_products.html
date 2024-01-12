@@ -1,0 +1,55 @@
+<template>
+
+	<!-- <div class="slds-hide"><c-lwc83_push_product country="ITA" onchild={listenToChild}></c-lwc83_push_product></div> -->
+	<div class="slds-grid slds-wrap">
+		<template for:each={l_pushedOfferProducts} for:item="prod">
+			<div key={prod} class="slds-m-bottom_medium slds-size--12-of-12 slds-medium-size--3-of-12 slds-large-size--3-of-12" >
+				<div class="slds-card rounded" style="border: 1px solid #a5a5a5; width: 90%;border-radius: 10px;-webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);-moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75); box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.75);">
+					<div class="slds-grid slds-grid_vertical">
+						<div class="slds-col">
+							<div class="slds-illustration slds-illustration_small">
+								<img alt={prod.name} style="width:180px;border-radius: 10px 10px 0px 0px;height: 161px; width: auto;" src={prod.imageUrl} />
+							</div>
+						</div>
+						<div class="slds-col">
+							<div class="slds-grid">
+								<div class="slds-size--1-of-12"></div>
+								<div title={prod.name} class="slds-size--11-of-12" style='overflow: hidden; text-overflow: ellipsis; height:3em'>{prod.name}</div>
+							</div>
+						</div>
+						<div class="slds-col">
+							<div class="slds-grid">
+								<div class="slds-size--1-of-12"></div>
+								<div class="slds-size--5-of-12">{prod.code}</div>
+								<div style='text-align:right; font-weight:bold;' class="slds-size--5-of-12"><lightning-formatted-number value={prod.price} format-style='currency' currency-code="EUR"></lightning-formatted-number></div>
+								<div class="slds-size--1-of-12"></div>
+							</div>
+						</div>
+						<div class="slds-col slds-grid slds-grid_vertical">
+							<div class="slds-col slds-grid slds-m-left_medium slds-m-bottom_medium">
+								<div class="slds-col slds-grid slds-grid_vertical">
+									<!--<a style="font-size: 0px;" href={prod.productUrl}> 
+										<button value={prod.externalId} 
+											style="background-color: rgb(4, 43, 96); color: rgb(255, 255, 255); border: none; border-radius: 4px; font-size: 18px; height: 44px; margin: 0px auto; max-width: 150px; width: 100%;">
+										{label.product_add}
+										</button>
+									</a>--> 
+									<button value={prod.externalId} data-bundle-type={prod.bundleType} onclick={addDirectlyToBasket}
+										style="background-color: rgb(4, 43, 96); color: rgb(255, 255, 255); border: none; border-radius: 4px; font-size: 18px; height: 44px; margin: 0px auto; max-width: 150px; width: 100%;">
+									{label.product_add}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+		<!-- SPINNER -->
+		<template if:true={isLoading}>
+			<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+		</template>
+		<!-- / SPINNER -->
+	</div>
+</template>

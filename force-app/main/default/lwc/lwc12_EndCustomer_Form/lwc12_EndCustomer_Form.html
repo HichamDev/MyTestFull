@@ -1,0 +1,64 @@
+<template>
+    
+    <!-- EDIT MODE -->
+    <template if:true={isEditMode}>
+
+        <!-- <lightning-record-form    
+            record-id={customerid}
+            object-api-name="Contact"
+            record-type-id={recordTypeId}
+            fields={fields}
+            columns="1"
+            mode="edit"
+            onsubmit={handleSubmit}
+            onsuccess={handleSuccess}
+            oncancel={handleCancel}>
+        </lightning-record-form> -->
+
+        <lightning-record-edit-form object-api-name="Contact" record-id={customerid} onsubmit={handleSubmit} onsuccess={handleSuccess}>
+
+            <lightning-messages>
+            </lightning-messages>
+            <lightning-input-field field-name="FirstName"></lightning-input-field>
+            <lightning-input-field field-name="LastName"></lightning-input-field>
+            <lightning-input-field field-name="Email"></lightning-input-field>
+            <lightning-input-field field-name="Birthdate"></lightning-input-field>
+            <lightning-input-field field-name="MobilePhone"></lightning-input-field>
+            <lightning-input-field field-name="MailingStreet"></lightning-input-field>
+
+            <template if:true={displayGDPR}>
+                <lightning-input type="checkbox" label={labels.lbl_gdpr_consent_asked_label} name="gdpr-consent-asked" onchange={handleGdprConsentAskedChanged}></lightning-input>
+                <!-- <lightning-input-field field-name="LU_GDPR_Customer_Informed__c"></lightning-input-field> -->
+            </template>
+            
+            <span class="slds-modal__footer">
+                <div style="position: relative;display: block;left: -30px;">
+                    <template if:true={isloading}>
+                        <lightning-spinner ></lightning-spinner>
+                    </template>
+                </div>
+                <lightning-button class="btn-primary" variant="brand" type="submit" label={labels.lbl_create}></lightning-button>
+                <lightning-button class="btn-primary" variant="brand" label={labels.lbl_cancel} onclick={handleCancel}></lightning-button>
+            </span>
+        </lightning-record-edit-form>
+
+        
+
+    </template>
+    
+
+    <!-- VIEW MODE -->
+    <template if:true={isViewMode}>
+
+        <lightning-record-form    
+            record-id={customerid}
+            object-api-name="Contact"
+            fields={fields}
+            columns="1"
+            mode="view"
+            >
+        </lightning-record-form>
+
+    </template>
+
+</template>

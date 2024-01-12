@@ -1,0 +1,16 @@
+.container-manager{
+    background-color: white;
+    padding: 10px;
+}
+
+.button{
+    background-color: transparent;
+    border: none;
+    /* padding: 10px; */
+    /* border-radius: 10px; */
+}
+
+.info {
+    color: #788082;
+    font-weight: 600;
+}

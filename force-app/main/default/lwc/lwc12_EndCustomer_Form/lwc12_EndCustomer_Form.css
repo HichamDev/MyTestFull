@@ -1,0 +1,10 @@
+.slds-modal__footer{
+    display: flex;
+    justify-content: center;
+    border-top: 0;
+    padding: 24px 0;
+}
+.btn-primary{
+    margin-left: 5px;
+    margin-right: 5px;
+}

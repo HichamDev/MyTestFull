@@ -1,0 +1,30 @@
+<template>
+    <div class="order-header">
+        <template if:true={showOrderInfosBool}>
+            <div class="order-infos">
+                <img src={iconBoxOrder} alt="">
+                <h4>{labels.lbl_Title}</h4>
+            </div>
+        </template>
+
+        <!-- Modif JJE 05/08/2021 : pareil FRA et ITA ? -->
+        <!-- <template if:true={isITA}>
+            <div class="order-number" >
+                <div class="order-number_p">
+                    <img src={iconShopping} alt="">
+                    <p>{totalArticle}</p>
+                </div>
+            </div>
+        </template> -->
+        <!-- <template if:false={isITA}> -->
+            <div class="order-number" onclick={navigateToOrder}>
+                <div class="order-number_p">
+                    <img src={iconShopping} alt="">
+                    <p>{totalArticle}</p>
+                </div>
+                <span><lightning-formatted-number value={totalHT} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> HT</span>
+            </div>
+        <!-- </template> -->
+        
+    </div>
+</template>

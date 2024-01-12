@@ -1,0 +1,147 @@
+.rgpd{
+    /*position: absolute;
+    right: 16px;
+    top: 16px;*/
+}
+
+section{
+    width: 100%;
+}
+.imgIcon{
+    /* width: 15%!important; */
+    width: 18px;
+    height: 20px;
+    margin-left: 5px;
+    /* margin-left: 11%; */
+}
+.displayOnMobile {
+    display: none;
+}
+.displayOnDesktop{
+    display: block;
+}
+.container-order{
+    background-color: rgb(225, 237, 243, 0.8);
+    /* opacity: 0.8; */
+    border-radius: 6px;
+    /* background-color: #e1edf3; */
+    padding: 20px 20px;
+}
+.btn-group{
+    text-align: right;
+}
+.lbl {
+    font-weight: 500;
+    font-size: 14px;
+    color: #6ca5c1;
+    margin-left: 15px;
+}
+.btn-whatsapp{
+    border: 1px solid #6ca5c1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 5px;
+    margin-left: 5px;
+}
+.btn-whatsapp:hover{
+    color: #6ca5c1;
+}
+.btn-mail{
+    border: 1px solid #6ca5c1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 5px;
+    margin-left: 5px;
+}
+.btn-mail:hover{
+    color: #6ca5c1;
+}
+.box-info{
+    background-color: rgb(255, 255, 255, 1);
+    border: solid 0.4px #000000;
+    border-radius: 6px;
+    margin-top: 2%;
+    padding: 20px;
+}
+.title-box {
+    color: #7a7f81;
+    /* font-weight: bold; */
+    /* font-family: LiberGrotesqueFamily; */
+    font-size: 15px;
+    font-weight: 600;
+}
+.content-box-info{
+    display: flex;
+
+}
+.line{
+    height: 1px;
+    background-color: #6ca5c1;
+    /* margin: 2% 0 1% 0; */
+    margin: 0;
+    margin-bottom: 10px;
+}
+.content-last-order{
+    display: flex;
+    justify-content: space-between;
+    /* margin-bottom: 10px; */
+}
+.elem {
+    margin-bottom: 5px;
+}
+.elem-lbl {
+    color: #9f9f9f;
+    padding-top: 5px;
+}
+.elem-value {
+    font-weight: 600;
+    color: #7a7f81;
+    margin-bottom: 8px;
+}
+.head-table{
+    display: flex;
+    justify-content: space-between;
+    background-color: #3b6f89;
+    color: #ffffff;
+    padding: 10px 0 0 43px;
+}
+.content-table{
+    background-color: #f4f2f2;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+.bis{
+    background-color: #ffffff;
+} 
+.dot-green {
+    margin-top: 1%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #0ad600;
+}
+.dot-red{
+    margin-top: 1%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f70314;
+}
+.btn-toContactPage{
+    border: 1px solid #6ca5c1;
+    border-radius: 10px;
+    background-color: #6ca5c1;
+    color: #fff;
+    padding: 5px;
+    float: left;
+}
+
+@media screen and (max-width: 1024px) {
+    .displayOnMobile {
+        display: block;
+    }
+    .displayOnDesktop{
+        display: none;
+    }
+}

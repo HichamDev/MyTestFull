@@ -1,0 +1,646 @@
+<template>
+    
+    <section>
+
+        <!-- DESKTOP : TITLE -->
+        <span class="hideOnMobile" style="display: flex; align-items: center;">
+            <img src={btn_filters} alt=""/>
+            <span class="title">{labels.lbl_Title}</span>
+        </span> 
+
+        <!-- DESKTOP : SEARCH BAR -->
+        <span class="hideOnMobile">
+            <c-lwc11_listviewsearch ></c-lwc11_listviewsearch>
+        </span>
+
+        <template if:true={displaySort}>
+            <div class="contain-btn hideOnDesktop">
+                <span style="display: block;">
+                    <div class="contain-select">
+                        <select name={labels.lbl_order_by_placeholder} id="orderby-select" onchange={handleChangeOrderBy}>
+                            <option class="uiInputSelectOption" value={valueOrderBy} selected>{valueOrderByLabel}</option>
+                            <template for:each={optionsOrderBy} for:item="opt" >
+                                <option class="uiInputSelectOption" key={opt.key} value={opt.key}>{opt.value}</option>
+                            </template>
+                        </select>
+                    </div>
+                </span>
+            </div>
+        </template>
+
+        <!-- DESKTOP / MOBILE : FILTERS -->
+
+        <!-- <template if:true={isFRA}> -->
+            <template if:true={displayClientSourceFilter}>
+                <div class="contain-btn">
+                    <button class="btn-delete" onclick={handleClear} >{labels.lbl_Clear}</button>
+                    <button class="btn-validate" onclick={handleFilterClientSource} >{labels.lbl_Filter}</button>
+                </div>
+
+                <div class="title-list">
+                    <span style="width:80%;">{labels.lbl_source}</span>
+                    <span style="float:right;bottom:0;"><img class="arrow" src={getIconSegmentation} onclick={clickOnSource} style="width: 12px;height:12px;"/></span>           
+                </div>
+                <template if:true={sourceOpen}>
+                    <div class="group-checkbox">
+                        <lightning-checkbox-group options={optionsSource}
+                            onchange={handleChangeSource}
+                            value={valueSource}>
+                        </lightning-checkbox-group>
+                    </div>
+                </template>
+            </template>
+        <!-- </template> -->
+
+        <template if:true={isFiltersDisplayed}> <!-- displayFilters-->
+
+            <div class="filters">
+                <!-- BUTTONS -->
+                <div class="contain-btn">
+                    <button class="btn-delete" onclick={handleClear} >{labels.lbl_Clear}</button>
+                    <button class="btn-validate" onclick={handleFilter} >{labels.lbl_Filter}</button>
+                </div>
+
+                <!-- FILTERS for Italy -->
+                <template if:false={isFRA}>
+
+                    <!-- <div class="contain-select">
+                        <p>{labels.lbl_ContactType}</p>
+                        <select onchange={handleChangeContactType}>
+                            <option value="">Select</option>
+                            <template for:each={optionsContactType} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.value}</option>
+                            </template>
+                        </select>
+                    </div> -->
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_ActiveTitle}</span>           
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconInactiveSince2} onclick={clickOnActive} style="width: 12px;height:12px;"/></span>
+                    </div>
+                    <template if:true={activeOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_ActiveTitle}
+                                options={optionsActive}
+                                value={valueActive}
+                                type="checkbox"
+                                onchange={handleChangeActive}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_AttivitaIn}</span>           
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconAttivitaIn} onclick={clickOnAttivitaIn} style="width: 12px;height:12px;"/></span>
+                    </div>
+                    <template if:true={attivitaInOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_AttivitaIn}
+                                options={optionsAttivitaIn}
+                                value={valueAttivitaIn}
+                                type="radio"
+                                onchange={handleChangeAttivitaIn}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_InactiveSince6weeks}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconInactiveSince} onclick={clickOnInactiveSince} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={inactiveSinceOpen}>
+                        ****
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                options={optionsInactiveAll}
+                                value={valueInactive6weeks}
+                                type="radio"
+                                onchange={handleChangeInactive6wees}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_Segmentation}</span>   
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconSegment} onclick={clickOnSegment} style="width: 12px;height:12px;"/></span>                   
+                    </div>
+                    <template if:true={segmentOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                options={optionSegmentationITA}
+                                value={valueInactive}
+                                type="radio"
+                                onchange={handleChangeSegmentation}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_OwnsEshop}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getOwnsEshop} onclick={clickOnOwnsEshop} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={OwnsEshopOpen}>
+                        <div class="group-checkbox">
+                            <lightning-radio-group name="Owns Eshop"
+                                options={optionsOwnsEshop}
+                                onchange={handleChangeOwnsEshop}
+                                value={valueOwnsEshop}
+                                type="radio"
+                                >
+                            </lightning-radio-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_SeniorSegmentation}</span>   
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconSeniorSegment} onclick={clickOnSeniorSegment} style="width: 12px;height:12px;"/></span>                   
+                    </div>
+                    <template if:true={seniorSegmentOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                options={optionSeniorSegmentationITA}
+                                value={valueInactive}
+                                type="radio"
+                                onchange={handleChangeSeniorSegmentation}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+                    
+                    <template if:true={displaySegmentation2}>
+                        <div class="title-list">          
+                            <span style="width:80%;">{labels.lbl_Segmentation_2}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconSegmentation} onclick={clickOnSegmentation} style="width: 12px;height:12px;"/></span>           
+                        </div>
+                        <template if:true={segmentationOpen}>
+                            <div class="group-checkbox">
+                                <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                    options={optionSegmentation2ITA}
+                                    value={valueInactive}
+                                    type="radio"
+                                    onchange={handleChangeSegmentation2}
+                                    >
+                                </lightning-checkbox-group>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- <div class="contain-select">
+                        <p>{labels.lbl_FocusOnNewUsers}</p>
+                        <select data-id="FocusOnNewUserFilterList" onchange={handleChangeFocusOnNewUsers}>
+                            <option value="">--</option>
+                            <template for:each={getFocusOnNewUsersITA} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.value}</option>
+                            </template>
+                        </select>
+                    </div> -->
+
+                    <div class="contain-select">
+                        <p>{labels.lbl_Potential}</p>
+                        <select data-id="PotentialFilterList" onchange={handleChangePotential}>
+                            <option value="">--</option>
+                            <template for:each={getPotential} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.value}</option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <div class="contain-select">
+                        <p>{labels.lbl_latePayment}</p>
+                        <select data-id="lastPaymentFilterList" onchange={handleChangeLatePayment}>
+                            <option value="">--</option>
+                            <template for:each={getLatePaymentITA} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.label}</option>
+                            </template>
+                        </select>
+                    </div>
+                    
+                    <template if:true={displayTeamFilter}>
+                        <template if:true={optionsDealerManagerSegmentationMap}>
+                        <div class="title-list">
+                            <span style="width:80%;">{labels.lbl_DealerManagerSegmentation}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnDMSegmentation} style="width: 12px;height:12px;"/></span>         
+                        </div>
+                        <template if:true={dmSegmentationOpen}>
+                            <lightning-accordion allow-multiple-sections-open >
+                                <template if:true={optionsDealerManagerSegmentationMap}>
+                                    <template for:each={optionsDealerManagerSegmentationMap} for:item="item1">
+                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item1}>
+                                            <input id={item1.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item1.value}/>
+                                            <label class="slds-checkbox__label accordeonCheckbox" for={item1.value} key={item1}>
+                                                <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                            </label>
+                                        </span>
+                                        <lightning-accordion-section name={item1.label} label={item1.label} key={item1} class="accordeonSection">
+                                            <lightning-accordion allow-multiple-sections-open key={item1}>
+                                                <template for:each={item1.childs} for:item="item2">
+                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item2}>
+                                                        <input id={item2.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item2.value}/>
+                                                        <label class="slds-checkbox__label accordeonCheckbox" for={item2.value} key={item2}>
+                                                            <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                        </label>
+                                                    </span>
+                                                    <lightning-accordion-section name={item2.label} label={item2.label} key={item2} class="accordeonSection">
+                                                        <lightning-accordion allow-multiple-sections-open key={item2}>
+                                                            <template for:each={item2.childs} for:item="item3">
+                                                                <span class="slds-checkbox spanAccordeonCheckbox" key={item3}>
+                                                                    <input id={item3.value} type="checkbox" key={item3} class="accordeonCheckbox slds-checkbox" data-id={item3.value}/>
+                                                                    <label class="slds-checkbox__label accordeonCheckbox" for={item3.value} key={item3}>
+                                                                        <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                    </label>
+                                                                </span>
+                                                                <lightning-accordion-section name={item3.label} label={item3.label} key={item3} class="accordeonSection">
+                                                                    <lightning-accordion allow-multiple-sections-open key={item3}>
+                                                                        <template for:each={item3.childs} for:item="item4">
+                                                                            <span class="slds-checkbox spanAccordeonCheckbox" key={item4}>
+                                                                                <input id={item4.value} type="checkbox" key={item4} class="accordeonCheckbox slds-checkbox" data-id={item4.value}/>
+                                                                                <label class="slds-checkbox__label accordeonCheckbox" for={item4.value} key={item4}>
+                                                                                    <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                </label>
+                                                                            </span>
+                                                                            <lightning-accordion-section name={item4.label} label={item4.label} key={item4} class="accordeonSection">
+                                                                                <lightning-accordion allow-multiple-sections-open key={item4}>
+                                                                                    <template for:each={item4.childs} for:item="item5">
+                                                                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item5}>
+                                                                                            <input id={item5.value} type="checkbox" key={item5} class="accordeonCheckbox slds-checkbox" data-id={item5.value}/>
+                                                                                            <label class="slds-checkbox__label accordeonCheckbox" for={item5.value} key={item5}>
+                                                                                                <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                            </label>
+                                                                                        </span>
+                                                                                        <lightning-accordion-section name={item5.label} label={item5.label} key={item5} class="accordeonSection">
+                                                                                            <lightning-accordion allow-multiple-sections-open key={item5}>
+                                                                                                <template for:each={item5.childs} for:item="item6">
+                                                                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item6}>
+                                                                                                        <input id={item6.value} type="checkbox" key={item6} class="accordeonCheckbox slds-checkbox" data-id={item6.value}/>
+                                                                                                        <label class="slds-checkbox__label accordeonCheckbox" for={item6.value} key={item6} >
+                                                                                                            <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                                        </label>
+                                                                                                    </span>
+                                                                                                    <lightning-accordion-section name={item6.label} label={item6.label} key={item6} class="accordeonSection"></lightning-accordion-section>
+                                                                                                    <br key={item6} />
+                                                                                                </template>
+                                                                                            </lightning-accordion>
+                                                                                        </lightning-accordion-section>
+                                                                                        <br key={item5} />
+                                                                                    </template>
+                                                                                </lightning-accordion>
+                                                                            </lightning-accordion-section>
+                                                                            <br key={item4} />
+                                                                        </template>
+                                                                    </lightning-accordion>
+                                                                </lightning-accordion-section>
+                                                                <br key={item3} />
+                                                            </template>
+                                                        </lightning-accordion>
+                                                    </lightning-accordion-section>
+                                                    <br key={item2} />
+                                                </template>
+                                            </lightning-accordion>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </template>
+                            </lightning-accordion>
+                        </template>
+                        </template>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_DealerManagerSegmentationIta}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnSegmentation2} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={segmentation2Open}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_DealerManagerSegmentationIta}
+                                options={optionsDealerManagerSegmentationITA}
+                                value={valueDealerManagerSegmentationITA}
+                                type="radio"
+                                onchange={handleChangeDealerManagerSegmentationITA}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <!-- <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_lastCycleRevenuesIta}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnLastRevenue} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={lastRevenueOpen}>
+                        <div class="contain-select">
+                            <lightning-slider
+                                label=""
+                                step="500"
+                                value="0"
+                                max="10000"
+                                onchange={handleSliderLastCycleRevenuesChange}>
+                            </lightning-slider> -->
+                            <!-- <input placeholder="Min" type="number" class="input-search" value={lastCycleRevenuesMin} onkeyup={handleChangeLastCycleRevenuesMin} />
+                            <input placeholder="Max" style="float: right;" type="number" class="input-search" value={lastCycleRevenuesMax} onkeyup={handleChangeLastCycleRevenuesMax} /> -->
+                        <!-- </div>
+                    </template> -->
+
+                    <div class="title-list">
+                        <span style="width:80%;">Fatturato tre cicli rolling</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnLastRevenue} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={lastRevenueOpen}>
+                        <span class="content-input slds-size--1-of-2">
+                            From <input type="text" class="input-search" placeholder="100" value={searchedAmountMin} onkeyup={handleChangeSearchAmountMin} />
+                        </span>
+                        <span class="content-input slds-size--1-of-2">
+                            To <input type="text" class="input-search" placeholder="250" value={searchedAmountMax} onkeyup={handleChangeSearchAmountMax} />
+                        </span>
+                    </template>
+
+                </template>
+
+
+            <!-- FILTERS FOR FRANCE -->
+                <template if:true={isFRA}>
+
+                    <div class="contain-select">
+                        <p>{labels.lbl_ContactType}</p>
+                        <select data-id="contactTypeFilterList" onchange={handleChangeContactType}>
+                            <!-- <option value="">--</option> -->
+                            <template for:each={optionsContactType} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.value}</option>
+                            </template>
+                        </select>
+                    </div>
+
+                
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_Typo}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconTypo} onclick={clickOnTypo} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={typoOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_ActiveTitle}
+                                placeholder={labels.lbl_Typo}
+                                options={optionsTypo}
+                                onchange={handleChangeTypo}
+                                value={valueTypo}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+                    
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_Segmentation}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconSegmentation} onclick={clickOnSegmentation} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={segmentationOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_ActiveTitle}
+                                placeholder={labels.lbl_Segmentation}
+                                options={optionsSegmentation}
+                                onchange={handleChangeSegmentation}
+                                value={valueSegmentation}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_NewCoach}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconNewCoach} onclick={clickOnNewCoach} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={newCoachOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_ActiveTitle}
+                                placeholder={labels.lbl_NewCoach}
+                                options={optionsNewCoach}
+                                onchange={handleChangeNewCoach}
+                                value={valueNewCoach}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list"> 
+                        <span style="width:80%;">{labels.lbl_InactiveSince}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconInactiveSince} onclick={clickOnInactiveSince} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={inactiveSinceOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                options={optionsInactive}
+                                value={valueInactive}
+                                type="radio"
+                                onchange={handleChangeInactive}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <!-- JJE Ticket 1944 03/08 -->
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_Effectif_Dormant}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconEffectifDormant} onclick={clickOnEffectifDormant} style="width: 12px;height:12px;"/></span>         
+                    </div>
+                    <template if:true={effectifDormant}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name={labels.lbl_Effectif_Dormant}
+                                options={optionsEffectifDormant}
+                                value={valueEffectifdormant}
+                                type="radio"
+                                onchange={handleChangeEffectifDormant}
+                                >
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_OwnsEshop}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getOwnsEshop} onclick={clickOnOwnsEshop} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={OwnsEshopOpen}>
+                        <div class="group-checkbox">
+                            <lightning-radio-group name="Owns Eshop"
+                                options={optionsOwnsEshop}
+                                onchange={handleChangeOwnsEshop}
+                                value={valueOwnsEshop}
+                                type="radio"
+                                >
+                            </lightning-radio-group>
+                        </div>
+                    </template>
+
+                    <div class="title-list">
+                        <span style="width:80%;">{labels.lbl_PostalCode}</span>
+                        <span style="float:right;bottom:0;"><img class="arrow" src={getIconSegmentation} onclick={clickOnPostalCode} style="width: 12px;height:12px;"/></span>           
+                    </div>
+                    <template if:true={postalCodeOpen}>
+                        <div class="group-checkbox">
+                            <lightning-checkbox-group name="Postal code"
+                                options={optionsPostalCode}
+                                onchange={handleChangePostalCode}
+                                value={valuePostalCode}>
+                            </lightning-checkbox-group>
+                        </div>
+                    </template>
+
+                    <div class="contain-select">
+                        <p>{labels.lbl_resigned}</p>
+                        <select data-id="resignedFilterList" onchange={handleChangeResigned}>
+                            <!-- <option value="">--</option> -->
+                            <template for:each={optionsResigned} for:item="option">
+                                <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.value}</option>
+                            </template>
+                        </select>
+                    </div>
+
+                    <template if:true={displayTeamFilter}>
+                        <template if:true={optionsDealerManagerSegmentationMap}>
+                        <div class="title-list">
+                            <span style="width:80%;">{labels.lbl_DealerManagerSegmentation}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnDMSegmentation} style="width: 12px;height:12px;"/></span>         
+                        </div>
+                        <template if:true={dmSegmentationOpen}>
+                            <lightning-accordion allow-multiple-sections-open class="lineup-accordeon">
+                                <template if:true={optionsDealerManagerSegmentationMap}>
+                                    <template for:each={optionsDealerManagerSegmentationMap} for:item="item1">
+                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item1}>
+                                            <input id={item1.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item1.value}/>
+                                            <label class="slds-checkbox__label accordeonCheckbox" for={item1.value} key={item1}>
+                                                <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                            </label>
+                                        </span>
+                                        <lightning-accordion-section name={item1.label} label={item1.label} key={item1} class="accordeonSection">
+                                            <lightning-accordion allow-multiple-sections-open key={item1}>
+                                                <template for:each={item1.childs} for:item="item2">
+                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item2}>
+                                                        <input id={item2.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item2.value}/>
+                                                        <label class="slds-checkbox__label accordeonCheckbox" for={item2.value} key={item2}>
+                                                            <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                        </label>
+                                                    </span>
+                                                    <lightning-accordion-section name={item2.label} label={item2.label} key={item2} class="accordeonSection">
+                                                        <lightning-accordion allow-multiple-sections-open key={item2}>
+                                                            <template for:each={item2.childs} for:item="item3">
+                                                                <span class="slds-checkbox spanAccordeonCheckbox" key={item3}>
+                                                                    <input id={item3.value} type="checkbox" key={item3} class="accordeonCheckbox slds-checkbox" data-id={item3.value}/>
+                                                                    <label class="slds-checkbox__label accordeonCheckbox" for={item3.value} key={item3}>
+                                                                        <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                    </label>
+                                                                </span>
+                                                                <lightning-accordion-section name={item3.label} label={item3.label} key={item3} class="accordeonSection">
+                                                                    <lightning-accordion allow-multiple-sections-open key={item3}>
+                                                                        <template for:each={item3.childs} for:item="item4">
+                                                                            <span class="slds-checkbox spanAccordeonCheckbox" key={item4}>
+                                                                                <input id={item4.value} type="checkbox" key={item4} class="accordeonCheckbox slds-checkbox" data-id={item4.value}/>
+                                                                                <label class="slds-checkbox__label accordeonCheckbox" for={item4.value} key={item4}>
+                                                                                    <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                </label>
+                                                                            </span>
+                                                                            <lightning-accordion-section name={item4.label} label={item4.label} key={item4} class="accordeonSection">
+                                                                                <lightning-accordion allow-multiple-sections-open key={item4}>
+                                                                                    <template for:each={item4.childs} for:item="item5">
+                                                                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item5}>
+                                                                                            <input id={item5.value} type="checkbox" key={item5} class="accordeonCheckbox slds-checkbox" data-id={item5.value}/>
+                                                                                            <label class="slds-checkbox__label accordeonCheckbox" for={item5.value} key={item5}>
+                                                                                                <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                            </label>
+                                                                                        </span>
+                                                                                        <lightning-accordion-section name={item5.label} label={item5.label} key={item5} class="accordeonSection">
+                                                                                            <lightning-accordion allow-multiple-sections-open key={item5}>
+                                                                                                <template for:each={item5.childs} for:item="item6">
+                                                                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item6}>
+                                                                                                        <input id={item6.value} type="checkbox" key={item6} class="accordeonCheckbox slds-checkbox" data-id={item6.value}/>
+                                                                                                        <label class="slds-checkbox__label accordeonCheckbox" for={item6.value} key={item6} >
+                                                                                                            <span class="slds-checkbox_faux checkboxAccordeon"></span>
+                                                                                                        </label>
+                                                                                                    </span>
+                                                                                                    <lightning-accordion-section name={item6.label} label={item6.label} key={item6} class="accordeonSection"></lightning-accordion-section>
+                                                                                                    <br key={item6} />
+                                                                                                </template>
+                                                                                            </lightning-accordion>
+                                                                                        </lightning-accordion-section>
+                                                                                        <br key={item5} />
+                                                                                    </template>
+                                                                                </lightning-accordion>
+                                                                            </lightning-accordion-section>
+                                                                            <br key={item4} />
+                                                                        </template>
+                                                                    </lightning-accordion>
+                                                                </lightning-accordion-section>
+                                                                <br key={item3} />
+                                                            </template>
+                                                        </lightning-accordion>
+                                                    </lightning-accordion-section>
+                                                    <br key={item2} />
+                                                </template>
+                                            </lightning-accordion>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </template>
+                            </lightning-accordion>
+                        </template>
+                        </template>
+                    </template>
+
+                    <!-- <template if:true={displayTeamFilter}>
+                        <div class="title-list">
+                            <span style="width:80%;">{labels.lbl_DealerManagerSegmentation}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnDMSegmentation} style="width: 12px;height:12px;"/></span>         
+                        </div>
+                        <template if:true={dmSegmentationOpen}>
+                            <div class="group-checkbox">
+                                <lightning-checkbox-group name={labels.lbl_InactiveSince}
+                                    options={optionsDealerManagerSegmentation}
+                                    value={valueDealerManagerSegmentation}
+                                    type="radio"
+                                    onchange={handleChangeDealerManagerSegmentationn}>
+                                </lightning-checkbox-group>
+                            </div>
+                        </template>
+                    </template> -->
+
+                    <!-- <template if:true={displayTeamFilter}>
+                        <div class="title-list">
+                            <span style="width:80%;">{labels.lbl_DealerManagerSegmentation}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconDMSegmentation} onclick={clickOnDMSegmentation} style="width: 12px;height:12px;"/></span>         
+                        </div>
+                        <lightning-accordion class="example-accordion"
+                         onsectiontoggle={handleToggleSection}
+                         active-section-name="B">
+
+                            <lightning-accordion-section name="A" label="Accordion Title A">
+                                aaa
+                            </lightning-accordion-section>
+
+                            <lightning-accordion-section name="A" label="Accordion Title A">
+                                aaa
+                            </lightning-accordion-section>
+
+                            <lightning-accordion-section name="A" label="Accordion Title A">
+                                aaa
+                            </lightning-accordion-section>
+
+                        </lightning-accordion>
+                    </template> -->
+
+                    <template if:true={isBadDeptFilterDisplayed}>
+                        <div class="title-list">
+                            <span style="width:80%;">{labels.lbl_BadDept}</span>
+                            <span style="float:right;bottom:0;"><img class="arrow" src={getIconBadDept} onclick={clickOnBadDept} style="width: 12px;height:12px;"/></span>
+                        </div>
+                        <template if:true={baddeptOpen}>
+                            <div class="group-checkbox">
+                                <lightning-checkbox-group name={labels.lbl_ActiveTitle}
+                                    options={optionsBadDept}
+                                    value={valueBadDept}
+                                    onchange={handleChangeBadDept}>
+                                </lightning-checkbox-group>
+                            </div>
+                        </template>
+                    </template>
+
+                </template>
+            
+            </div>
+
+        </template>
+
+    </section>
+    
+</template>

@@ -1,0 +1,505 @@
+<template>
+
+    <!-- FRANCE -->
+    <template if:true={isFRA}>
+        
+        <!-- ORDER PAGE -->
+
+        <template if:true={isOrderDetailPage}>
+            <div class="regular-catalog">
+                <div class="total-catalog">
+                    <div class="t-c bold">
+                        <p>{labels.lbl_numberArticles}</p>
+                        <div class="ht">
+                            <span>{numberArticles}</span>
+                        </div>
+                    </div>
+                    <div class="t-c">
+                        <p class="toUppercase">{labels.lbl_htAmount} <button style="margin-left: 10px; background-color: transparent;" onclick={showMore}>+</button></p>
+                        <div class="ht">
+                            <span>
+                                <template if:true={displayBoTotal}>
+                                    <lightning-formatted-number value={orderBoTotalWithoutTaxes} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                                <template if:false={displayBoTotal}>
+                                    <lightning-formatted-number value={totalHT} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                    <template if:true={displayMore}>
+                        <div class="t-c">
+                            <p>{labels.lbl_htStanhome}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={htStanhome} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_htFamilyExpert}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={htFamilyExpert} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_htKiotis}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={htKiotis} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_htFlormar}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={htFlormar} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_htOthers}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={htOthers} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="t-c">
+                        <p class="toUppercase bold">{labels.lbl_minimumAmount}<button style="margin-left: 10px; background-color: transparent;" onclick={showMoreIC}>+</button></p>
+                        <div class="ht bold">
+                            <span>
+                                <lightning-formatted-number value={minimumAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <template if:true={displayMoreIC}>
+                        <template for:each={mapChallengesNames} for:item="chall">
+                            <div key={chall.key} class="t-c">
+                                <lightning-formatted-rich-text value={chall.key}></lightning-formatted-rich-text>
+                                <div class="ht">
+                                    <span>
+                                        <!-- <lightning-formatted-number value={chall.value} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> -->
+                                    </span>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <hr class="hrDetail">
+                    <div class="t-c">
+                        <p class="toUppercase">{labels.lbl_ttcAmount} €</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={totalTTC} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <template if:false={displayBoTotal}>
+                        <div class="t-c">
+                            <p class="toUppercase">{labels.lbl_commission}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={commission} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="t-c">
+                        <p class="toUppercase">{labels.lbl_totalTVA}</p>
+                        <div class="ht">
+                            <span>
+                                <template if:true={displayBoTotal}>
+                                    <lightning-formatted-number value={orderBoTaxes} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                                <template if:false={displayBoTotal}>
+                                    <lightning-formatted-number value={totalTVA} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                    <template if:true={displayBoTotal}>
+                        <div class="t-c">
+                            <p class="toUppercase">{labels.lbl_commission_account}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={orderBoCommission} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="t-c">
+                        <p>{labels.lbl_loadProvisions}</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={loadProvisions} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="t-c" >
+                        <p>{labels.lbl_transportFees}</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={transportFees} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="t-c" if:true={displayChallengeDiscount}>
+                        <p>{labels.lbl_challengeDiscount}</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={challengeDiscount} format-style="percent" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <hr class="hrDetail">
+                    <div class="t-c c bold">
+                        <p>{labels.lbl_totalToPay}</p>
+                        <div class="ht">
+                            <span class="bold">
+                                <template if:true={displayBoTotal}>
+                                    <lightning-formatted-number value={orderBoTotalAmountToPay} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                                <template if:false={displayBoTotal}>
+                                    <lightning-formatted-number value={totalToPay} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- ORDER PAGE -->
+        
+        <!-- CHEKOUT PAGE -->
+        <template if:true={isOrderCheckoutPage}>
+            <div class="invoice box">
+                <!-- <h3>Invoice details</h3> -->
+
+                <div class="p-item">
+                    
+                        <p><b>{labels.lbl_numberArticles}</b></p>
+                        <p><b>{numberArticles}</b></p>
+                    
+                </div>
+                <div class="p-item">
+                        <p>
+                            <b>{labels.lbl_htAmount}</b>
+                            <button style="margin-left: 10px; background-color: transparent;" onclick={showMore}>+</button>
+                        </p>
+                        <p>
+                            <lightning-formatted-number value={totalHT} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                </div>
+                <template if:true={displayMore}>
+                        <br/>
+                    <div class="p-item">
+                        <p>{labels.lbl_htStanhome}</p>
+                        <p>
+                            <lightning-formatted-number value={htStanhome} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_htFamilyExpert}</p>
+                        <p> 
+                            <lightning-formatted-number value={htFamilyExpert} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_htKiotis}</p>
+                        <p> 
+                            <lightning-formatted-number value={htKiotis} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_htFlormar}</p>
+                        <p>
+                            <lightning-formatted-number value={htFlormar} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_htOthers}</p>
+                        <p>
+                            <lightning-formatted-number value={htOthers} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                    <br/>
+                </template>
+
+                <div class="p-item">
+                    <p><b>{labels.lbl_minimumAmount}</b>
+                        <button style="margin-left: 10px; background-color: transparent;" onclick={showMoreIC}>+</button></p>
+                    <p><b> 
+                        <lightning-formatted-number value={minimumAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    </b></p>
+                </div>
+                <template if:true={displayMoreIC}>
+                    <template for:each={mapChallengesNames} for:item="chall">
+                        <div key={chall.key} class="p-item">
+                            <lightning-formatted-rich-text value={chall.key}></lightning-formatted-rich-text>
+                            <div class="ht">
+                                <span>
+                                    <!-- <lightning-formatted-number value={chall.value} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> -->
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <hr class="hrCheckout">
+                <div class="p-item">
+                    <p>{labels.lbl_ttcAmount}</p>
+                    <p>
+                        <lightning-formatted-number value={totalTTC} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                    </p>
+                </div>
+                <div class="p-item">
+                    <p>{labels.lbl_commission}</p>
+                    <p>
+                        <lightning-formatted-number value={commission} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                    </p>
+                </div>
+                <div class="p-item">
+                    <p>{labels.lbl_totalTVA}</p>
+                    <p>
+                        <lightning-formatted-number value={totalTVA} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    </p>
+                </div>
+                <div class="p-item">
+                    <p>{labels.lbl_loadProvisions}</p>
+                    <p>
+                        <lightning-formatted-number value={loadProvisions} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    </p>
+                </div>
+                <div class="p-item">
+                    <p>{labels.lbl_transportFees}</p>
+                    <p>
+                        <lightning-formatted-number value={transportFees} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    </p>
+                </div>
+                <template if:true={displayChallengeDiscount}>
+                    <div class="p-item">
+                        <p>{labels.lbl_challengeDiscount}</p>
+                        <p>
+                            <lightning-formatted-number value={challengeDiscount} format-style="percent" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                </template>
+            </div>
+            <div class="footerCheckout line">
+                <div class="p-item">
+                    <p><b>{labels.lbl_totalToPay}</b></p>
+                    <p><b>
+                        <lightning-formatted-number value={totalToPay} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    </b></p>
+                </div>
+            </div>
+        </template>
+        <!-- / CHEKOUT PAGE -->
+    </template>
+
+    <!-- / FRANCE -->
+
+    <!-- ITALY -->
+    <template if:true={isITA}>
+
+        <template if:false={isOLA}>
+
+            <template if:true={isOrderDetailPage}>
+
+                <div class="regular-catalog">
+                    <div class="total-catalog">
+                        <div class="t-c">
+                            <p>{labels.lbl_totalAmountToSell}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={totalAmountToSell} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_personnalUseProduts}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={personnalUseProduts} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_ProfessionalUseAmount}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={professionalUseAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c t-o">
+                            <p>{labels.lbl_firstTotalAmount}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={firstTotalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <!--SFT-1661-->
+                        <div class="t-c">
+                            <p>{labels.lbl_OrderTotal_WorkMaterial}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={workMaterialAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_giftsAmount}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={giftsAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_commissions}</p>
+                            <div class="ht">
+                                <span>-&nbsp;
+                                    <lightning-formatted-number value={commissions} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_OrderTotal_FiscalPayment}<lightning-helptext class='slds-icon_xx-small' content="il calcolo delle ritenute fiscali è ad oggetto esemplificativo. la cifra esatta sarà calcolata in fatturazione. Per i soggetti agenti tale calcolo non sarà considerato"></lightning-helptext></p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={fiscalPayment} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c">
+                            <p>{labels.lbl_discountForPersonalUse}</p>
+                            <div class="ht">
+                                <span>-&nbsp;
+                                    <lightning-formatted-number value={discountForPersonalUse} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <template if:true={displayDiscount}>
+                            <div class="t-c">
+                                <p>{labels.lbl_discount}<lightning-helptext class='slds-icon_xx-small' content={labels.lbl_discountHelptext}></lightning-helptext></p>
+                                <div class="ht">
+                                    <span>
+                                    <lightning-formatted-number value={discount} format-style="percent-fixed" maximum-fraction-digits="2"></lightning-formatted-number>
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="t-c" if:true={displayShippingFees}>
+                            <p>{labels.lbl_transportFees}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={transportFees} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="t-c t-o">
+                            <p>{labels.lbl_totalAmount}</p>
+                            <div class="ht">
+                                <span>
+                                    <lightning-formatted-number value={totalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isOrderCheckoutPage}>
+                <div class="invoice box">
+                    <h3>{labels.lbl_invoiceDetails}</h3>
+                    <div class="p-item">
+                        <p>{labels.lbl_totalAmountToSell}</p>
+                        <p>
+                            <lightning-formatted-number value={totalAmountToSell} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_personnalUseProduts}</p>
+                        <p>
+                            <lightning-formatted-number value={personnalUseProduts} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_ProfessionalUseAmount}</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={professionalUseAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="t-c">
+                        <p>{labels.lbl_firstTotalAmount}</p>
+                        <p>
+                            <lightning-formatted-number value={firstTotalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_OrderTotal_WorkMaterial}</p>
+                        <p>
+                            <lightning-formatted-number value={workMaterialAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_giftsAmount}</p>
+                        <p>
+                            <lightning-formatted-number value={giftsAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_commissions}</p>
+                        <p>-&nbsp;
+                            <lightning-formatted-number value={commissions} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_OrderTotal_FiscalPayment}</p>
+                        <p>-&nbsp;
+                            <lightning-formatted-number value={fiscalPayment} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                    
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_discountForPersonalUse}</p>
+                        <p>-&nbsp;
+                            <lightning-formatted-number value={discountForPersonalUse} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+
+                        </p>
+                    </div>
+                    <div class="p-item">
+                        <p>{labels.lbl_transportFees}</p>
+                        <div class="ht">
+                            <span>
+                                <lightning-formatted-number value={transportFees} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="t-item">
+                        <p>{labels.lbl_totalAmount}</p>
+                        <p>
+                            <lightning-formatted-number value={totalAmount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </template>
+</template>

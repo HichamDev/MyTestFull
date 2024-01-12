@@ -1,0 +1,101 @@
+<template>
+
+    <c-lwc04_lookup onsearch={handleSearch} 
+                    label="" 
+                    is-multi-entry="false" 
+                    onselectionchange={handleSelectionChange}
+                    selection={selectedtargets} 
+                    donotdisplayresults="true" 
+                    placeholder={labels.lbl_searchbar_placeholder} >
+    </c-lwc04_lookup> 
+
+    <div style="display: none"><!-- Used to rerender the page after changing component in basket-->
+        {updateItems}
+    </div>
+
+    <!-- <template if:true={processedArray}>
+        <table>
+            <template for:each={processedArray} for:item="mapItem">
+                    <br key={mapItem}/>
+                    <template for:each={mapItem} for:item="objectItem">
+                        <template if:true={objectItem.id}>
+                            <template if:true={objectItem.displayInPreBasketList}>
+                                <tr key={objectItem.id} >
+                                    <td>
+                                        <template if:true={objectItem.isInBundle}>
+                                            <a key={objectItem.id} onclick={showBundlePopUp} data-item={objectItem.id}>
+                                                <span key={objectItem.id} title={objectItem.title} data-item={objectItem.id}>{objectItem.title}</span>
+                                            </a>
+                                        </template>
+                                        <template if:false={objectItem.isInBundle}>
+                                            <span key={objectItem.id} title={objectItem.title}>{objectItem.title}</span>
+                                        </template>
+                                    </td>
+                                    <td>
+                                        <lightning-input onkeyup={handleKeyPress} data-item={objectItem.id} key={objectItem.id} type="number" value={objectItem.quantity} onchange={updateAmount} min="0" ></lightning-input>
+                                    </td>
+                                    <td>  
+                                            &nbsp;&nbsp;&nbsp;
+                                        {objectItem.priceTTC} €
+                                    </td>
+                                </tr>   
+                            </template>
+                        </template>
+                    </template>
+            </template>
+        </table>
+    </template>
+
+    <template if:true={isModalOpen}>
+            <div class="demo-only" style="height: 640px;">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={labels.lbl_bundle_save} onclick={closeBundlePopUp}>
+                                <lightning-icon icon-name="utility:close" size="medium">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">{labels.lbl_bundle_save}</span>
+                            </button>
+                            
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <center>
+                                {labels.lbl_bundlemax} {bundleNbArticles}<br/>
+                                <table>
+                                    <template for:each={m_bundleProductList} for:item="mapitem">
+                                        <template for:each={mapitem} for:item="item">
+                                            <template if:true={item.id}>
+                                                <tr key={item.id}>
+                                                    <td>
+                                                        {item.title}
+                                                    </td>
+                                                    <td>
+                                                        <template if:true={item.isReadOnly}>
+                                                            {item.quantity}
+                                                        </template>
+                                                        <template if:false={item.isReadOnly}>
+                                                            <input data-item={item.id} key={item.id} type="number" value={item.quantity} onchange={updateAmountInBundle} min="0" />
+                                                        </template>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </table>
+                            </center>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label={labels.lbl_bundle_cancel} variant="neutral" onclick={closeBundlePopUp}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <lightning-button label={labels.lbl_bundle_save} variant="brand" onclick={saveBundle}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+    
+        <br/>
+        <br/> -->
+    <!-- <lightning-button variant="brand" label={labels.lbl_basket_addtobasketcontinue} onclick={addBasketContinue} ></lightning-button>
+    <lightning-button variant="brand" label={labels.lbl_basket_addtobasketorder} onclick={addBasketOrder} ></lightning-button> -->
+</template>

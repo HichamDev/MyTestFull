@@ -1,0 +1,13 @@
+<template>
+    <template if:true={currentCycle}>
+
+        <div class="content-detail">
+            <div class="info-user">
+                <p><span>{currentCycle.cycleInfo}</span></p>
+                <p><span><lightning-formatted-date-time value={currentCycle.startdate} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                <p><span><lightning-formatted-date-time value={currentCycle.enddate} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+            </div>
+        </div>
+        
+    </template>
+</template>

@@ -1,0 +1,19 @@
+<template>
+    
+    <template if:true={displayComponent}>
+        <p class="title-box">{labels.lbl_Title_Statement}</p>
+
+        <div class="line"></div>
+
+        <div style="height: 500px">
+            <lightning-datatable
+                columns={l_columns}
+                data={l_statementsDisplayed}
+                key-field="id"
+                enable-infinite-loading
+                onloadmore={loadMoreData}
+                hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+    </template>
+</template>

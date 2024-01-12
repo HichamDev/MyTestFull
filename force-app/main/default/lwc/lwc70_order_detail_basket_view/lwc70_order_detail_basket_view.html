@@ -1,0 +1,548 @@
+<template>
+
+    <!-- SPINNER -->
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    <!-- / SPINNER -->
+
+    <div class="regular-catalog">
+
+        <!-- Bouton Créer demande FRA -->
+        <template if:true={isFRAOrderValidated}>
+            <div class="slds-grid slds-grid_vertical-align-center" >
+                <div class="slds-col slds-size_3-of-4"><span></span></div>
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-button variant="brand-outline" label={labels.lbl_newCase} title="Créer demande" onclick={handleNouvelleDemande} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <h2 class="title-order">{labels.lbl_title}</h2>
+        
+        <div class="custom-select">
+            <select name={labels.lbl_picklist_order_by_title} id="slct" onchange={handleChangeSortBaskets}>
+                <option selected value={labels.lbl_by_customer}>{labels.lbl_by_customer}</option>
+                <option value={labels.lbl_by_catalog}>{labels.lbl_by_catalog}</option>
+            </select>
+        </div>
+
+        <c-lwc94_orderhome_counters ></c-lwc94_orderhome_counters>
+      
+
+        <!-- ITALY - VIEW BY CUSTOMER -->
+        <template if:true={displayByCustomerITA}>
+            <template for:each={basketsByType} for:item="basketType">
+
+                <!-- OFFER TYPE name-->
+                <h2 class="title-order" key={basketType.key} >{basketType.key}</h2>
+
+                <!-- Baskets of associated to this offer type -->
+                <template for:each={basketType.value} for:item="basket">
+
+                    <div class="r-item" key={basket}>
+                    
+                        <div class="r-head">
+                    
+                            <p> <!-- CONTACT of the basket-->
+                                <template if:true={basket.key}>
+                                    <b>{basket.key.firstname} {basket.key.lastname}</b>
+                                </template>
+                            </p>
+
+                            <!-- Generic action of the basket -->
+                            <template if:true={canEditOrder}>
+                                <div class="r-edit">
+                                    <img class="ia-product" src={iconEdit} onclick={handleNavigateToOrderHomeWithContactId} data-contactid={basket.key.personId} > 
+                                    <p>{labels.lbl_continue_basket}</p>
+
+                                    <img class="ia-product" src={iconDelete} onclick={handleOpenDelete} data-contactid={basket.key.personId} data-offertype={basketType.key} > 
+                                    <p>{labels.lbl_delete_basket}</p>
+                                </div>
+                            </template>
+
+                        </div>
+
+                        <!-- Lines of the basket-->
+                        <div class="r-container">
+                            
+                            <table>
+                                <template for:each={basket.value.lines} for:item="line">
+    
+                                    <!-- <div key={line} class="r-product"> -->
+                                    <tr key={line} class="r-product">
+                                        <td style="width: 60%;" class="r-p_name">
+                                            <!-- {line.Product2.LU_Local_Code__c} - {line.Product2.Name}  -->
+                                            <!-- COMMENTED 20200803 - To be put again after implementing controls on bundle rules at checkout -->
+                                            <c-lwc80_order_detail_basket_view_bundle line={line} onclosebundlemodal={onCloseBundleModal} isfra={isFRA} isita={isITA}></c-lwc80_order_detail_basket_view_bundle>
+                                            <template if:true={line.Product2.Description}>
+                                                <br/>
+                                                <span class="r-p_desc">{line.Product2.Description}</span>
+                                            </template>
+                                            <!-- <template if:true={line.LU_Stock_Message__c}>
+                                                <br/>
+                                                {line.LU_Stock_Message__c}
+                                            </template> -->
+                                            <template for:each={line.l_childs} for:item="child">
+                                                <br key={child} />
+                                                <span key={child} class="openSetChild">
+                                                    {child.Quantity} - {child.LU_Child_Product__r.Name}
+                                                </span>
+                                            </template>
+                                        </td>
+                                        <td style="width: 20%;" class="add-product">
+                                            <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}> -->
+                                                <template if:true={canEditOrder}>
+                                                    <img class="ir-product" src={iconLess} onclick={handleQuantityDown} data-id={line.Id} data-quantity={line.Quantity} />
+                                                </template> 
+                                            <!-- </template> -->
+                
+                                            {line.Quantity}
+
+                                            <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}> -->
+                                                <template if:true={canEditOrder}>
+                                                    <img class="ia-product" src={iconAdd} onclick={handleQuantityUp} data-id={line.Id} data-quantity={line.Quantity}/>
+                                                </template>
+                                            <!-- </template> -->
+                                        </td>
+                                        <td style="width: 20%;" class="r-p_price">
+                                            <template if:false={basket.value.isPersonalUse}>
+                                                <lightning-formatted-number value={line.TotalPrice} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                                <template if:true={line.LU_Has_Discount_Applied__c}>
+                                                    &nbsp;
+                                                    <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                                        <lightning-formatted-number value={line.LU_Total_Without_Discount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </span>
+                                                </template><br/>
+                                            </template>
+                                            <template if:true={basket.value.isPersonalUse}>
+                                                    <lightning-formatted-number value={line.LU_Total_Without_Discount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                            </template>
+                                            <span class="r-p_desc">{line.Description}</span>
+                                        </td>
+                                        <td style="width: 20%;">
+                                            <template if:true={canEditOrder}>
+                                                <img class="ir-product" src={iconDelete} onclick={handleLineDelete} data-id={line.Id}>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                    <!-- </div> -->
+
+                                </template>
+                            </table>
+
+                            <!-- Totals of the basket -->
+                            <div class="r-total">
+                                <span>{labels.lbl_basket_total}</span>
+                                <template if:false={basket.value.isPersonalUse}>
+                                    <template if:true={displayVAT}>
+                                        <span class="bold">
+                                            <lightning-formatted-number value={basket.value.totalWithoutTax} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                        </span>
+                                        <span class="bold">
+                                            <lightning-formatted-number value={basket.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_TTC}
+                                        </span>
+                                    </template>
+                                    <template if:false={displayVAT}>
+                                        <span class="bold">
+                                            <lightning-formatted-number value={basket.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        </span>
+                                    </template>
+                                    <template if:true={basket.value.hasDiscount}>
+                                        &nbsp;
+                                        <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                            <lightning-formatted-number value={basket.value.totalWithoutDiscount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        </span>
+                                    </template>
+                                </template>
+                                <template if:true={basket.value.isPersonalUse}>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basket.value.totalWithoutDiscount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <br key={basketType.key} />
+            </template>
+        </template>
+
+        <template if:true={displayByCustomerFRA}>
+
+            <template for:each={basketsByPerson} for:item="basketp">
+                <div class="r-item" key={basketp}>
+                
+                    <div class="r-head">
+                
+                        <p>
+                            <template if:true={basketp.key}>
+                                <b>{basketp.key.firstname} {basketp.key.lastname}</b>
+                            </template>
+                        </p>
+
+                        <template if:true={canEditOrder}>
+                        <template if:false={basketp.isChall}>
+                            <div class="r-edit">
+                                <img class="ia-product" src={iconEdit} onclick={handleNavigateToOrderHomeWithContactId} data-contactid={basketp.key.personId} > 
+                                <p>{labels.lbl_continue_basket}</p>
+
+                                <!-- <img class="ia-product" src={iconDelete} onclick={handleOpenDelete} data-contactid={basketp.key.personId} >
+                                <p>{labels.lbl_delete_basket}</p> -->
+                            </div>
+                        </template>
+                        </template>
+
+                    </div>
+
+                    <div class="r-container">
+                        
+                        <table>
+                            <template for:each={basketp.value.lines} for:item="line">
+
+                                <tr key={line} class="r-product">
+                                    <td style="width: 60%;" class="r-p_name">
+                                        <!-- {line.Product2.LU_Local_Code__c} - {line.Product2.Name} -->
+
+                                        <!-- Commented 20200802 - To be put again after implementing controls on bunlde rules at checkout -->
+                                        <!-- <template if:false={basketp.isChall}> -->
+                                        <c-lwc80_order_detail_basket_view_bundle line={line} onclosebundlemodal={onCloseBundleModal} ischall={basketp.isChall} isfra={isFRA} isita={isITA}></c-lwc80_order_detail_basket_view_bundle>
+                                        <!-- </template> -->
+
+                                        <template if:true={line.Product2.Description}>
+                                            <br/>
+                                            <span class="r-p_desc">{line.Product2.Description}</span>
+                                        </template>
+                                        <template if:true={line.LU_Stock_Message__c}>
+                                            <br/>
+                                            {line.LU_Stock_Message__c}
+                                        </template>
+                                        <template for:each={line.l_childs} for:item="child">
+                                            <br key={child} />
+                                            <span key={child} class="openSetChild">
+                                                {child.Quantity} - {child.LU_Child_Product__r.Name}
+                                            </span>
+                                        </template>
+                                    </td>
+                                    <td style="width: 20%;" class="add-product">
+                                        <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}> -->
+                                            <template if:true={canEditOrder}>
+                                                <template if:false={line.LU_Challenge_Linked__c}>
+                                                    <img class="ir-product" src={iconLess} onclick={handleQuantityDown} data-id={line.Id} data-quantity={line.Quantity} />
+                                                </template>
+                                            </template>
+                                        <!-- </template> -->
+
+                                        {line.Quantity}
+
+                                        <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}> -->
+                                            <template if:true={canEditOrder}>
+                                                <template if:false={line.LU_Challenge_Linked__c}>
+                                                    <img class="ia-product" src={iconAdd} onclick={handleQuantityUp} data-id={line.Id} data-quantity={line.Quantity}/>
+                                                </template>
+                                            </template>
+                                        <!-- </template> -->
+                                    </td>
+                                    <td style="width: 20%;" class="r-p_price">
+                                        <lightning-formatted-number value={line.TotalPrice} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        <template if:true={line.LU_Has_Discount_Applied__c}>
+                                            &nbsp;
+                                            <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                                <lightning-formatted-number value={line.LU_Total_Without_Discount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                            </span>
+                                        </template><br/>
+                                        <span class="r-p_desc">{line.Description}</span>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <template if:true={canEditOrder}>
+                                            <img class="ir-product" src={iconDelete} onclick={handleLineDelete} data-id={line.Id}>
+                                        </template>
+                                    </td>
+                                </tr>
+
+                            </template>
+                        </table>
+
+                        <div class="r-total">
+                            <span>{labels.lbl_basket_total}</span>
+                            <template if:true={displayBoTotal}>
+                                <span class="bold">
+                                    <lightning-formatted-number value={basketp.value.totalWithoutTax} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                </span>
+                                <span class="bold">
+                                    <lightning-formatted-number value={basketp.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_TTC}
+                                </span>
+                            </template>
+                            <template if:false={displayBoTotal}>
+                                <template if:true={displayVAT}>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketp.value.totalWithoutTax} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                    </span>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketp.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_TTC}
+                                    </span>
+                                </template>
+                                <template if:false={displayVAT}>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketp.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </span>
+                                </template>
+                            </template>
+                            <template if:true={basketp.value.hasDiscount}>
+                                &nbsp;
+                                <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                    <lightning-formatted-number value={basketp.value.totalWithoutDiscount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </template>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br key={basketp.key} />
+
+            </template>
+        </template>
+
+        <template if:true={displayByCatalog}>
+            <template for:each={basketsByCatalog} for:item="basketC">
+
+                <div class="r-item" key={basketC}>
+                
+                    <div class="r-head abc">
+                
+                        <p>
+                            <template if:true={basketC.key}>
+                                {basketC.key}
+                            </template>
+                        </p>
+
+                    </div>
+
+                    <div class="r-container">
+                        
+                        <table>
+                            <template for:each={basketC.value.lines} for:item="line">
+
+                                <tr key={line} class="r-product">
+                                    <td style="width: 60%;" class="r-p_name">
+                                        <c-lwc80_order_detail_basket_view_bundle line={line} onclosebundlemodal={onCloseBundleModal} ischall={basketC.isChall} isfra={isFRA} isita={isITA}></c-lwc80_order_detail_basket_view_bundle>
+                                        <!-- {line.Product2.LU_Local_Code__c} - {line.Product2.Name}  -->
+                                        <template if:true={line.Product2.Description}>
+                                            <br/>
+                                            <span class="r-p_desc">{line.Product2.Description}</span>
+                                        </template>
+                                        <template if:true={isFRA}>
+                                            <template if:true={line.LU_Stock_Message__c}>
+                                                <br/>
+                                                {line.LU_Stock_Message__c}
+                                            </template>
+                                        </template>
+                                        <template for:each={line.l_childs} for:item="child">
+                                            <br key={child} />
+                                            <span key={child} class="openSetChild">
+                                                {child.Quantity} - {child.LU_Child_Product__r.Name}
+                                            </span>
+                                        </template>
+                                    </td>
+                                    <td style="width: 20%;" class="add-product">
+                                        <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}> -->
+                                            <template if:true={canEditOrder}>
+                                                <template if:false={line.LU_Challenge_Linked__c}>
+                                                    <img class="ir-product" src={iconLess} onclick={handleQuantityDown} data-id={line.Id} data-quantity={line.Quantity} />
+                                                </template>
+                                            </template>
+                                        <!-- </template> -->
+                                        {line.Quantity}
+                                        <!-- <template if:false={line.LU_TECH_Is_Bundle_Parent_Line__c}>     -->
+                                            <template if:true={canEditOrder}>
+                                                <template if:false={line.LU_Challenge_Linked__c}>
+                                                    <img class="ia-product" src={iconAdd} onclick={handleQuantityUp} data-id={line.Id} data-quantity={line.Quantity}/>
+                                                </template>
+                                            </template>
+                                        <!-- </template> -->
+                                    </td>
+                                    <td style="width: 20%;" class="r-p_price">
+                                        <lightning-formatted-number value={line.TotalPrice} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                        <template if:true={line.LU_Has_Discount_Applied__c}>
+                                            &nbsp;
+                                            <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                                <lightning-formatted-number value={line.LU_Total_Without_Discount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                            </span>
+                                        </template><br/>
+                                        <span class="r-p_desc">{line.Description}</span>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <template if:true={canEditOrder}>
+                                            <img class="ir-product" src={iconDelete} onclick={handleLineDelete} data-id={line.Id}>
+                                        </template>
+                                    </td>
+                                </tr>
+
+                            </template>
+                        </table>
+
+                        <div class="r-total">
+                            <span>{labels.lbl_basket_total}</span>
+                            <template if:true={displayBoTotal}>
+                                <span class="bold">
+                                    <lightning-formatted-number value={orderBoTotalWithoutTaxes} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                </span>
+                                <span class="bold">
+                                    <lightning-formatted-number value={orderBoTotalWithTaxes} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_TTC}
+                                </span>
+                            </template>
+                            <template if:false={displayBoTotal}>
+                                <template if:true={displayVAT}>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketC.value.totalWithoutTax} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_HT}
+                                    </span>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketC.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number> {labels.lbl_TTC}
+                                    </span>
+                                </template>
+                                <template if:false={displayVAT}>
+                                    <span class="bold">
+                                        <lightning-formatted-number value={basketC.value.total} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                    </span>
+                                </template>
+                            </template>
+                                
+                            <template if:true={basketC.value.hasDiscount}>
+                                &nbsp;
+                                <span style="text-decoration:line-through;font-weight: normal;font-style: italic;">
+                                    <lightning-formatted-number value={basketC.value.totalWithoutDiscount} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </span>
+                            </template>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br key={basketC.key} />
+
+            </template>
+        </template>
+
+        <template if:true={isFRA}>
+            <template if:true={displayCGV}>
+                <div>
+                    <input type="checkbox" onclick={updateCDV} value={acceptedCDV} class="cgvCheckbox">&nbsp;&nbsp;
+                    <lightning-formatted-rich-text class="textCGV" value={labels.lbl_accepted_cdv} ></lightning-formatted-rich-text>
+                </div><br/>
+            </template>
+        </template>
+
+        <!-- Afficher les boutons en haut pour la France -->
+        <template if:true={isFRA}>
+            <div class="c-button">    
+                <template if:true={canEditOrder}>
+                    <button class="btn-primary" onclick={handleNavigateToOrderHome} >{labels.lbl_order_continue}</button>
+                    <button class="btn-secondary" onclick={handleCancelOrder} >{labels.lbl_order_delete}</button>
+                    <template if:false={acceptedCDV}>
+                        <button class="btn-primary-disabled" onclick={handleGoToCheckoutPage} disabled>{labels.lbl_order_confirm}</button>
+                    </template>
+                    <template if:true={acceptedCDV}>
+                        <button class="btn-primary" onclick={handleGoToCheckoutPage} >{labels.lbl_order_confirm}</button>
+                    </template>
+                </template>
+                <template if:true={displayOrderComplementButton}>
+                    <button class="btn-secondary" onclick={handleOrderComplement} >{labels.lbl_order_complement}</button>
+                </template>
+            </div>
+        </template>
+
+        <c-lwc73_order_subtotals></c-lwc73_order_subtotals>
+
+        <!-- Afficher les boutons en bas pour l'italie -->
+        <template if:true={isITA}> 
+            <div class="c-button">    
+                <template if:true={isOLA}>
+                    <button class="btn-secondary" onclick={handleValidateOrderOLA} >{labels.lbl_order_confirm}</button>
+                </template>
+                <template if:true={canEditOrder}>
+                    <button class="btn-primary" onclick={handleNavigateToOrderHome} >{labels.lbl_order_continue}</button>
+                    <button class="btn-secondary" onclick={handleCancelOrder} >{labels.lbl_order_delete}</button>
+                    <button class="btn-primary" onclick={handleGoToCheckoutPage} >{labels.lbl_order_confirm}</button>
+                </template>
+                <template if:true={displayOrderComplementButton}>
+                    <button class="btn-secondary" onclick={handleOrderComplement} >{labels.lbl_order_complement}</button>
+                </template>
+            </div>
+
+        </template>
+        
+
+    </div>
+
+
+    <!-- Basket : Modal delete -->
+    <template if:true={openDelete}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={labels.lbl_Close} onclick={handleCloseDeletePopup}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    {labels.lbl_Empty_Sure_Question}
+                    <br/><br/>
+                    <!-- <template if:true={displayByCustomerITA}> -->
+                    <lightning-button variant="brand" label={labels.lbl_Basket_Empty} title={labels.lbl_Basket_Empty} onclick={handleDeleteValidation} class="slds-m-left_x-small"></lightning-button>
+                    <!-- </template>
+                    <template if:true={displayByCustomerFRA}>
+                            <lightning-button variant="brand" label={labels.lbl_Basket_Empty} title={labels.lbl_Basket_Empty} onclick={handleDeleteValidationWithoutType} class="slds-m-left_x-small"></lightning-button>
+                    </template> -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+    <!-- ORDER : Modal delete -->
+    <template if:true={openDeleteOrder}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container modal-custom">   
+    
+                <header class="slds-modal__header">
+    
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_order_delete}</h2>
+    
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseCancelOrder}>
+                        <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                </header>  
+
+                <div class="slds-modal__content slds-p-around_medium" >
+                    {labels.lbl_Empty_Order_Question}
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <button class="btn-primary" onclick={handleDeleteOrderValidation}>{labels.lbl_Empty_Order_Delete}</button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>

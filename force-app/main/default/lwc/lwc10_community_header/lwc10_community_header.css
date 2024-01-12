@@ -1,0 +1,69 @@
+.body {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+}
+/* img {
+  border-radius: 50%;
+} */
+.imgDesktop {
+  display: inline-block;
+  max-width: 150px;
+}
+.imgMobile {
+  display: none;
+  max-width: 50px;
+}
+.profilePictureContainer {
+  height: 100%;
+  display: inline-block;
+}
+.profilePicture {
+  height: 100%;
+  width: 80%;
+  border-radius: 50%;
+}
+.headerUserInfo {
+  float: right;
+}
+.welcomeText {
+  display: block;
+  height: 50%;
+}
+.welcomeTextLink {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.welcomeTextContainer {
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  text-align: right;
+}
+@media (max-width: 999px) {
+  .body {
+    background-color: #3c6f8a;
+    color: #ffffff;
+  }
+  .headerUserInfo {
+    color: #ffffff;
+  }
+  .welcomeTextContainer {
+    color: #ffffff;
+    display: none;
+  }
+  .imgDesktop {
+    display: none;
+  }
+  .imgMobile {
+    display: inline-block;
+  }
+}
+/*.logoContainer {
+    background-image: t('url(' + brandLogoImage + ')');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 80%;
+    height: 50px;
+  }*/

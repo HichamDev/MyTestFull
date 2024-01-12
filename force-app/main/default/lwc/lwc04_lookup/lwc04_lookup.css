@@ -1,0 +1,65 @@
+.searchField{
+    border-color: #3c6f8a;
+}
+
+.slds-combobox__input,
+.slds-combobox_container {
+    transition: border .1s linear, box-shadow .1 linear;
+}
+
+.slds-combobox__input {
+    box-shadow: none;
+}
+
+.slds-combobox__input.has-custom-border {
+    box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px rgb(221, 219, 218) inset;
+}
+
+.slds-combobox__input.has-custom-error {
+    border: 1px solid rgb(194, 57, 52);
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset;
+}
+
+.slds-combobox_container.has-custom-error {
+    border: none !important;
+}
+
+.slds-input-has-icon_right .slds-input__icon{
+    left: 16px !important;
+}
+
+.slds-combobox__input.has-custom-height {
+    padding-left: 48px;
+    height: 54px;
+    border: 1px solid #8b8b8b;
+}
+
+.form-error {
+    color: rgb(194, 57, 52);
+    display: block;
+}
+
+.slds-form-element{
+    margin: 10px 0 40px 0;
+}
+
+.selectedResult{
+    background-color: #6ca5c1;
+    color: white;
+}
+
+/* Stock */
+/* top of the page messages */
+.page-error-message{
+    background: #FF3D61;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-top: 16px;
+    width: fit-content;
+}
+.page-error-message img{
+    filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(81deg) brightness(106%) contrast(106%);
+}

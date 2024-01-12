@@ -1,0 +1,11 @@
+<template>
+
+    <template if:true={isButton}>
+        <button onclick={handleClick} class={styleclass}>{labels.lbl_Button}</button>
+    </template>
+
+    <template if:true={isLink}>
+        <a onclick={handleClick} class={styleclass}>{labels.lbl_Button}</a>
+    </template>
+
+</template>

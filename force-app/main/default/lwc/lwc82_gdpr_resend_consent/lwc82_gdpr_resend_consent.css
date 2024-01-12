@@ -1,0 +1,16 @@
+.btn-whatsapp{
+    border: 1px solid #6ca5c1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 5px;
+    margin-left: 5px;
+}
+.btn-whatsapp:hover{
+    color: #6ca5c1;
+}
+
+.rgpd{
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}

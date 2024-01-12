@@ -1,0 +1,11 @@
+.title-box {
+    color: #7a7f81;
+    font-size: 15px;
+    font-weight: 600;
+}
+.line{
+    height: 1px;
+    background-color: #6ca5c1;
+    margin: 0;
+    margin-bottom: 10px;
+}

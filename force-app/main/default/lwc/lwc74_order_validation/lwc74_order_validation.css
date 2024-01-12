@@ -1,0 +1,91 @@
+.order-confirmation{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #042B60;
+}
+
+.box{
+    background: #fff;
+    padding: 42px 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.order-confirmation h2{
+    font-size: 14px;
+    margin-top: 38px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.t-c{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.t-c p{
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.order-confirmation .t-s{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.t-s_item{
+    border: 1px solid #E3EDF2;
+    border-radius: 4px;
+    height: 180px;
+    padding: 14px;
+}
+.t-s_item:not(:last-child){
+    margin-right: 24px;
+}
+.t-s_item span{
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.t-s_item p{
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+@media (max-width: 767px){
+    .buttonContainer{
+        flex-direction: column;
+    }
+}
+.btn-primary{
+    margin: 10px;
+    border-radius: 4px;
+    background-color: #042B60;
+    color: #fff;
+    max-width: 320px;
+    width: 35%;
+    font-size: 16px;
+    height: 80px;
+    border: none;
+}
+@media (max-width: 767px){
+    .btn-primary{
+        width: 100%;
+        height: 60px;
+    }
+}

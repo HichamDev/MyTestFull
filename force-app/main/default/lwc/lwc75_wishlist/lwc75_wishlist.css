@@ -1,0 +1,115 @@
+.wishlist-container{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+    margin-bottom: 100px;
+}
+.box{
+    background: #fff;
+    padding: 24px 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 16px;
+    margin-bottom: 10vh;
+}
+.box + .title-order{margin-top: 24px;}
+.title-order{
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10vh;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+.wishlist-container h3{
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--blue);
+    font-size: 14px;
+}
+.b-p{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.btn-primary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 330px;
+    width: 100%;
+    height: 50px;
+    margin: 24px 0;
+    border-radius: 4px;
+    background: var(--blue);
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+}
+table thead th{
+    color: var(--blue);
+    font-size: 14px;
+    padding: 20px 0;
+    line-height: 1;
+}
+
+table img{
+    max-height: 30px;
+}
+
+tr{
+    border-bottom: 1px solid #D3DFE4;
+}
+
+tr > td:not(:last-child) {
+    padding: 10px 0;
+}
+
+td{
+    font-size: 14px;
+}
+
+tbody th{
+    font-size: 12px;
+}
+
+tbody span{
+    display: block;
+    font-size: 10px;
+    color: #959695;
+}
+
+.order-price{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #e3edf2;
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.order-price div{
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+}
+
+.order-price_title{
+    text-transform: uppercase;
+    color: #396F8A;
+}
+
+.wishlist-container input{
+    height: 48px;
+}
+
+.i-c input:not(:first-child){
+    margin-top: 16px;
+}

@@ -1,0 +1,121 @@
+.statement-container{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+    margin-bottom: 100px;
+}
+.box{
+    background: #fff;
+    padding: 24px 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-top: 16px;
+}
+.box + .title-order{margin-top: 24px;}
+.title-order{
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.payed, .not-payed{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+.payed::before, .not-payed::before{
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: var(--done);
+    border-radius: 100%;
+    margin-right: 8px;
+}
+.payed{
+    color: var(--done);
+}
+.payed::before{
+    background: var(--done);
+}
+.not-payed{
+    color: var(--error);
+}
+.not-payed::before{
+    background: var(--error);
+}
+
+.statement-table thead{
+    background: var(--lightBlue);
+    color: var(--blue);
+    font-size: 10px;
+    line-height: 12px;
+}
+
+.statement-table thead span{
+    display: block;
+    font-size: 8px;
+    line-height: 10px;
+}
+
+.statement-table tbody{
+    background: #fff;
+    font-size: 10px;
+    line-height: 12px;
+}
+
+.statement-table .status{
+    border-radius: 8px;
+    padding: 4px;
+    white-space: nowrap;
+}
+.statement-table .status.not-invoiced{
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+.statement-table .status.packing{
+    border: 1px solid var(--warning);
+    color: var(--warning);
+}
+.statement-table .status.received{
+    border: 1px solid var(--done);
+    color: var(--done);
+}
+.statement-table .status.shipped{
+    border: 1px solid var(--blue);
+    color: var(--blue);
+}
+.statement-table .status.draft{
+    background: var(--grey);
+    color: #000;
+}
+.statement-table .status.suspended{
+    border: 1px solid var(--grey);
+    color: var(--grey);
+    opacity: 0.75;
+}
+.statement-container td, .statement-table th{
+    padding: 8px;
+}
+.statement-table th:first-child{
+    border-top-left-radius: 8px;
+}
+.statement-table th:last-child{
+    border-top-right-radius: 8px;
+}
+.statement-table tr:not(:last-child){
+    border-bottom: 1px solid var(--grey);
+}
+.statement-table a{
+    display: block;
+    color: var(--blue);
+    /* text-decoration: underline; */
+}
+.verticalMirror{
+    transform: rotate(180deg);
+}

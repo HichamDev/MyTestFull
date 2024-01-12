@@ -1,0 +1,26 @@
+.reminder {
+    box-shadow: 0px 6px 17px 1px rgba(232, 232, 232, 1);
+    border-radius: 10px;
+    background-color: #f9fbfa;
+    margin: 14px;
+  }
+  .title {
+    font-weight: bold;
+    margin: 12px;
+  }
+  .reminder-description{
+    display: flex;
+  }
+  .reminder-description img {
+    width: 5%;
+    height: 40%;
+    margin-top: 3%;
+    margin-right: 3%;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .remider-description{
+      width: 12%!important;
+      height: 40%!important;
+    }
+  }

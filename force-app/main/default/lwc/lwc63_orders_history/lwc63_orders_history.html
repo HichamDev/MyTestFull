@@ -1,0 +1,277 @@
+<template> 
+
+    <!-- <div class="searchContainer">
+        <input type="text" class="inputSearch" placeholder={labels.lbl_search} value={searchedTerms} onkeyup={updateOrdersToDisplay} />
+    </div> -->
+
+    <div class="slds-grid slds-wrap order-top">
+        <div class="slds-m-bottom_medium slds-size--12-of-12 slds-medium-size--11-of-12 slds-large-size--11-of-12" >
+            <h2 class="title-order">{labels.lbl_Title}</h2>
+            <a href="#bottom" class="icon-filter">
+                <img src={iconFilter} alt="">
+            </a>
+        </div>
+        <div class="slds-m-bottom_medium slds-size--12-of-12 slds-medium-size--1-of-12 slds-large-size--1-of-12" >
+            <c-lwc87_export_to_excel l_orders-to-display={l_orders} 
+                order-object={orderObject} labels={labels} is-i-t-a={isITA} is-director={isDirector} is-f-r-a={isFRA} ></c-lwc87_export_to_excel>
+        </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <template if:true={l_ordersToDisplay}>
+        <div class="slds-grid slds-grid_vertical-align-center margin-actions" style="float: right;">
+            <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+    
+            <button class="slds-button slds-button_icon" onclick={firstPage}>
+                <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                </svg>
+            </button> &nbsp;
+            
+            <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+            <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+            <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+        </div>
+    </template>
+    
+    <br/><br/>
+    <template if:true={isITA}>
+        <template if:false={isDirector}>
+            <table class="order-history">
+                <thead>
+                    <tr>
+                        <th>{orderObject.Name}</th>
+                        <th>{orderObject.Type}</th>
+                        <th>{orderObject.Status}</th>
+                        <th>{orderObject.EffectiveDate}</th>
+                        <th>{orderObject.LU_Number_Of_Articles__c}</th>
+                        <th>{orderObject.TotalAmount} (€)</th>
+                        <th>{orderObject.LU_Invoice_Number__c}</th>
+                        <th>{orderObject.BillToContactId}</th>
+                        <th>{orderObject.LU_Invoice_Date__c}</th>
+                        <th>{orderObject.LU_Amount_To_Pay__c} (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={l_ordersToDisplay} for:item="order">
+                        <tr key={order}>
+                            <td key={order}>
+                                <a href={order.href} data-id={order.Id}>{order.Name}</a>
+                                <!-- <a onclick={navigateToOrder} data-id={order.Id}>{order.Name}</a> Bug du 10/03/2021-->
+                            </td>
+                            <td key={order}>{order.Type}</td>
+                            <td key={order}>
+                                <template if:true={order.LU_Shipment_Follow_Up_URL__c}><a href={order.LU_Shipment_Follow_Up_URL__c}>{order.Status}</a></template>
+                                <template if:false={order.LU_Shipment_Follow_Up_URL__c}>{order.Status}</template>
+                            </td>
+                            <td key={order} class="center">
+                                <lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time><br/>
+                                <lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </td>
+                            <td key={order}>{order.LU_Number_Of_Articles__c}</td>
+                            <td key={order}>{order.LU_TECH_AmountForMinimumOrder__c}</td>
+                            <td key={order}>
+                                <template if:true={order.Tech_Invoice_URL_filled__c}>
+                                    <a href={order.LU_Invoice_URL1__c} target="_blank">{order.LU_Invoice_Number__c}</a>
+                                </template>
+                                <template if:false={order.Tech_Invoice_URL_filled__c}>
+                                    {order.LU_Invoice_Number__c}
+                                </template>
+                            </td>
+                            <td key={order}>{order.BillToContact.Name}</td>
+                            <td>
+                                <lightning-formatted-date-time key={order} value={order.LU_Invoice_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time>
+                                <!-- {order.LU_Invoice_Date__c} -->
+                            </td>
+                            <td key={order}>
+                                <template if:true={order.LU_Amount_To_Pay__c}>{order.LU_Amount_To_Pay__c}</template>
+                                <template if:false={order.LU_Amount_To_Pay__c}></template>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+
+        <template if:true={isDirector}>
+            <table class="order-history">
+                <thead>
+                    <tr>
+                        <th>{orderObject.BillToContactId}</th>
+                        <th>{orderObject.BillToContactId}</th>
+                        <!-- <th>{orderObject.EffectiveDate}</th> -->
+                        <th>{orderObject.Name}</th>
+                        <th>{orderObject.Status}</th>
+                        <th>{orderObject.CreatedDate}</th>
+                        <th>{orderObject.TotalAmount} (€)</th>
+                        <!-- <th>{orderObject.LU_Number_Of_Articles__c}</th> -->
+                        <th>{orderObject.CreatedBy}</th>
+                        <th>{orderObject.LU_Invoice_Date__c}</th>
+                        <th>{orderObject.LU_Invoice_Number__c}</th>
+                        <th>{orderObject.LU_Amount_To_Pay__c} (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={l_ordersToDisplay} for:item="order">
+                        <tr key={order}>
+                            <td key={order}>{order.BillToContact.STHID__c}</td>
+                            <td key={order}>{order.BillToContact.Name}</td>
+                            <!-- <td>
+                                <lightning-formatted-date-time key={order} value={order.EffectiveDate} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time>
+                                {order.LU_Invoice_Date__c}
+                            </td> -->
+                            <td key={order}>
+                                <a href={order.href} data-id={order.Id}>{order.Name}</a>
+                                <!-- <a onclick={navigateToOrder} data-id={order.Id}>{order.Name}</a> Bug du 10/03/2021-->
+                            </td>
+                            <td key={order}>
+                                <template if:true={order.LU_Shipment_Follow_Up_URL__c}><a href={order.LU_Shipment_Follow_Up_URL__c}>{order.Status}</a></template>
+                                <template if:false={order.LU_Shipment_Follow_Up_URL__c}>{order.Status}</template>
+                            </td>
+                            <td key={order} class="center">
+                                <lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time><br/>
+                                <lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </td>
+                            <td key={order}>{order.LU_TECH_AmountForMinimumOrder__c}</td>
+                            <td key={order}>{order.CreatedBy.Name}</td>
+                            <!-- <td key={order}>{order.LU_Number_Of_Articles__c}</td> -->
+                            <td>
+                                <lightning-formatted-date-time key={order} value={order.LU_Invoice_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time>
+                                <!-- {order.LU_Invoice_Date__c} -->
+                            </td>
+                            <td key={order}>
+                                <template if:true={order.Tech_Invoice_URL_filled__c}>
+                                    <a href={order.LU_Invoice_URL1__c} target="_blank">{order.LU_Invoice_Number__c}</a>
+                                </template>
+                                <template if:false={order.Tech_Invoice_URL_filled__c}>
+                                    {order.LU_Invoice_Number__c}
+                                </template>
+                            </td>
+                            <td key={order}>
+                                <template if:true={order.LU_Amount_To_Pay__c}>{order.LU_Amount_To_Pay__c}</template>
+                                <template if:false={order.LU_Amount_To_Pay__c}></template>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </template>
+
+    <template if:true={isFRA}>
+        <table width:auto class="order-history">
+            <col width="4%">
+            <col>
+            <col>
+            <col>
+            <col width="10%">
+            <col>
+            <col>
+            <col width="10%">
+            <col width="10%">
+            <col>
+            <col width="10%">
+            <thead>
+                <tr>
+                    <th>{orderObject.Name}</th>
+                    <th>{labels.LU_Order_Column_Account}</th>
+                    <th>{labels.LU_Order_Column_Contact}</th><!--<span>(name & firstname)</span></th>-->
+                    <th>Client</th>
+                    <th>{orderObject.EffectiveDate}</th>
+                    <!-- <th>{orderObject.Type}</th> -->
+                    <th>{orderObject.Status}</th>
+                    <th>{orderObject.LU_Transporter__c}</th>
+                    <th>{orderObject.LU_Shipping_Date__c}</th>
+                    <!-- <th>{orderObject.LU_Shipment_Ref__c}</th> -->
+                    <!-- <th># of packages</th> -->
+                    <th>{orderObject.LU_Total_Price_Without_Taxes__c} (€)</th>
+                    <!-- <th>Invoiced Amount HT</th> -->
+                    <th>{orderObject.LU_Total_Amount_For_Valid_Base__c} (€)</th>
+                    <th>{orderObject.LU_Invoice_Number__c}</th>
+                    <th>{orderObject.LU_Invoice_Status__c}</th>
+                    <th>Total Net à payer (€)</th>
+                    <!-- <th>{labels.LU_Order_Column_Action}</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={l_ordersToDisplay} for:item="order">
+                    <tr key={order}>
+                        <td key={order}>
+                            <a href={order.href} data-id={order.Id}>{order.Name}</a>
+                            <br/>{order.Type}
+                        </td>
+                        <td key={order}>{order.BillToContact.Account.Name}</td>
+                        <!--<td key={order}>
+                            <div if:false={order.showStanhomeClient}>
+                                <a onclick={navigateToOrder} data-id={order.BillToContact.Id}>{order.BillToContact.FirstName} {order.BillToContact.LastName}</a>
+                            </div>
+                            <div if:true={order.showStanhomeClient}>
+                                <a onclick={navigateToOrder} data-id={order.BillToContact.Id}><p>{order.LU_CUSTOMER_FIRSTNAME__c} {order.LU_CUSTOMER_LASTNAME__c}</p></a>
+                                <p style="margin-top: 8px;">cliente stanhome.fr</p>
+                            </div>
+                        </td>-->
+                        <td key={order}>
+                            <a onclick={navigateToOrder} data-id={order.BillToContact.Id}>{order.BillToContact.FirstName} {order.BillToContact.LastName}</a>
+                        </td>
+                        <td key={order}>{order.LU_CUSTOMER_FIRSTNAME__c} {order.LU_CUSTOMER_LASTNAME__c}</td>
+                        <td key={order} class="center">
+							<lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time><br/>
+                            <lightning-formatted-date-time key={order} value={order.LU_TECH_Order_Date__c} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+						</td>
+                        <td key={order}><span class={order.TECH_Formula_CSS_Status__c} id={order.Status}>{order.Status}</span></td><!--statusSpan status-->
+                        <td key={order}>
+                            {order.LU_Transporter__c}
+                            <!-- &nbsp;<a href={order.LU_Shipment_Follow_Up_URL__c}>{order.LU_Shipment_Ref__c}</a> -->
+                            &nbsp;<a style="margin-top:5px;color:#6ca5c3;" href={order.LU_Shipment_Follow_Up_URL__c} target="_blank">{order.LU_Shipment_Ref__c}</a>
+                        </td>
+                        <!-- <td key={order}>{order.LU_Shipping_Date__c}</td> -->
+                        <td><lightning-formatted-date-time key={order} value={order.LU_Shipping_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                        <!-- <td key={order}>10</td> -->
+                        <template if:false={order.displayBoTotal}>
+                            <td key={order}>{order.LU_Total_Price_Without_Taxes__c}</td>
+                        </template>
+                        <template if:true={order.displayBoTotal}>
+                            <td key={order}>{order.BO_TOTAL_WITHOUT_TAXES__c}</td>
+                        </template>
+                        <!-- <td key={order}>360,64€ HT</td> -->
+                        <td key={order}>{order.LU_Total_Amount_For_Valid_Base__c}</td>
+                        <td key={order}><a href={order.LU_Invoice_URL1__c}>{order.LU_Invoice_Number__c}</a><br/><lightning-formatted-date-time key={order} value={order.LU_Invoice_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                        <td key={order}>{order.LU_Invoice_Status__c}<br/><br/>{order.LU_Invoice_Payment_Date__c}</td>
+                            
+                        <template if:false={order.displayBoTotal}>
+                            <td key={order}>{order.LU_Total_Amount_To_Pay__c}</td>
+                        </template>
+                        <template if:true={order.displayBoTotal}>
+                            <td key={order}>{order.BO_TOTAL_AMOUNT_TO_PAY__c}</td>
+                        </template>
+                        <!-- <td key={order}>
+                            <div class="actions-container" if:true={order.showActions}>
+                                <a class="btn-action" data-id={order.Id} onclick={onActionTransfererClick} >{labels.LU_Order_Action_Transferer}</a>
+                                <a class="btn-action" data-id={order.Id} onclick={onActionCloturerClick} >{labels.LU_Order_Action_Cloturer}</a>
+                            </div>
+                        </td> -->
+                    </tr>
+                </template>
+            </tbody>
+        </table> 
+    </template>
+    <br/>
+
+    <!-- PAGINATION -->
+    <template if:true={l_ordersToDisplay}>
+        <div class="slds-grid slds-grid_vertical-align-center margin-actions" style="float: right;">
+            <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+
+            <button class="slds-button slds-button_icon"  onclick={firstPage}>
+                <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                </svg>
+            </button> &nbsp;
+            
+            <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+            <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+            <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+        </div>
+    </template>
+    <span id="bottom"></span>
+</template>

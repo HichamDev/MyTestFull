@@ -1,0 +1,41 @@
+<template>
+  <div class="body">
+    <span class="companyLogo">
+     <a onclick={navigateToHome}>
+        <img class="imgDesktop" src={logoDesktop}  />
+        <img class="imgMobile" src={logoMobile}  />
+     </a> 
+    </span>
+    <span class="headerUserInfo">
+      <table>
+        <tr>
+          <td>
+            <!-- <c-lwc23_-basket_-icon ></c-lwc23_-basket_-icon> -->
+          </td>
+          <td >
+              <c-lwc24_managerinformations ></c-lwc24_managerinformations>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <span onclick={navigateToProfile}>
+              <span class="welcomeTextContainer" >
+                <span class="welcomeText"><b>{labels.lbl_Welcome} {firstName}</b></span>
+                <span class="welcomeTextLink" >{labels.lbl_Profile}</span>
+              </span>
+              <span class="profilePictureContainer">
+                <img
+                  src={imgUrl}
+                  class="profilePicture"
+                />
+              </span>
+            </span>
+          </td>
+        </tr>
+      </table>
+      
+      
+    </span>
+  </div>
+</template>

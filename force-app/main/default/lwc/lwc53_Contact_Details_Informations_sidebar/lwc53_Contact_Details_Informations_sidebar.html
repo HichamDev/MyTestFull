@@ -1,0 +1,65 @@
+<template>
+
+    <template if:true={objectInfo}>
+
+        <section>
+        
+            <div class="container-sidebar">
+
+                <!-- BLOC PICTURE & NAME -->
+                <div class="content-img">
+                    <img src={contact.LU_TECH_ProfilePicture__c} alt="">
+                    <span>{contact.FirstName} {contact.LastName}</span>
+                </div>
+
+                <!-- BLOC KPIs -->
+                <template for:each={l_indicators} for:item="indic">
+                    <div class="product" key={indic}>
+                        <span>{indic.label}</span>
+                        <p>{indic.vDecimal1} €</p>
+                    </div>
+                </template>
+
+                <!-- BLOC INFORMATION -->
+                <div class="info">
+                    <h6>{labels.lbl_Section_Information}</h6>
+                    <div class="line"></div>
+                    <template if:true={contact.Start_date__c}>
+                        <span>{objectInfo.fields.Start_date__c.label}</span>
+                        <p>
+                            <lightning-formatted-date-time value={contact.Start_date__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                        </p>
+                    </template>
+                    <span>{objectInfo.fields.Birthdate.label}</span>
+                    <p>
+                        <template if:true={contact.Birthdate}>
+                            <lightning-formatted-date-time value={contact.Birthdate} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                        </template>
+                    </p>
+                </div>
+
+                <!-- BLOC CONTACT -->
+                <div class="info"> 
+                    <h6>{labels.lbl_Section_Contact}</h6>
+                    <div class="line"></div>
+                    <span>{objectInfo.fields.MobilePhone.label}</span>
+                    <p>
+                        <a href={contact.mobileClickToCall}>{contact.MobilePhone}</a>
+                    </p>
+                    <span>{objectInfo.fields.HomePhone.label}</span>
+                    <p>
+                        <a href={contact.homeClickToCall}>{contact.HomePhone}</a>
+                    </p>
+                    <span>{objectInfo.fields.Email.label}</span>
+                    <p>{contact.Email}</p>
+                    <span>{labels.lbl_Contact_PostalAddress}</span>
+                    <p>{contact.MailingStreet}<br/>{contact.MailingPostalCode} {contact.MailingCity}</p>
+                </div>
+
+            </div>
+            
+        </section>
+
+    </template>
+
+</template>

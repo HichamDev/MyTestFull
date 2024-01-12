@@ -1,0 +1,119 @@
+<template>
+    <div class="statement-container">
+        <h2 class="title-order">{labels.lbl_Title_Statement}</h2>
+
+        <template if:true={l_statementsToDisplay}>
+            <div class="slds-grid slds-grid_vertical-align-center margin-actions" style="float: right;">
+                <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+        
+                <button class="slds-button slds-button_icon" onclick={firstPage}>
+                    <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                    <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                    </svg>
+                </button> &nbsp;
+                
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+            </div>
+        
+            <table class="statement-table">
+                <thead>
+                    <tr>
+                        <template if:true={isDirettore}>
+                            <template for:each={l_columnsDirettore} for:item="col">
+                                <th key={col}>{col}</th>
+                            </template>
+                        </template>
+
+                        <template if:true={isSales}>
+                            <template for:each={l_columnsSales} for:item="col">
+                                <th key={col}>{col}</th>
+                            </template>
+                        </template>
+
+                        <template if:true={isFRA}>
+                            <template for:each={l_columnsFra} for:item="col">
+                                <th key={col}>{col}</th>
+                            </template>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- ITALY - DIRECTOR -->
+                    <template if:true={isDirettore}>
+                        <template for:each={l_statementsToDisplay} for:item="sta" >
+                            <tr key={sta}>
+                                <td><a href={sta.LU_Url_Detail_Community__c} >{sta.Name}</a></td> <!--target="_blank"-->
+                                <td>{sta.Contact__r.LastName} {sta.Contact__r.FirstName}</td>
+                                <td>{sta.TransType__c}</td>
+                                <td>{sta.TransRefID__c}</td>
+                                <td><lightning-formatted-date-time key={order} value={sta.TransDate__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransDebit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransCredit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransAmount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                                <td><lightning-formatted-date-time key={order} value={sta.TransDueDate__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                            </tr>
+                        </template>
+                    </template>
+
+                    <!-- ITALY - SALES -->
+                    <template if:true={isSales}>
+                        <template for:each={l_statementsToDisplay} for:item="sta" >
+                            <tr key={sta}>
+                                <td><a href={sta.LU_Url_Detail_Community__c} >{sta.Name}</a></td><!--target="_blank"-->
+                                <td>{sta.TransType__c}</td>
+                                <td><lightning-formatted-date-time key={order} value={sta.TransDate__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransDebit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransCredit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
+
+                    <!-- FRANCE - ALL -->
+                    <template if:true={isFRA}>
+                        <template for:each={l_statementsToDisplay} for:item="sta" >
+                            <tr key={sta}>
+                                <td><lightning-formatted-date-time key={order} value={sta.TransDate__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                                <td>{sta.TECH_Account_Name__c}</td>
+                                <td>{sta.Contact__r.LastName} {sta.Contact__r.FirstName}</td>
+                                <td><a href={sta.LU_Url_Detail_Community__c} >{sta.TransRefID__c}</a></td>
+                                <td><lightning-formatted-number value={sta.TransDebit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number></td>
+                                <td>
+                                    <lightning-formatted-number value={sta.TransCredit__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                </td>
+                                <td>{sta.TransDesc__c}</td>
+                                <td><lightning-formatted-date-time key={order} value={sta.TransDueDate__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></td>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table> 
+
+            <div class="slds-grid slds-grid_vertical-align-center margin-actions" style="float: right;">
+                <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+        
+                <button class="slds-button slds-button_icon" onclick={firstPage}>
+                    <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                    <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                    </svg>
+                </button> &nbsp;
+                
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+            </div>
+        </template>
+    </div>
+</template>

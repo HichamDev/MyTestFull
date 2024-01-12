@@ -1,0 +1,12 @@
+.btn {
+    border-radius: 10px;
+    border: 1px solid #6ca5c3;
+    background-color: #ffff;
+    margin-left: 5px;
+    height: 30px;
+}
+
+.imgIcon {
+    border-radius: 50%;
+    width: 15px;
+}

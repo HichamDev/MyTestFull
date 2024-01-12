@@ -1,0 +1,103 @@
+<template>
+    <template if:true={displayComponent}>
+        <div class="loyalty">
+            <div class="loyalty-header">
+                <img src={bgLoyalty} alt="">
+                <div class="loyalty-header_title">
+                    <img src={iconGift} alt="">
+                    <h4 style="left: 10px; position: relative;">{label.lbl_lb_title}</h4>
+                </div>
+            </div>
+            <template for:each={l_counterCategories} for:item=cat>
+                <template if:true={cat.isDisplayed}>
+                    <div key={cat} class="loyalty-item">
+
+                        <div class="loyalty-subtitle">
+                            <h5>{cat.name}</h5>
+                            <a data-id={cat.name} onclick={openModal}>{cat.text}</a>
+                        </div>
+
+                        <template for:each={cat.l_counters} for:item=cou>
+                            <template if:true={cou.isDisplayed}>
+                                <div class="loyalty-content" key={cou}>
+                                    <p>{cou.label} 
+                                        <template if:true={cou.displayInfoMessage}>
+                                            <span class="tooltip">? 
+                                                <span class="tooltiptext">{cou.description}</span>
+                                            </span>
+                                        </template>
+                                    </p>
+                                    <p>
+                                        <template if:true={hasDraftOrders}>
+                                            <b style="color: #042B60;">{cou.currentOrderValue} / </b>
+                                        </template>
+                                        {cou.value} {cou.unit}
+                                    </p>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <!-- MODAL : OPEN -->
+        <template if:true={isModalOpened}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                
+                <div class="slds-modal__container">
+                    <div class="loyalty" style="width: 520px;">
+                        <div class="loyalty-header">
+                            <div class="loyalty-header_title">
+                                <h4>{modalCategory.name}</h4>
+                                <button class="closeModalButton" style="float: right;" title="Close" onclick={closeModal}>
+                                    <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
+                                </button>
+                            </div>
+                        </div>
+            
+                        <div class="loyalty-item" style="height: 400px; overflow-y: scroll;">
+                            <template for:each={modalCategory.l_counters} for:item="cou">
+                                <template if:true={cou.isDisplayed}>
+                                    <span key={cou.id} style="height: 200px; display: inline-block; width: 100%; margin-bottom: 20px;">
+                                        <div key={cou.id} style="text-align: center;">
+                                            <div class="slds-text-title_caps">{cou.label}</div>
+                                            <div class="slds-text-heading_large unitContainer">
+                                                <div class="donut-inner" style="position: relative;">
+                                                    {cou.currentOrderValue} {cou.unit}<br/>
+                                                    <template if:true={isFRA}>
+                                                        <span class="doughnutSubtitle" >{label.lbl_current_order_value_subtitle}</span>
+                                                    </template>
+                                                </div>
+                                                <template if:true={modalCategory.isValuesTopLeftAndTopRightDisplayed}>
+                                                    <span style="float: left; position: relative;">
+                                                        {cou.balancePlusCreditOnOrder}<br/>
+                                                        <template if:true={isFRA}>
+                                                            <span class="doughnutSubtitle" style="left: 2px;">{label.lbl_balance_plus_credit_on_order_subtitle}</span>
+                                                        </template>
+                                                    </span><!--cou.value-->
+                                                    <span style="float: right; position: relative;">
+                                                        {cou.debitValueOnOrder}<br/>
+                                                        <template if:true={isFRA}>
+                                                            <span class="doughnutSubtitle" style="right: 0px;">{label.lbl_debit_value_on_order_subtitle}</span>
+                                                        </template>
+                                                    </span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <!-- <div key={cou.id} style={modalCategory.chartCSS} > -->
+                                            <div key={cou.id} class={cou.id} style={modalCategory.chartCSS} ></div> <!--style="text-align: center; height: 130px; position: relative; top: -25px;"-->
+                                        <!-- </div> -->
+                                    </span>
+                                </template>
+                                <br key={cou.id}/><br key={cou.id} />
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+</template>

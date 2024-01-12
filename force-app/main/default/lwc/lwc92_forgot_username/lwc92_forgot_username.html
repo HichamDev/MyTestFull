@@ -1,0 +1,15 @@
+<template>
+    <input class="field" type="email" placeholder="Email" value={mail} onchange={handleChangeMail} >
+
+    <template if:true={buttonDisabled}>
+        <button class="button-disabled" disabled onclick={handleSendEmail} >{buttonLabel}</button>
+    </template>
+        
+    <template if:false={buttonDisabled}>
+        <button class="button" onclick={handleSendEmail} >{buttonLabel}</button>
+    </template>
+
+    <div>
+        <c-re-captcha-l-w-c oncaptchareceived={handleCaptchaReceived}></c-re-captcha-l-w-c>
+    </div>
+</template>

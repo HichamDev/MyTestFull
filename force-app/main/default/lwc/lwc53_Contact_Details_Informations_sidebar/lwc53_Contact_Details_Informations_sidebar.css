@@ -1,0 +1,118 @@
+.container-sidebar {
+    background-color: rgb(255, 255, 255, 1);
+    border-radius: 7px;
+    border: solid 0.5px #7a7f81;
+}
+.content-img{
+    width: 100%;
+    margin: auto;
+    padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+}
+.content-img img {
+    border: 1px solid #76b4d3;
+    border-radius: 50%;
+    /* margin-left: 16%; */
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+.content-img span {
+    /* font-family: LiberGrotesqueFamily; */
+    color: #7a7f81;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    font-size: 25px;
+
+}
+.product{
+    background-color: #3b6f89;
+    border-radius: 8px;
+    /* margin-bottom: 5%!important; */
+    /* margin: auto; */
+    /* width: 70%; */
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 5px 10px;
+}
+.product p {
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+}
+.product span {
+    color: #ffffff;
+}
+.combination{
+    background-color: #3b6f89;
+    border-radius: 8px;
+    /* margin: auto;
+    width: 70%; */
+    padding: 5px 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.combination p {
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+}
+.combination span {
+    color: #ffffff;
+}
+.info{
+    /* margin: auto; */
+    /* width: 70%; */
+    margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.info span {
+    color: #9f9f9f;
+    margin-right: 8px;
+}
+.info p {
+    font-weight: 600;
+    color: #7a7f81;
+    margin-bottom: 5px;
+}
+
+.line{
+    height: 1px;
+    background-color: #6ca5c1;
+    /* margin: 2% 0 1%; */
+    margin-bottom: 10px;
+}
+.contact{
+    margin: auto;
+    width: 70%;
+}
+h6{
+    /* font-family: LiberGrotesqueFamily; */
+    font-weight: 600;
+    color: #7a7f81;
+    font-size: 15px;
+}
+.contain-btn {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    margin-top: 4%;
+}
+.btn-wp{
+    border: 1px solid #6ca5c1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #7a8081;
+}
+.btn-mail{
+    border: 1px solid #6ca5c1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #7a8081;
+}

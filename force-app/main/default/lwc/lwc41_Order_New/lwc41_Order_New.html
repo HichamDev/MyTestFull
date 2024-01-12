@@ -1,0 +1,58 @@
+<template>
+    
+    <template if:true={displayButton}>
+        <div class="contain-btn">
+            <template if:false={isContentieux}>
+                <button class="btn-order" onclick={handleClickButtonNew} >{labels.lbl_OrderNew}</button>
+                <template if:true={isITA}>
+                    &nbsp;&nbsp;
+                    <button class="btn-order" onclick={handleClickButton} >{buttonLabel}</button>
+                </template>
+            </template>
+            <template if:true={isContentieux}>
+                <button class="btn-order-disabled" onclick={handleClickButtonNew} disabled>{labels.lbl_OrderNew}</button><br/><br/>
+                <span class="badDebtMessage">
+                    <template for:each={label_bad_debt_message} for:item=mess>
+                        {mess} <br key={mess}/>
+                    </template>
+                    {labels.lbl_bad_debt_message}
+                </span>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={displayPopUp}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+
+            <div class="slds-modal__container modal-custom">   
+    
+                <header class="slds-modal__header">
+    
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_Postal_Payment}</h2>
+    
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleClosePopUp}>
+                        <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                </header>  
+
+                <div class="slds-modal__content slds-p-around_medium" >
+                    Grazie per aver utilizzato il servizio di bollettino self-service. Riceverai a breve sul tuo indirizzo email copia del bollettino generato con l’importo da te indicato
+                </div>
+
+                <div class="slds-modal__content slds-p-around_medium inputAmount" >
+                    <input type="number" name="amount" value={amount} step="any" onchange={handlechangeAmount}/>
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <button class="btn-primary" onclick={handleSendEmail}>OK</button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>

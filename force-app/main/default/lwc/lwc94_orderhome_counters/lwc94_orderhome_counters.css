@@ -1,0 +1,40 @@
+.banner-discount_list{
+    display: flex;
+    color: #ffffff;
+    background: #6b0062;
+    padding: 12px 80px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.order_home_counters{
+    border: 1px solid #396F8A; 
+    margin-right: 5px; padding: 3px; 
+    display: inline-block; 
+    min-width: 43px;
+}
+
+.tooltip {
+    color: black !important;
+    position: relative;
+    display: inline-block !important;
+    border-bottom: 1px dotted black;
+}
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #3c6f8a;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

@@ -1,0 +1,114 @@
+<template>
+
+    <a onclick={showData}>
+        {labels.lbl_MyManager}
+    </a>
+
+    <template if:true={displayPopover}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container modal-custom">     
+                <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_MyManager}</h2>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={showData}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                    <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <p class="name">{manager.FirstName} {manager.LastName} ({manager.Title})</p>
+                <p class="email">{manager.Email}</p>
+                <p class="phone hideOnMobile">{manager.MobilePhone}</p>
+                <p class="phone hideOnDesktop"><a href={linkPhone} class="phoneLink">{manager.MobilePhone}</a></p>
+                <template if:false={isFRA}>
+                    <p class="locate">{manager.MailingStreet}</p>
+                </template>
+                <p class="locate">{manager.MailingPostalCode} {manager.MailingCity}</p>
+                <div class="icons">
+                    <template if:true={displayWhatsAppButton}>
+                        <img onclick={showWhatsApp} src={btn_whatsapp} alt="">
+                    </template>
+                    <img src={contact_mail} onclick={showEmailForm} >
+                    <!-- <img src={contact_tel} alt=""> -->
+                </div>
+                </div>
+            </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- <template if:true={displayPopover}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header hideHeader">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={showData}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                </header>
+                
+                <div class="container-manager">
+                    <br/>
+                    <h3>{labels.lbl_MyManager}</h3>
+                    <div class="contact">
+                        <div class="title-contact">
+                            <p>{manager.FirstName} {manager.LastName} ({manager.Title})</p><br>
+                            <p class="blue" ><a src={contact_mail}>{manager.Email}</a></p><br>
+                            <p class="blue">{manager.MobilePhone}</p><br> -->
+                            <!-- <template if:true={displayFB}>
+                                <p class="blue">{manager.LU_Facebook_URL__c}</p><br>
+                            </template> -->
+                        <!-- </div>
+                        <div class="icon-contact"> -->
+                            <!-- <img src={contact_mail} alt="">-->
+                            <!-- <br/><br/> 
+                            <a><img class="imgIcon" src={contact_mail} onclick={showEmailForm} style="width:35px;"></a><br>
+                            <img class="imgIcon" src={contact_tel} style="width:35px;"><br> -->
+                            <!-- <template if:true={displayFB}>
+                                <img class="imgIcon" src={contact_tel} style="width:35px;"><br>
+                            </template> -->
+                        <!-- </div>
+                    </div>
+                    <template if:false={isFRA}>
+                        <p>{manager.MailingStreet}</p>
+                    </template>
+                    <p>{manager.MailingPostalCode} {manager.MailingCity}</p> -->
+                    <!-- <br/> -->
+                    <!-- <div class="socials"> -->
+                        <!-- <img src={btn_facebook} alt="">
+                        <img src={btn_instagram} alt=""> -->
+                        <!-- <div class="slds-grid slds-grid_vertical-align-center txt-center" >
+                            <div class="slds-col slds-size_1-of-2">
+                                <span>
+                                    <template if:true={displayWhatsAppButton}>
+                                        <img src={btn_whatsapp} onclick={showWhatsApp}  />
+                                    </template>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <span>
+                                    <template if:true={displayFB}>
+                                        <a href={manager.LU_Facebook_URL__c} target="__blank"><img src={labels.lbl_Facebook_Icon}  /></a> -->
+                                        <!-- <p class="blue">{manager.LU_Facebook_URL__c}</p><br> -->
+                                    <!-- </template>
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template> -->
+
+    <template if:true={displayEmailForm}>
+        <c-lwc03_emailform open-email={displayEmailForm} oncloseemail={hideEmailForm} selected-from-list={selectedReady} selectedtargets={l_manager} hide-recipient-edition=true parent-component="managerInformations"></c-lwc03_emailform>
+    </template>
+
+    <template if:true={displayWhatsApp}>
+        <c-lwc42_communication_whatsapp onclosewhatsapp={hideWhatsApp} manager-mobile={manager.MobilePhone}></c-lwc42_communication_whatsapp>
+    </template>
+</template>

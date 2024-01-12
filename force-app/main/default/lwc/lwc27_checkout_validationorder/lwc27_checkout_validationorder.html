@@ -1,0 +1,62 @@
+<template>
+    
+    <!-- LOADING -->
+    <div if:true={loading}>
+        <lightning-spinner size="medium" ></lightning-spinner>
+        <br/>
+        {labels.lbl_txtInProgress}
+    </div>
+
+
+    <div if:false={loading}>
+
+        <!-- ORDER OK -->
+        <div if:true={orderValidated}>
+            
+        </div>
+            
+        <!-- ORDER KO -->
+        <div if:false={orderValidated} class="page-error-message">
+            {labels.lbl_orderIsKo}
+            <br/>
+            {error}
+        </div>
+
+
+    </div>
+
+
+    <!-- STOCK - POPUP FOR STOCK MANAGEMENT -->
+    <template if:true={displayPopUpStock}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_Stock_Title}</h2>
+                </header>
+                
+                <!-- BODY -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    {labels.lbl_Stock_Popup_Msg}
+                    <br/>
+                    <ul>
+                        <template for:each={lOffersWithProblem} for:item="offer">
+                            <li key={offer}>- {offer}</li>
+                        </template>
+                    </ul>
+                </div>
+                
+                <!-- FOOTER -->
+                <footer class="slds-modal__footer">
+                    <lightning-button label={labels.lbl_Stock_ButtonUpdate} variant="brand" onclick={goBackToOrder}></lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+
+</template>

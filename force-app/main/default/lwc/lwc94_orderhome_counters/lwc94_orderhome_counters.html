@@ -1,0 +1,23 @@
+<template>
+    <template if:true={isFRA}>
+        <div style="text-align: end; color: #042B60;">
+            <span class="order_home_counters" >{smartPTS}</span>
+            <span style="margin-right: 15px">{labels.lbl_Counters_SMARTS}
+                <template if:true={smartPTSDisplayInfoMessage}>
+                    <span class="tooltip">? 
+                        <span class="tooltiptext">{smartPTSDesc}</span>
+                    </span>
+                </template>
+            </span>
+            <span class="order_home_counters">{hotesse}</span>
+            <span >{labels.lbl_Counters_PTS_HOTESSE}
+                <template if:true={hotesseDisplayInfoMessage}>
+                    <span class="tooltip">? 
+                        <span class="tooltiptext">{hotesseDesc}</span>
+                    </span>
+                </template>
+            </span>
+        </div>
+    </template>
+    
+</template>

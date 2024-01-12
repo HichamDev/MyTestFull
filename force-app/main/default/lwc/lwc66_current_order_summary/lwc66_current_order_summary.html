@@ -1,0 +1,110 @@
+<template>
+
+    
+
+    <div class="order-list">
+
+        <div class="order-list_title">
+
+            <h2 class="title-order">{labels.LU_Order_Tab_Summary_Title}</h2>
+            <!-- <div class="order-choice">
+                <label for="s1d" class="f-label">Digital</label>
+                <input id="s1d" type="checkbox" class="switch">
+                <label for="s1d" class="l-label">Fast</label>
+            </div> -->
+        </div>
+        
+            <div class="order-list_container">
+                <template if:true={isDraftOrder}>
+                    <h3 class="draft-title">{labels.LU_Order_Tab_Summary_CurrentOrder_Title}</h3>
+                    <div class="order-item current-order">
+                        <div class="order-item_details" onclick={goToOrder} data-id={order.Id}>
+                            <p>{order.Name}</p>
+                            <p><lightning-formatted-date-time key={order} value={order.CreatedDate} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time></p>
+                            <p><lightning-formatted-date-time key={order} value={order.CreatedDate} hour="2-digit" minute="2-digit"></lightning-formatted-date-time></p>
+                            <p><lightning-formatted-number value={order.TotalAmount} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number> €</p>
+                        </div>
+                        <a class="btn-secondary" style="margin-left: 10px;" href="#" onclick={goToCheckout} >{labels.LU_Order_Tab_Summary_CurrentOrder_CheckoutButton}</a>
+                    </div>
+                </template>
+
+                <template if:true={displayWishlist}>
+                    <h3 class="draft-title">{labels.lbl_wishlist_list_title}</h3>
+
+                    <!-- PAGINATION -->
+                    <div class="slds-grid slds-grid_vertical-align-center margin-actions pagination-container" style="float: right;">
+                        <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+                        <button class="slds-button slds-button_icon"  onclick={firstPage}>
+                            <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                            <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                            </svg>
+                        </button> &nbsp;
+                        
+                        <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                        <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                        <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+                    </div>
+
+                    <template for:each={l_wishlistToDisplay} for:item="ord">
+                        <div key={ord} class="order-item" >
+                            <div class="order-item_details">
+                                <table class="order-item_details-table">
+                                    <tr>
+                                        <td style="width: 20%"><p>{ord.Name}</p></td>
+                                        <td style="width: 20%"><p if:true={ord.LU_Online_Customer__r}>{ord.LU_Online_Customer__r.FirstName} {ord.LU_Online_Customer__r.LastName}</p></td>
+                                        <td style="width: 15%"><a data-id={ord.Id} onclick={goToOrder}><img src={iconEdit} alt="" data-id={ord.Id} />{labels.lbl_wishlist_button_complete}</a></td>
+                                        <td style="width: 15%"><a if:true={ord.OrderItems} data-id={ord.Id} onclick={deleguerSelectedWishlist}><img src={iconFlip} alt="" />{labels.lbl_wishlist_button_delegate}</a></td>
+                                        <td style="width: 15%"><a data-id={ord.Id} onclick={displayDeletePopover} ><img src={iconDelete} alt="" />{labels.lbl_wishlist_button_close}</a></td>
+                                        <td style="width: 15%"><p>{ord.TotalAmount}€</p></td>
+                                        <!-- <td style="width: 10%"><p class={ord.TECH_Formula_CSS_Status__c}>{ord.Status}</p></td> -->
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--<a class="btn-secondary" data-id={ord.Id} onclick={validateWishlist}>Accept</a>-->
+                        </div>
+                    </template>
+                </template>
+                <!-- <div class="btn-center">
+                    <a href="#" class="btn-primary" onclick={goToCheckout}>{labels.LU_Order_Tab_Summary_CurrentOrder_CheckoutButton}</a>
+                </div> -->
+            </div>
+        
+        <template if:false={isDraftOrder}>
+            <c-lwc41_-order_-new ></c-lwc41_-order_-new>
+        </template>
+
+    </div>
+
+    <template if:true={displayPopoverDeletion}>
+        <!-- ORDER : Modal delete -->
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <span>wishlist deletion</span>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={labels.lbl_Close} onclick={handleCloseDeletePopover}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+                    Voulez-vous vraiment clôturer cette wishlisht ?
+                    <br/><br/>
+                    <lightning-button variant="brand" label="Oui" title="Oui" data-id={idWishlistToDelete} onclick={cloturerSelectedWishlist} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="Non" title="Non" onclick={handleCloseDeletePopover} class="slds-m-left_x-small"></lightning-button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Send SMS to test Sinch Templates" icon-name="custom:custom63">
+        <div class="slds-m-around_medium">
+            <p class="slds-m-bottom_small">
+                <lightning-button label="Send tests SMS" onclick={handleSendTestSMS}></lightning-button>
+            </p>
+            <template if:true={result}>
+                {result}
+            </template>
+            <template if:true={error}>
+                {error}
+            </template>
+        </div>
+    </lightning-card>
+</template>

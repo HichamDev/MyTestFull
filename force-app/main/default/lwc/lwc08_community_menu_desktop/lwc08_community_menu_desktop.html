@@ -1,0 +1,63 @@
+<template>
+  <template if:false={hideHeader}>
+    <div class="backgroundPrimaryColor body desktop">
+
+      <!-- NAVIGATION BAR -->
+      <span class="middleButtonsContainer">
+
+        <template if:true={mainmenu}>
+
+          <template for:each={mainmenu} for:item="item">
+            <template if:false={item.isSelected}>
+              <a data-id={item.label} onclick={selectLink} key={item.label} role="button" class="slds-button item slds-m-right_xx-large" href={item.link} target={item.target}> <!--slds-button item slds-m-right_xx-large-->
+                <img class="icon" src={item.icon} />
+                <span class="caption">{item.label}</span>
+              </a>
+            </template>
+
+            <template if:true={item.isSelected}>
+              <a data-id={item.label} onclick={selectLink} key={item.label} role="button" class="slds-button item slds-m-right_xx-large selectedMenu" href={item.link} target={item.target}> <!--slds-button item slds-m-right_xx-large-->
+                <img class="icon" src={item.icon}/>
+                <span class="caption" style="color: #3c6f8a;">{item.label}</span>
+              </a>
+            </template>
+
+          </template>
+
+        </template>
+
+        <template if:false={mainmenu} >
+            <a role="button" class="slds-button item slds-m-right_xx-large" >
+                <span class="caption"> </span>
+              </a>
+        </template>
+        
+      </span>
+
+      <!-- BURGER MENU -->
+      <span class="menuContainer">
+
+        <lightning-button-menu
+          alternative-text="Toggle menu"
+          icon-name="utility:rows"
+          menu-alignment="right"
+          variant="container"
+          >
+          
+          <!-- BURGER LINKS -->
+          <template if:true={burgerlinks} >
+            <template for:each={burgerlinks} for:item="link">
+              <lightning-menu-item key={link.label} label={link.label} href={link.link} target={link.target}></lightning-menu-item> 
+            </template>
+          </template>
+          <!-- / BURGER LINKS -->
+
+        </lightning-button-menu
+        ><br />
+        Menu
+      </span>
+
+    </div>
+
+  </template>
+</template>

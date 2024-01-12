@@ -1,0 +1,20 @@
+<template>
+    <template if:true={currentuser}>
+        <div>
+            <!-- <img src={currentuser.SmallPhotoUrl} alt="" /> -->
+        </div>
+        <div class="content-detail">
+            <div class="info-user">
+                <p><strong>{currentuser.FirstName} {currentuser.LastName}</strong></p>
+                <p class="info">{labels.field_sthid} <span>{currentuser.STHID__c}</span></p>
+                <p class="info">{labels.field_email} <span>{currentuser.Email}</span></p>
+                <template if:true={displayEshopUrl}>
+                    <p class="info">{labels.lbl_label_eshopurl} <span><a class="urlEshopLink" href={currentuser.Contact.LU_Personal_URL__c}>{currentuser.Contact.LU_Personal_URL__c}</a></span>
+                        &nbsp;&nbsp;
+                        <span class="copyToclipboard" onclick={copyToClipboard}><a><lightning-icon icon-name="utility:copy" alternative-text="Copy!" title="Copy" size="small"></lightning-icon></a></span>
+                    </p>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

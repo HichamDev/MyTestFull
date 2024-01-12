@@ -1,0 +1,136 @@
+<template>
+    <template if:true={isComponentDisplayed}>
+        <div class="order-list">
+            <div class="order-list_title">
+                <h2 class="title-order">
+                    <img src={iconShipping} style="left: 0; margin-right: 10px;width: 30px;"/>
+                    {labels.lbl_selectShipping}
+                </h2>
+            </div>
+            <div class="order-list_container">
+                <template for:each={l_shippingMode} for:item="shipMode" > <!--if:true={isOpen}-->
+                    <template if:true={shipMode.isStandard}>
+                        <div key={shipMode} ><!--class="select-delivery box"-->
+                            <div class="home-delivery">
+                                <div class="choice">
+                                    <input data-id="r1" type="radio" name="radio" value="1" onclick={hideNewAdressForm} checked={currentAdress} disabled={isSelectable}>
+                                    <label style="font-size: 14px;" for="r1">{labels.lbl_homeDelivery} <span class="shippingFees">({standardShippingFees})</span></label>
+                                </div>
+                                <div class="home-item">
+                                    <p>{contactMailingStreet}</p>
+                                    <p>{contactMailingPostalCode}</p>
+                                    <p>{contactMailingCity}</p>
+                                </div>
+                            </div>
+                            <div class="new-adress">
+                                <div class="choice">
+                                    <input data-id="r2" type="radio" name="radio" value="2" onclick={showNewAdressForm} checked={newAdress} disabled={isOtherAddressSelectable}>
+                                    <label style="font-size: 14px;" for="r2">{labels.lbl_newAdressDelivery} <span class="shippingFees">({standardShippingFees})</span></label>
+                                </div>
+                                <template if:true={displayRecipientChoice}>
+                                    <div class="recipientButtonContainer">
+                                        <button class="btn" value="forMe" onclick={setRecipient}>
+                                            Pour moi
+                                        </button>
+                                        <button class="btn" value="forClient" onclick={setRecipient}>
+                                            Pour un client
+                                        </button>
+                                    </div>
+                                    <lightning-formatted-rich-text value={labels.lbl_textDoc}></lightning-formatted-rich-text>
+                                </template>
+                                <template if:true={displayNewAdressForm}>
+                                    <div class="na-container">
+
+                                        <template if:true={displayValidatedText}>
+                                            <template if:true={isFRA}>
+                                                <span class="recipientText">{recipientText}</span> <br/><br/>
+                                            </template>
+                                        <lightning-formatted-rich-text value={txtExceptionnalAddress} ></lightning-formatted-rich-text>
+                                        </template>
+                                        <template if:false={displayValidatedText}>
+                                            <!-- <template if:true={displayExceptionnalAdressPrefix}>
+                                                <br/>
+                                                <div class="fieldPrefix">{labels.lbl_fieldPrefix}</div>
+                                                <br/>
+                                            </template> -->
+                                            <div class="i-c">
+                                                <!-- <template if:false={isFRA}> -->
+                                                    <template if:true={displayExceptionnalAdressPrefix}>
+                                                        <input type="text" placeholder={prefixAndLastName} onchange={setLastName} required disabled={disabledNewAddressFields}>
+                                                    </template>
+                                                    <template if:false={displayExceptionnalAdressPrefix}>
+                                                        <input type="text" placeholder={labels.lbl_fieldLastname} onchange={setLastName} required disabled={disabledNewAddressFields}>
+                                                    </template>
+                                                    <input type="text" placeholder={labels.lbl_fieldFirstname} onchange={setFirstName} required disabled={disabledNewAddressFields}>
+                                                <!-- </template>
+                                                <template if:true={isFRA}>
+                                                    <input type="text" placeholder="Nom, prénom à renseigner*" onchange={setLastName} disabled={disabledNewAddressFields}>
+                                                </template> -->
+                                            </div>
+                                            <div class="i-c">
+                                                <input type="text" placeholder={labels.lbl_fieldStreet} onchange={setStreet} required disabled={disabledNewAddressFields}>
+                                            </div>
+                                            <template if:true={isITA}>
+                                                <div class="i-c">
+                                                    <input type="text" placeholder={labels.lbl_fieldStreetComplement} onchange={setStreetComplement} disabled={disabledNewAddressFields}>
+                                                </div>
+                                            </template>
+                                            <div class="i-c">
+                                                <input type="text" placeholder={labels.lbl_fieldPostalCode} onchange={setPostalCode} required disabled={disabledNewAddressFields}>
+                                                <input type="text" placeholder={labels.lbl_fieldCity} onchange={setCity} required disabled={disabledNewAddressFields}>
+                                            </div>
+                                            <div class="i-c">
+                                                <input type="text" value={country} onchange={setCountry} disabled>
+                                            </div>
+                                            <template if:true={isITA}>
+                                                <div class="i-c">
+                                                    <input type="text" placeholder={labels.lbl_fieldAddedInformations} onchange={setAddedInformations} disabled={disabledNewAddressFields}>
+                                                </div>
+                                            </template>
+                                            <template if:true={isFRA}>
+                                                <div class="i-c">
+                                                    <input type="text" placeholder={labels.lbl_fieldAddedInformations} onchange={setAddedInformations} required disabled={disabledNewAddressFields}>
+                                                </div>
+                                            </template>
+                                            <template if:true={displaySaveNewAdressButton}>
+                                                <a class="btn-primary" href="#" onclick={saveNewAdressForm}>{labels.lbl_save}</a>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={shipMode.isExternal}>
+                        <div key={shipMode} class="relay"> <!---->
+                            <div class="choice">
+                                <input id={shipMode.Id} type="radio" name="radio" value="1" onclick={clickExternalMode} checked={externalMode} disabled={isExternalModeSelectable} >
+                                <label style="font-size: 14px;" for={shipMode.Id}>{labels.lbl_relayPointDelivery} <span class="shippingFees">({externalShippingFees})</span></label>
+                            </div>
+
+                            <template if:true={displayExternal}>
+                                <template if:true={displayValidatedText}>
+                                    <lightning-formatted-rich-text value={txtRelaisPoint} ></lightning-formatted-rich-text>
+                                </template>
+                                <template if:false={displayValidatedText}>
+                                    <c-lwc67_checkout_shipping_relaiscolis adress={order.BillToContact.MailingStreet} city={order.BillToContact.MailingCity} 
+                                            postal-code={order.BillToContact.MailingPostalCode} 
+                                            phone={order.BillToContact.MobilePhone}
+                                            disabled={isSelectable}
+                                            selectedshipping-mode={shipMode}
+                                            isfree={isFreeDelivery}></c-lwc67_checkout_shipping_relaiscolis>
+                                </template>
+                            </template>
+
+                        </div>
+                    </template>
+                </template>   
+
+            </div>
+
+            <a class="btn-primary" style="margin-top: 10px;" onclick={saveShipping} if:true={isOpen}>{labels.lbl_saveShippingSelected}</a>
+
+        </div>
+    </template>
+</template>

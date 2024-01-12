@@ -1,0 +1,27 @@
+<template>
+    
+    <div class="slds-grid">
+        
+        <!-- TITLE -->
+        <div class="slds-col slds-size_6-of-12">
+          <span>
+                <template if:true={isCustomer}>
+                    <div class="title-list">{labels.lbl_Title_Customer}</div>
+                </template>
+                <template if:true={isMyTeam}>
+                      <div class="title-list">{labels.lbl_Title_Team}</div>
+                </template>
+            </span>
+        </div>
+        
+        <!-- SWITCH -->
+        <div class="slds-col slds-size_6-of-12">
+          <span>
+              <c-lwc14_-contact_-switch ></c-lwc14_-contact_-switch>
+          </span>
+        </div>
+        
+        
+      </div>
+
+</template>

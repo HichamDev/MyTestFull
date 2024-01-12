@@ -1,0 +1,40 @@
+/* Stock */
+/* top of the page messages */
+.page-error-message{
+    background: #FF3D61;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-top: 16px;
+    width: fit-content;
+}
+.page-error-message img{
+    filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(81deg) brightness(106%) contrast(106%);
+}
+.s-container{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+}
+.btn-primary-validate{
+    display: flex;
+    float: right;
+    justify-content: center;
+    max-width: 320px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    background: #042B60;
+    border-radius: 4px;
+    padding: 10px 16px;
+}
+@media (max-width: 600px) {
+    .btn-primary-validate{
+        margin-bottom: 24px;
+    }
+}

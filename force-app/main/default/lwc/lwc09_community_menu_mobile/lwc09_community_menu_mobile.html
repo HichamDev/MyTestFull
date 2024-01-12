@@ -1,0 +1,39 @@
+<template>
+
+    <template if:false={hideFooter}>
+        <nav class="container-menu">
+
+            <template if:true={mainmenu}>    
+                <template for:each={mainmenu} for:item="item">
+                    <div class="container-menu_item" key={item.label}>
+                        <a key={item.label} href={item.link} target={item.target}>
+                            <img class="iconMenu" src={item.icon} >
+                        </a>
+                    </div>
+                </template>
+        
+            </template>
+
+            <!-- BURGER -->
+
+            <span class="buttonContainer">
+                
+                <lightning-button-menu
+                    alternative-text="Toggle menu"
+                    icon-name="utility:rows"
+                    menu-alignment="bottom-right"
+                    variant="container"
+                >
+                    <!-- BURGER LINKS -->
+                    <template if:true={burgerlinks} >
+                        <template for:each={burgerlinks} for:item="link">
+                            <lightning-menu-item key={link.label} label={link.label} href={link.link} ></lightning-menu-item> 
+                        </template>
+                    </template>
+                    <!-- / BURGER LINKS -->
+
+                </lightning-button-menu>
+            </span>
+        </nav>
+    </template>
+</template>

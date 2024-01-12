@@ -1,0 +1,46 @@
+.map {
+    height : 400px;
+}
+
+.map h2{
+    background: none;
+    padding: 0px 0px 0px 10px;
+}
+
+.accordion {
+    height: 400px !important;
+    overflow: overlay;
+    width: 111%;
+}
+
+.slds-coordinates{
+    background: none;
+    padding: 0px 0px 0px 10px;
+}
+
+/** Titres des sections accordion **/
+span .slds-truncate {
+    font-size: small;
+    white-space: pre-line !important;
+}
+
+/** Intérieur des sections **/
+p {
+    font-size: smaller;
+}
+
+/** Bouton sélectionner dans les sections **/
+div .slds-accordion__content {
+    margin-bottom: 30px;
+}
+
+lightning-button{
+    font-size: smaller;
+    margin-right: 12px;
+    margin-top: 5px;
+}
+
+/** dans la map **/
+h4 {
+    margin: 0px;
+}

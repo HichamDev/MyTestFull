@@ -1,0 +1,73 @@
+<template>
+    
+    <template if:true={record}>
+
+        <div class="slds-grid">
+
+             <!-- RECORD NAME -->
+             <div class="slds-col slds-size_6-of-12">
+                <span>
+
+                    <div class="slds-text-heading_large">
+                        {record.fields.FirstName.value} {record.fields.LastName.value}
+                    </div>
+
+                </span>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="slds-col slds-size_6-of-12">
+                <span>
+
+                    <template if:true={isCustomer}>
+                        
+                        <lightning-button-group>
+                            <lightning-button variant="brand" label={labels.lbl_Customer_Edit} title={labels.lbl_Customer_Edit} onclick={handleEditCustomerOpen} class="slds-m-left_x-small"></lightning-button>
+                        </lightning-button-group>
+                        
+                        <c-lwc27_deletecontact selectedcontact-id={recordId} ></c-lwc27_deletecontact>
+
+                    </template>
+
+                </span>
+            </div>
+
+        </div>
+
+    </template>
+    
+
+    <!-- ACTIONS HANDLING -->
+    <!-- MODAL WITH FORM -->
+    <template if:true={openEditCustomer}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={labels.lbl_Close} onclick={handleEditCustomerClose}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{labels.lbl_Customer_Edit} {record.fields.FirstName.value} {record.fields.LastName.value}</h2>
+                </header>
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <c-lwc12_-end-customer_-form mode="edit" 
+                            customerid={recordId}
+                            oncloseendcustomerform={handleEditCustomerClose} ></c-lwc12_-end-customer_-form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+
+</template>

@@ -1,0 +1,43 @@
+<template>
+        <template if:true={associatedContact}>
+            <div class="content-detail">
+                <div class="info-user">
+                    <p></p>
+                    <template if:true={contactObj}>
+                        <template if:true={isFRA}>
+                            <p class="info">{contactObj.fields.NbOrderForCurrentComCycle__c.label}&nbsp;:&nbsp;<span>{associatedContact.NbOrderForCurrentComCycle__c}</span></p>
+                            <template if:false={isNewOrderTunnel}>
+                                <p class="info">{contactObj.fields.LastOrderDate__c.label}&nbsp;:&nbsp;<span><lightning-formatted-date-time value={associatedContact.LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                            </template>
+                            <template if:true={isNewOrderTunnel}>
+                                <p class="info">{contactObj.fields.LastOrderDate__c.label}&nbsp;:&nbsp;<span><lightning-formatted-date-time value={associatedContact.LU_LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                            </template>
+                            <!-- <p class="info">{contactObj.fields.MinOrderFreeTransportFees__c.label}&nbsp;:&nbsp;<span><lightning-formatted-number value={associatedContact.MinOrderFreeTransportFees__c} format-style="currency" currency-code="EUR"></lightning-formatted-number></span></p> -->
+                            <p class="info">{contactObj.fields.AllowedPaymentMode__c.label}&nbsp;:&nbsp;<span>{associatedContact.AllowedPaymentMode__c}</span></p>
+                        </template>
+
+                        <template if:true={isITA}>
+                            <p class="info">{labels.lbl_label_totalsales}&nbsp;<span><lightning-formatted-number value={associatedContact.Turnover_Current_Period__c} format-style="currency" currency-code="EUR"></lightning-formatted-number></span></p>
+                            <!-- <p class="info">{labels.lbl_label_commisionrate}&nbsp;<span><lightning-formatted-number value={pctCommision} format-style="percent"></lightning-formatted-number></span></p> -->
+                            <!-- <p class="info">{labels.lbl_label_currentCommercialPeriod}&nbsp;<span>{associatedContact.CurrentCommercialCycle__c}</span></p> -->
+                            <p class="info">{labels.lbl_label_numberorders}&nbsp;<span>{associatedContact.NbOrderForCurrentComCycle__c}</span></p>
+                            <!-- <p class="info">{labels.lbl_label_currentYearWeekPeriod}&nbsp;<span>{associatedContact.CurrentBusinessPeriod__c}</span></p> -->
+                            <p class="info">{labels.lbl_label_PersonalMsg}&nbsp;<span>{associatedContact.PersonalMessage__c}</span></p>
+                            <p class="info">{labels.lbl_label_MinOrder}&nbsp;<span><lightning-formatted-number value={associatedContact.MinOrder__c} format-style="currency" currency-code="EUR"></lightning-formatted-number></span></p>
+                            <p class="info">{labels.lbl_label_paymentmethod}&nbsp;<span>{associatedContact.AllowedPaymentMode__c}</span></p> <!--value={associatedContact.TransportFeesApplicable__c}-->
+                            <p class="info">{labels.lbl_label_TransportFeesApplicable}&nbsp;<span><input type="checkbox" id="baddept" name="baddept" checked={associatedContact.TransportFeesApplicable__c} disabled></span></p>
+                                <!-- <lightning-input type="checkbox" data-value="TransportFeesApplicable"  readonly></lightning-input> -->
+                            <p class="info">{labels.lbl_label_minifreetransport}&nbsp;<span><lightning-formatted-number value={associatedContact.MinOrderFreeTransportFees__c} format-style="currency" currency-code="EUR"></lightning-formatted-number></span></p>
+                            <template if:false={isNewOrderTunnel}>
+                                <p class="info">{labels.lbl_label_lastorderdate}&nbsp;<span><lightning-formatted-date-time value={associatedContact.LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                            </template>
+                            <template if:true={isNewOrderTunnel}>
+                                <p class="info">{labels.lbl_label_lastorderdate}&nbsp;<span><lightning-formatted-date-time value={associatedContact.LU_LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                            </template>
+                        </template>
+                    </template>
+                    
+                </div>
+            </div>
+        </template>
+    </template>

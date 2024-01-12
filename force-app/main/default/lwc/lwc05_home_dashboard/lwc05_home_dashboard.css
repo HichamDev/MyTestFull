@@ -1,0 +1,76 @@
+.isResizable {
+  display: flex;
+}
+  
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 3px solid #6ca5c3;
+  border-radius: 30px;
+  line-height: 18px;
+  font-size: 14px;
+  color: #6ca5c3;
+}
+
+.btn:hover{
+  background: #E3EDF2;
+}
+
+.donut-inner {
+  margin-top: -50px;
+  margin-bottom: 50px;
+}
+
+.dashboardContainer{
+  display: block;
+}
+
+.numberContainer{
+  display: inline-block;
+}
+
+.kip-container{
+  padding: 16px 24px;
+  border-radius: 8px;
+  background: #F7F7F7;
+}
+
+.slds-text-title_caps{
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #484848;
+  text-align: center;
+}
+
+.slds-text-heading_large{
+  display: block;
+  /* font-size: 42px;
+  line-height: 50px; */
+  font-weight: 300;
+  color: #484848;
+  text-align: center;
+}
+
+.kpiValue {
+  display: block;
+  /* font-size: 42px; */
+  /* line-height: 50px;
+  font-weight: 300; */
+  color: #484848;
+  text-align: center; 
+}
+
+.dashboard-container{
+  background: #F7F7F7;
+  border-radius: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+  /* font-size: 16px; */
+  line-height: 22px;
+}

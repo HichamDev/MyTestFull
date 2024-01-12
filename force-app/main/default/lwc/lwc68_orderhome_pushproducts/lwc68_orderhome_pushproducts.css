@@ -1,0 +1,64 @@
+.modal-custom{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+}
+
+.modal-custom .slds-modal__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0;
+    background: var(--lightBlue);
+    padding: 24px 60px;
+}
+.modal-custom .slds-modal__header h2{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--blue);
+    text-transform: uppercase;
+}
+.modal-custom .slds-icon{
+    max-height: 20px;
+}
+.modal-custom .slds-modal__close{
+    position: initial;
+}
+.modal-custom .slds-modal__footer{
+    display: flex;
+    justify-content: center;
+    border-top: 0;
+    padding: 24px 0;
+}
+.modal-custom .btn-primary{
+    border-radius: 4px;
+    background-color: var(--blue);
+    color: #fff;
+    max-width: 320px;
+    width: 100%;
+    font-size: 16px;
+    line-height: 50px;
+    border: none;
+}
+.modal-custom .slds-modal__content{
+    padding: 34px 60px;
+}
+.modal-custom p{
+    margin-bottom: 16px;
+}
+.modal-custom .name{
+    text-transform: uppercase;
+}
+.modal-custom img{
+    max-height: 32px;
+}
+.modal-custom img:not(:first-child){
+    margin-left: 16px;
+}
+.modal-custom .icons{
+    display: flex;
+    justify-content: center;
+}

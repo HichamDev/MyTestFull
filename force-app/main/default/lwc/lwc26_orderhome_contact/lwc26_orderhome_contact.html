@@ -1,0 +1,88 @@
+<template>
+
+    <!-- CATALOG INFORMATION -->
+    <template if:true={displayCatalogChoose} >
+        <div class='change-client-background'>
+        <div class="change-client">
+            <div class="change-client_infos">
+                <span>
+                    <img src={icon_catalog} style="width: 30px;margin-right: 10px;" />
+                    <b>{labels.lbl_CatalogSelected}</b> {catalogChoosed}
+                </span>
+            </div>
+        </div>
+        </div>
+    </template>
+
+    <br/>
+    <!-- CONTACT INFORMATION -->
+
+    <!-- IF A CONTACT IS SELECTED -->
+    <template if:true={contact}>
+        <div class='change-client-background'>
+        <div class="change-client">
+
+            <div class="change-client_infos">
+                <template if:true={contact.LU_TECH_ProfilePicture__c}>
+                    <img class="profile-picture" src={contact.LU_TECH_ProfilePicture__c}>
+                </template>
+                <template if:false={profilePhoto}>
+                    <img class="profile-picture" src={contact.LU_TECH_ProfilePicture__c}>
+                </template>
+                <span>{contact.FirstName} {contact.LastName}
+                </span>
+                
+            </div>
+            <!-- <template if:true={isFRA}> -->
+            <template if:true={displayButtonChangeContact}>
+                <button class="btn-change" onclick={handleClickChange}><img src={switchClient}> {labels.lbl_ContactChange}</button>
+            </template>
+            <!-- </template> -->
+            
+        </div>
+        <template if:true={hasTheRightToOrderOnBehalfOf} >
+            <div if:true={isShowPaymentWarning}>
+                <br />
+                {contact.PersonalMessage__c}
+            </div>
+        </template>
+        </div>
+    </template>
+
+    <!-- IF A CONTACT IS NOT SELECTED -->
+    <template if:false={contact}>
+        <div class='change-client-background'>
+        <div class="change-client">
+            <template if:false={noContactBasket}>
+                <div class="change-client_infos">
+                    <span>{labels.lbl_ContactNotSelected}
+                        
+                    </span>
+                </div>
+            </template>
+            <template if:true={noContactBasket}>
+                <div class="change-client_infos">
+                    <span>
+                        {labels.lbl_NoContactBasket}
+                    </span>
+                </div>
+            </template>
+            <template if:true={displayButtonChangeContact}>
+                <button class="btn-change" onclick={handleClickChange}><img src={switchClient}>{labels.lbl_ContactChange}</button>
+            </template>
+        </div>
+        </div>
+    </template>
+
+
+    <!-- MODAL FOR CONTACT SELECTION -->
+    <template if:true={openSelection}>
+
+        <c-lwc26_orderhome_selectcontact 
+                onselectcontact={handleContactSelection} 
+                onclosecontactselection={handleCloseContactSelection}
+        ></c-lwc26_orderhome_selectcontact>
+
+    </template>
+
+</template>

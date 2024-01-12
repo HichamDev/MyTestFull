@@ -1,0 +1,110 @@
+<template>
+
+    <!-- <input type="text" onchange={changeSearchTerms} >
+    <a class="btn-primary" onclick={search}>Rechercher</a><br/> -->
+
+    <div class="lineup-colors">
+
+        <div class="searchInfo">
+            <span >{label.Colissimo_Header_Search} : &nbsp;</span>
+            <span>{orderStreet}</span>
+        </div>
+        <br/>
+        <div class="point-selected_container">
+            <span class="pointSelected">
+                {label.LU_Checkout_Shipping_External_PointSelected}
+            </span>
+            <template if:true={isPointSelected}>
+                {PointSelected.nom}
+            </template>
+        </div>
+        <br />
+        <div class="slds-grid slds-gutters" style="width: 100%;">
+
+        <div class="slds-col slds-size_1-of-3" >
+
+            <lightning-accordion active-section-name={activeSections} onsectiontoggle={handleSectionToggle} class="accordion">
+                <template for:each={listmapMarkers} for:item="pt">
+                    <lightning-accordion-section key={pt.value} name={pt.value} label={pt.value}>
+                        <p>{pt.title}</p>
+                        <p>{pt.location.Street}</p>
+                        <p>{pt.location.PostalCode} {pt.location.City}</p>
+                        <p style="text-align: end;margin-right: 20px;" if:false={disabled}>
+                            <button class="btn" key={pt.value} value={pt.value} title={label.select} onclick={handleclick} disabled={disabled}>{label.select}</button>
+                        </p>
+                        <!-- <lightning-button key={pt.value} label={label.select} value={pt.value} title={label.select} style="float: right;display:block;" onclick={handleclick}></lightning-button> -->
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+
+        </div>
+
+        <div class="slds-col slds-size_2-of-3" style="margin-left: 10px;">
+
+            <lightning-map
+                class="map"
+                map-markers={mapMarkers}
+                center={center}
+                markers-title={markersTitle}
+                show-footer={showFooter}
+                list-view="hidden"
+                onmarkerselect={handleMarkerSelect}
+                selected-marker-value={selectedMarkerValue}
+                >
+            </lightning-map>
+
+            </div>
+
+        </div>
+
+        <!-- FROM ANOTHER ADDRESS-->
+        <div class="slds-grid slds-gutters" style="width: 100%;">
+            
+            <div class="slds-col slds-size_1-of-3" >
+                <span class="pointSelected" onclick={handleOpenAnotherAddress}>
+                    <template if:true={openAnotherAddress}>
+                        <lightning-icon icon-name="utility:chevrondown" size="x-small" ></lightning-icon>
+                    </template>
+                    <template if:false={openAnotherAddress}>
+                        <lightning-icon icon-name="utility:chevronright" size="x-small" ></lightning-icon>
+                    </template>
+                    &nbsp;{label.LU_Checkout_Shipping_External_AroundAnotherAddress}
+                </span>
+            </div>
+            <div class="slds-col slds-size_2-of-3" if:true={openAnotherAddress}>
+
+                <div class="i-c">
+                    <input type="text" onkeyup={changeAnotherAddressStreet} placeholder={label.LU_Checkout_Shipping_External_AroundAnotherAddress_Street} required>
+                </div>
+                <div class="i-c">
+                    <input type="text" onkeyup={changeAnotherAddressPostalCode} placeholder={label.LU_Checkout_Shipping_External_AroundAnotherAddress_PostalCode} required>
+                </div>
+                <div class="i-c">
+                    <input type="text" onkeyup={changeAnotherAddressCity} placeholder={label.LU_Checkout_Shipping_External_AroundAnotherAddress_City} required>
+                </div>
+                
+                <button class="btn" onclick={handleClickSearchAnotherAddress} disabled={disabled}>
+                    {label.LU_Checkout_Shipping_External_AroundAnotherAddress_Search}
+                </button>
+   
+            </div>
+
+        </div>
+
+
+        <div class="slds-grid slds-gutters" style="width: 100%;">
+
+            <div class="slds-col slds-size_1-of-1" >
+
+                <span class="pointSelected">{label.LU_Checkout_Shipping_External_Mobile}</span>
+                <div class="i-c">
+                    <input type="phone" value={phone} onkeyup={changePhoneNumber} required >
+                </div>
+                
+            </div>
+
+        </div>
+    
+    </div>
+
+  </template>

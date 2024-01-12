@@ -1,0 +1,12 @@
+<template>
+    <div class="unsubscribe-container">
+        <h2>{labels.lbl_UnsubTitle}</h2>
+        <span>{labels.lbl_UnsubTextIntro}</span>
+        <div class="u-input">
+            <label for="email">Email :</label>
+            <input type="email" id="email" disabled value={conEmail} />
+        </div>
+        <button title={labels.lbl_Unsub} onclick={handleUnsub}>{labels.lbl_Unsub}</button>
+        <p>{msg}</p>
+    </div>
+</template>

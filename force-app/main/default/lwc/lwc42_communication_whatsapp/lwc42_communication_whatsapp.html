@@ -1,0 +1,27 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={label.lbl_Close} onclick={close}>
+                    <lightning-icon icon-name="utility:close" size="medium">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">{label.lbl_Close}</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{label.lbl_Title}</h2>
+            </header>
+
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-textarea value={messageContent} onchange={updateMessageContent} class="messageInput"></lightning-textarea>
+            </div>
+
+            <footer class="slds-modal__footer">
+                <lightning-formatted-url value={label.lbl_PolicyLink} label={label.lbl_PolicyLabel} target="_blank" ></lightning-formatted-url>&nbsp;&nbsp;&nbsp;&nbsp;
+                <lightning-button label={label.lbl_Close} variant="neutral" onclick={close}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <lightning-button label={label.lbl_Send} variant="brand" onclick={send}></lightning-button>
+            </footer>
+        </div>
+    </section>
+
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

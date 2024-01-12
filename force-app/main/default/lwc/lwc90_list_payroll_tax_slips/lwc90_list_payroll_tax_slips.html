@@ -1,0 +1,13 @@
+<template>
+
+    <!-- <iframe key={payroll} src={downloadURL}></iframe> -->
+
+    <div class="myTablePayroll">
+        <lightning-datatable
+                key-field="contentDocumentID"
+                data={l_payrollTaxList}
+                columns={columns}>
+        </lightning-datatable>
+    </div>
+    
+</template>

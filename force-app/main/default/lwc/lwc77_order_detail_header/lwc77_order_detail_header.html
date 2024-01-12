@@ -1,0 +1,74 @@
+<template>
+
+    <template if:true={ord}>
+
+        <div class="order-list">
+
+            <div class="order-list_title" style="flex-wrap: wrap;">
+    
+                <h2 class="title-order">
+                    {ord.Name}
+                    <span if:true={showOrderType}>
+                      &nbsp;&nbsp;&nbsp;{labels.lbl_Wishlist_title}
+                    </span>
+                </h2>
+                <span class="status">
+                  {ord.Status}
+                </span>
+            </div>
+    
+            <div class="order-list_container" style="padding-bottom: 0">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-2">
+                      <span class="elem">
+                        <span class="label">
+                            {orderFieldEffectiveDate}
+                          </span>
+                          <span class="value">
+                            <lightning-formatted-date-time key={order} value={ord.LU_TECH_Order_Date__c} day="2-digit" month="2-digit" year="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                          </span>
+                     </span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                      <span class="elem">
+                        <span class="label">
+                            {orderFieldBillToContactId}
+                          </span>
+                          <span class="value">
+                            {ord.BillToContact.FirstName} {ord.BillToContact.LastName}
+                          </span>
+                      </span>
+                    </div>
+                    <template if:true={showOrderClient}>
+                      <div class="slds-col slds-size_1-of-2">
+                        <span class="elem">
+                          <span class="label">
+                              {labels.lbl_Wishlist_type}
+                            </span>
+                            <span class="value">
+                              {ord.Type}
+                            </span>
+                       </span>
+                      </div>
+                    </template>
+                    <template if:true={showOrderClient}>
+                      <div class="slds-col slds-size_1-of-2">
+                        <span class="elem">
+                          <span class="label">
+                              {labels.lbl_Wishlist_client}
+                            </span>
+                            <span class="value">
+                              {ord.LU_Online_Customer__r.Name}
+                            </span>
+                       </span>
+                      </div>
+                    </template>
+                  </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+</template>

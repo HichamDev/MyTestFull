@@ -1,0 +1,47 @@
+<template>
+    <!-- <div class="container-contact">
+        <div class="contain-title">
+            
+            <template if:true={isCustomer}>
+                <h1>{labels.lbl_Title_Customer}</h1>
+            </template>
+            <template if:true={isMyTeam}>
+                <h1 class="slds-text-heading_large">{labels.lbl_Title_Team}</h1>
+            </template>
+
+            <div class="slds-form-element">
+                <span>
+                    <c-lwc14_-contact_-switch ></c-lwc14_-contact_-switch>
+                </span>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- DESKTOP -->
+    
+        <div class="content-btn-toggle">
+            <template if:true={isCustomer}>
+                <h3>{labels.lbl_Title_Customer}</h3>
+            </template>
+            <template if:true={isMyTeam}>
+                <h3>{labels.lbl_Title_Team}</h3>
+            </template>
+            <div class="slds-form-element btn-switch-responsive" if:true={displayToggle}>
+                <c-lwc14_-contact_-switch ></c-lwc14_-contact_-switch>
+            </div>
+        </div>
+
+        <!-- MOBILE / TABLET -->
+        <div class="content-btn-responsive">
+            <template if:true={isCustomer}>
+                <h3>{labels.lbl_Title_Customer}</h3>
+            </template>
+            <template if:true={isMyTeam}>
+                <h3>{labels.lbl_Title_Team}</h3>
+            </template>
+            <div class="slds-form-element btn-switch-responsive" if:true={displayToggle}>
+                <c-lwc14_-contact_-switch ></c-lwc14_-contact_-switch>
+            </div>
+        </div>
+    
+</template>

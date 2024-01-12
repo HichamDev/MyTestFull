@@ -1,0 +1,35 @@
+<template>
+    <div class="order-confirmation box">
+        <div class="t-c">
+            <img src={orderConfirm} alt="">
+            <h2>{labels.lbl_validation}</h2>
+            <p>{labels.lbl_orderIsValidated}</p>
+            <template if:true={strStock}>
+                <p>
+                    {labels.lbl_Stock_Info_On_The_Order}<br/>
+                    {strStock}
+                </p>
+            </template>
+        </div>
+
+        <div class="buttonContainer">
+            <button class="btn-primary" onclick={backHome}>{labels.lbl_backHome}</button>
+            <button class="btn-primary" onclick={newOrder}>{labels.lbl_newOrder}</button>
+        </div>
+    
+        <!-- <div class="t-s">
+            <div class="t-s_item">
+                <span>8,90€</span>
+                <p>P456 Absorbent Cloth</p>
+            </div>
+            <div class="t-s_item">
+                <span>8,90€</span>
+                <p>P456 Absorbent Cloth</p>
+            </div>
+            <div class="t-s_item">
+                <span>8,90€</span>
+                <p>P456 Absorbent Cloth</p>
+            </div>
+        </div> -->
+    </div>
+</template>

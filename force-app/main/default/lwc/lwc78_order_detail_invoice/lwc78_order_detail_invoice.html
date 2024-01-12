@@ -1,0 +1,65 @@
+<template>
+    
+    <template if:true={ord}>
+
+        <div class="order-list" if:true={displayBlock}>
+
+            <div class="order-list_title">
+    
+                <h2 class="title-order">
+                    {labels.lbl_Title}
+                </h2>
+    
+            </div>
+    
+            <div class="order-list_container">
+
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1">
+                      <span class="elem">
+                          <span class="label">
+                            {orderFieldInvoiceStatus}
+                          </span>
+                          <span class="value">
+                            {ord.LU_Invoice_Status__c}
+                          </span>
+                      </span>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                      <span class="elem">
+                        <span class="label">
+                            {orderFieldInvoiceDate}
+                          </span>
+                          <span class="value">
+                            <lightning-formatted-date-time key={order} value={ord.LU_Invoice_Date__c} day="2-digit" month="2-digit" year="2-digit"></lightning-formatted-date-time>
+                          </span>
+                     </span>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1">
+                      <span class="elem">
+                        <span class="label">
+                            {orderFieldInvoiceNumber}
+                          </span>
+                          <span class="value">
+                            <template if:true={ord.LU_Invoice_URL1__c}>
+                                <a href={ord.LU_Invoice_URL1__c} target="_blank">
+                                    {ord.LU_Invoice_Number__c}
+                                </a>
+                            </template> 
+                            <template if:false={ord.LU_Invoice_URL1__c}>
+                                {ord.LU_Invoice_Number__c}
+                            </template>
+                          </span>
+                      </span>
+                    </div>
+                  </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+</template>

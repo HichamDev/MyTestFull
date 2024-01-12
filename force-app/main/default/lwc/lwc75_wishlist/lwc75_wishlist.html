@@ -1,0 +1,117 @@
+<template>
+	<template if:true={displayCaptcha}>
+		{labels.lbl_captcha_text}
+		<c-recaptcha></c-recaptcha>
+	</template>
+
+	<template if:true={displayPage}>
+		<section class="wishlist-container">
+			<h2 class="title-order">{labels.lbl_wishlist_title}</h2>
+			<div class="box">
+				<div class="p-r">
+					<table class="order-list">
+						<thead>
+							<tr>
+								<th>{labels.lbl_product_description}</th>
+								<th>{labels.lbl_quantity}</th>
+								<th>{labels.lbl_unit_price}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template if:true={displayProducts}>
+								<template for:each={wList.l_itemWishlist} for:item="item">
+									<tr key={item}>
+										<td>{item.name} <span>{MailingPostalCode} {MailingCity}</span></td>
+										<td>{item.quantity}</td>
+										<td>
+											<lightning-formatted-number value={item.price} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+										</td>
+									</tr>
+									<template if:true={item.isBundle}>
+										<tr key={item}>
+											<td colspan="3">
+												<input key={item} type="text" placeholder={labels.lbl_bundle_text} value={item.bundleText} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+												<br key={item}/>
+											</td>
+										</tr>
+									</template>
+								</template>
+							</template>
+						</tbody>
+					</table>
+					<div class="order-price">
+						<div>
+							<p class="order-price_title">{labels.lbl_basket_total}</p>
+						</div>
+						<div>
+							<p class="order-price_item p-t">
+								<lightning-formatted-number value={totalToDisplay} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+								<span> HT</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<h3>{labels.lbl_dealer_association}</h3>
+				<div class="d-a">
+
+					<template if:true={displaySelected}>                   
+						<div id="selection" role="listbox" aria-orientation="horizontal">
+							<ul class="slds-listbox slds-listbox_inline slds-p-top_xxx-small" role="group">
+								<li key={selectedDealer.Id} role="presentation" class="slds-listbox__item">
+									<lightning-pill label={selectedDealer.Name} onremove={handleRemoveSelectedItem} name={selectedDealer.Id}></lightning-pill>
+								</li>
+							</ul>
+						</div>
+					</template>
+
+					<input type="text" placeholder={labels.lbl_dealer_placeholder}  value={searchedTerm} onkeypress={searchDealerEnter} onchange={updateSearchedTerms} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+
+					<template if:true={displayResults}>
+						<div id="listbox" role="listbox" style="position: relative;">
+							<ul class={getListboxClass} role="presentation" style="max-height: 300px; overflow: auto;" data-id="ulList">
+
+								<template for:each={l_dealer} for:item="result" for:index="index">
+									<li data-id={result.Id} key={result.Id} role="presentation" class="slds-listbox__item" onclick={handleResultClick}>
+										<span class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+											role="option" >
+											<span class="slds-media__body">
+												<span class="slds-listbox__option-text slds-listbox__option-text_entity">{result.Name}</span>
+												<span class="slds-listbox__option-meta slds-listbox__option-meta_entity"><lightning-formatted-rich-text value={result.MailingPostalCode}></lightning-formatted-rich-text></span>
+											</span>
+										</span>
+									</li>
+								</template>
+
+							</ul>
+						</div>
+					</template>
+					
+					<div class="b-p">
+						<a href="#" class="btn-primary" onclick={searchDealer}>{labels.lbl_search_dealer}</a>
+					</div>
+				</div>
+				<h3>{labels.lbl_personal_informations}</h3>
+				<div class="i-c">
+					<input type="text" placeholder="First name " value={wList.contactFirstName} onchange={updateFirstName} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+					<input type="text" placeholder="Last name " value={wList.contactLastName} onchange={updateLastName} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+					<input type="text" placeholder="Email" value={wList.contactEmail} onchange={updateMail} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+					<input type="text" placeholder="Mobile" value={wList.contactMobile} onchange={updatePhone} aria-autocomplete="list" aria-controls="listbox-50-9" autocomplete="off" role="textbox" class="slds-input slds-combobox__input has-custom-height">
+					
+					
+					<br/>
+					<br/>
+					<lightning-formatted-rich-text value={labels.lbl_GDPR_Text}></lightning-formatted-rich-text>
+					
+					<br/>
+
+					<div class="b-p">
+						<a href="#" class="btn-primary" onclick={sendWishlist}>{labels.lbl_submit_form}</a>
+					</div>
+					<template if:true={isLoading}>
+						<lightning-spinner alternative-text="Loading"></lightning-spinner>
+					</template>
+				</div>
+			</div>
+		</section>
+	</template>
+</template>

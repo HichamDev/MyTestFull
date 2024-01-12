@@ -1,0 +1,27 @@
+<template>
+        <div class="order-container">
+            <div style={isdisplay}>
+                <div style={isSearchdisplay}>
+                    <c-lwc61_orderhome_nbarticles onordertype={gotOrderType} show-order-infos={showTitleLwc26}></c-lwc61_orderhome_nbarticles>
+                </div>
+            </div>
+            <template if:true={gotOrderTypeDone} >
+                <div style={isdisplay}>
+                    <div style={isSearchdisplay} >
+                        <c-lwc94_orderhome_counters ></c-lwc94_orderhome_counters>
+                        <c-lwc16_catalogchoice if:true={gotOrderTypeDone}  webonly={isWebOnly}></c-lwc16_catalogchoice>
+                        <!-- <c-lwc16_catalogchoice></c-lwc16_catalogchoice> -->
+
+                        <template if:true={mess}>
+                            <div class="personalMessage">
+                                <lightning-formatted-rich-text value={mess} ></lightning-formatted-rich-text>
+                            </div>
+                        </template>
+                        
+                        <c-lwc17_fastordersearchbar if:true={gotOrderTypeDone} webonly={isWebOnly}></c-lwc17_fastordersearchbar>
+                    </div>
+                </div>
+                <c-lwc16_orderhome_basket is-show={isShow} is-order-checkout={showTitleLwc26} oncloselwc16={hidelwc16}></c-lwc16_orderhome_basket>
+            </template>
+        </div> 
+</template>

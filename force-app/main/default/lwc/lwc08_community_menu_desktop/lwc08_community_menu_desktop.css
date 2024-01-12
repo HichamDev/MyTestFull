@@ -1,0 +1,86 @@
+/* parent.css */
+template {
+  width: 100%;
+}
+.body {
+  text-align: center;
+}
+a {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+a[data-id="eShop"] img {
+  filter: contrast(0) brightness(1.9);
+}
+
+.slds-button .slds-button_icon .slds-button_icon-container-more {
+  color: #ffffff !important;
+}
+.selectedMenu{
+  height: 100%;
+  background-color: #042B60;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+.selectedMenu .caption{
+  color: #fff !important;
+}
+
+.menuContainer {
+  position: relative;
+  right: 2%;
+  text-align: center;
+  /* top: -10px; */
+  float: right;
+  color: #ffffff;
+}
+.iconMenu {
+  height: 30px;
+  color: #ffffff;
+}
+
+.middleButton {
+  margin: 0 10px 0 10px;
+}
+.slds-button svg {
+  display: none;
+}
+.backgroundPrimaryColor{
+  background: #052b60;
+}
+.icon {
+  width: 1.5rem;
+}
+
+.item {
+  text-align: center; 
+  display: inline-block;
+}
+
+.caption {
+  display: block;
+}
+
+.slds-button {
+  color: #fff !important;
+  padding: 0 1vw;
+  margin: 0 16px;
+  border-radius: 0;
+}
+.slds-button:hover {
+  background-color: #042B60;
+}
+.desktop { 
+  display: block;
+}
+
+/* MOBILE / TABLET */
+@media screen and (max-width: 1024px) {
+  .desktop { 
+    display: none;
+  }
+}

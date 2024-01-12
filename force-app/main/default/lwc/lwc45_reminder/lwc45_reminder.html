@@ -1,0 +1,62 @@
+<template>
+    <!-- <div onclick={openModal} class="reminder">
+        {reminder.title}
+        <br/>
+        <div class="messageBody">
+            {reminder.message}
+        </div>
+        <br/>
+        <br/>
+    </div> -->
+
+    <c-lwc03_emailform open-email={openEmail} oncloseemail={handleCloseEmail} selected-from-list={selectedReady} selectedtargets={selectedReady} contact-type={label.lbl_TECH_Team} hide-recipient-edition=false></c-lwc03_emailform>
+
+    <div onclick={openModal} class="slds-grid reminder">
+        <div class="reminder-container">
+            <div>
+                <!--<img src="https://i.ibb.co/nDR94L4/note.png" />-->
+                <img src={reminder.iconUrl} width="20px" />
+            </div>
+            <div class="title">
+                {reminder.title}
+            </div>
+        </div>
+        <div>
+            {reminder.messageCut}
+        </div>
+        <!-- <div class="slds-col slds-size_1-of-12">
+            <img src={btn_close} alt="">
+        </div> -->
+    </div>
+
+    <template if:true={displayModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={label.lbl_Close} onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" size="medium" class="white-close">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{label.lbl_Close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{reminder.title}</h2>
+                </header>
+    
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    {reminder.message}
+                </div>
+    
+                <footer class="slds-modal__footer">
+                    <template if:false={reminder.displayEmailButton}>
+                        <lightning-button label={label.lbl_Close} variant="neutral" onclick={closeModal}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </template>
+                    <template if:true={reminder.displayEmailButton}>
+                        <lightning-button label={label.lbl_Email} variant="neutral" onclick={displaySendMail}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </template>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,625 @@
+<template>
+    <section>
+        <div class="container">
+
+            <!-- SPINNER -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </template>
+            <!-- / SPINNER -->
+
+            <!-- HEADER : Contact type + switch -->
+            <!-- <template if:true={isFRA}> -->
+                <c-lwc19_contactheader display-toggle={displaySwitch} ></c-lwc19_contactheader> <!--display-toggle={isFRA} isfrance={isFRA}-->
+            <!-- </template> -->
+            
+            <!-- DESKTOP : NB CONTACT DISPLAYED -->
+            <div class="subtitle-nbpersonne hideOnMobile">
+                <template if:true={isTypeCustomer} >
+                    {nbFilteredContacts} {labels.lbl_nb_customer}
+                </template>
+                <template if:true={isTypeTeam} >
+                    {nbFilteredContacts} {labels.lbl_nb_team}
+                </template>
+            </div>
+            
+            <!-- MOBILE : Contact actions -->
+            <template if:true={openMobileContact}>
+
+                <div class="mobile-contactme" >
+
+                    <div class="content">
+
+                        <div class="slds-grid slds-grid_vertical-align-center" >
+                            <div class="slds-col slds-size_3-of-4">
+                                <span>
+                                    <img class="img-icon-lbl" src={btn_dialog} >
+                                    <span class="lbl">{labels.lbl_Contact}</span>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4 txt-right">
+                                <span class="btn-close" onclick={onClickContactMobile}>
+                                    X
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <br/><br/>
+                   
+                        <!-- <div class="slds-grid slds-grid_vertical-align-center txt-center" if:true={isTypeTeam}> -->
+                        <div class="slds-grid slds-grid_vertical-align-center txt-center" >
+                            <div class="slds-col slds-size_1-of-3">
+                                <span>
+                                    <button class="btn-whatsapp" onclick={showWhatsApp} >{labels.lbl_Whatsapp}<img src={btn_whastapp} alt="" class="img-icon"></button>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <span>
+                                    <button class="btn-mail" onclick={handleSendEmail} >{labels.lbl_Email}<img src={btn_mail} alt="" class="img-icon"></button>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <span>
+                                    <button class="btn-mail" onclick={handleSendEmailToAll} >{labels.lbl_Email_all}<img src={btn_mail} alt="" class="img-icon"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </template>
+
+            <template if:true={openMobileSort}>
+                <div class="mobile-filters" >
+                    <div class="content">
+                        <div class="slds-grid slds-grid_vertical-align-center" >
+                            <div class="slds-col slds-size_3-of-4">
+                                <span>
+                                    <img class="img-icon-lbl" src={btn_sort} >
+                                    <span class="lbl">{labels.lbl_Contact_Mobile_Sort}</span>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4 txt-right">
+                                <span class="btn-close" onclick={handleOpenMobileFilters}>
+                                    X
+                                </span>
+                            </div>
+                        </div>
+                        <c-lwc01_listviewfilters value-order-by={valueOrderBy} show-on-mobile="true" display-sort={openMobileSort} display-filters-mobile=true></c-lwc01_listviewfilters>
+                    </div>
+                </div>
+            </template>
+
+            <!-- MOBILE : Filters actions -->
+            <template if:true={openMobileFilters}>
+
+                <div class="mobile-filters" >
+
+                    <div class="content">
+
+                        <div class="slds-grid slds-grid_vertical-align-center" >
+                            <div class="slds-col slds-size_3-of-4">
+                                <span>
+                                    <img class="img-icon-lbl" src={btn_filters} >
+                                    <span class="lbl">{labels.lbl_Contact_Mobile_Filter}</span>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4 txt-right">
+                                <span class="btn-close" onclick={handleOpenMobileFilters}>
+                                    X
+                                </span>
+                            </div>
+                        </div>
+
+                        <c-lwc01_listviewfilters value-order-by={valueOrderBy} show-on-mobile="true" type-contact-mobile={typeContact} display-filters-mobile={mobileDisplayFilters} display-sort={openMobileSort}></c-lwc01_listviewfilters>
+
+                    </div>
+                </div>
+
+            </template>
+
+            <!-- MOBILE : NB CONTACT DISPLAYED -->
+            <div class="subtitle-nbpersonne hideOnDesktop">
+                <template if:true={isTypeCustomer} >
+                    {nbFilteredContacts} {labels.lbl_nb_customer}
+                </template>
+                <template if:true={isTypeTeam} >
+                    {nbFilteredContacts} {labels.lbl_nb_team}
+                </template>
+            </div>
+
+            <!-- LIST : Desktop / Mobile -->
+            <div class="contain-table" >
+
+                <div class="contain-input-responvive hideOnDesktop">
+                    <input type="text" placeholder={labels.lbl_search} class="input-responsive" value={searchedTerms} onkeyup={updateSearchedTermsVariable}>
+                </div><br/>
+                
+                <!-- LIST DESKTOP : HEADER -->
+                <template if:true={displayContactDiv}>
+                    <div class="slds-grid slds-grid_vertical-align-center margin-actions">
+
+                        <!-- Check all : Desktop / Mobile -->
+                        <div class="slds-col slds-size_4-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+                        <span>
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                <span class="hideOnMobile">
+                                    <button class="btn-mail" onclick={handleSendEmailToAll} >{labels.lbl_Email_all}</button>
+                                </span>
+                                </div>
+                            </div>
+                        </span>
+                        </div>
+
+                        <!-- Team : export excel (Desktop), Customer : new, remove (Desktop / Mobile) -->
+                        <div class="slds-col slds-size_2-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12">
+                        <span>
+                            
+                            <template if:true={isTypeTeam}>
+                                <img src={btn_download} alt="" class="icons-table hideOnMobile" onclick={startExportExcel} >
+                            </template>
+
+                            <template if:true={isTypeCustomer}>
+                                <table>
+                                    <tr>
+                                        <!-- <template if:true={isITA}> -->
+                                            <td>
+                                                <c-lwc13_-end-customer_-new onrefreshcustomerlist={handleRefreshList} ></c-lwc13_-end-customer_-new>
+                                            </td>
+                                        <!-- </template> -->
+                                        <td>
+                                            <c-lwc26_deletecontactlist selectedtargets={rowsSelected} oneventrefreshlist={handleRefreshList}></c-lwc26_deletecontactlist>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </template>
+                        
+                            </span>
+                        </div>
+
+                        <!-- Team : Filter -->
+                        <div class="slds-col slds-size_4-of-12 ">
+                        <span>
+
+                            <template if:true={isTypeTeam}>
+                            <div class="hideOnMobile">
+                                    <select name={labels.lbl_order_by_placeholder} id="orderby-select" onchange={handleChangeOrderBy}>
+                                        <template for:each={optionsOrderBy} for:item="opt">
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <p class="hideOnDesktop">
+                                    <img class="img-icon" src={btn_filters} onclick={handleOpenMobileFilters}>
+                                    <img class="img-icon" src={btn_sort} onclick={handleOpenMobileSort}>
+                                </p>
+
+                            </template>
+
+                        </span>
+                        </div>
+
+                        <!-- Contact : whatsapp, mail -->
+                        <div class="slds-col_bump-left">
+                            <span>
+                                <p class="hideOnMobile" ><!--if:true={isTypeTeam}-->
+                                    <span class="lbl" style="margin-right: 10px;">{labels.lbl_Contact}</span>
+                                    <button class="btn-whatsapp" onclick={showWhatsApp} >{labels.lbl_Whatsapp}<img src={btn_whastapp} alt="" class="img-icon"></button>
+                                    <button class="btn-mail" onclick={handleSendEmail} >{labels.lbl_Email}<img src={btn_mail} alt="" class="img-icon"></button>
+                                </p>
+
+                                <p class="hideOnDesktop" > <!-- if:true={isTypeTeam} -->
+                                    <img src={btn_dialog} alt="" class="img-icon" onclick={onClickContactMobile}>
+                                </p>
+
+                            </span>
+                        </div>
+
+                    </div>
+                </template>
+                <br/>
+                <div class="slds-grid slds-grid_vertical-align-center margin-actions paginationButtonsContainer">
+                    <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+
+                    <button class="slds-button slds-button_icon" title="Settings" onclick={firstPage}>
+                        <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                        <use xlink:href="/fra/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                        </svg>
+                    </button> &nbsp;
+                    
+                    <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                    <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                    <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+                </div>
+                
+                <!-- LIST : DESKTOP & MOBILE -->
+                <template if:true={contactObj}>
+
+                    <div class="contacts">
+
+                    <template if:true={isFilteredContactsEmpty}>
+                         {labels.lbl_no_results_found}
+                    </template>
+
+                    <template for:each={displayedContact} for:item="con">
+                        <div class="row-table" key={con} >
+                            <!-- RGPD -->
+                            <template if:true={isTypeCustomer}>
+                                <!-- show if user not allow -->
+                                <!-- Redo for next deployment -->
+                                <template if:true={con.displayCheckIcon}>
+                                    <img  src={iconCheck} class="rgpd" tabindex="-1" title={labels.lbl_GDPR_Consent_Tick_Title} />
+                                </template>
+                                <template if:false={con.displayCheckIcon}>
+                                    <template if:false={con.displayResendLink}>
+                                        <template if:false={con.displayResendYet}>
+                                            <img  src={iconLock} class="rgpd" tabindex="-1" title={labels.lbl_GDPR_Consent_Locker_Title} />
+                                        </template>
+                                        <template if:true={con.displayResendYet}>
+                                            <div class="rgpd resent">{labels.lbl_GDPR_resentConsent}</div>
+                                        </template>
+                                    </template>
+                                </template>
+                                <template if:true={con.displayResendLink}>
+                                    <c-lwc82_gdpr_resend_consent styleaction="link" styleclass="rgpd" contactid={con.Id} onhideresend={hideResendLink}></c-lwc82_gdpr_resend_consent>
+                                </template>
+                            </template>
+                            
+
+                            <div key={con} class="slds-grid contact" onclick={displayInformations} data-contact={con.Id} >
+
+                                <!-- First column --> 
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12"> 
+                                    <span>
+                                        <!-- Checkbox, img and name-->
+                                        <!-- MOBILE -->
+                                        <div class="contain-img" key={con}>
+                                            <fieldset class="slds-form-element">
+                                                <div class="slds-form-element__control" key={con}>
+                                                    <span class="slds-checkbox">
+
+                                                        <!-- GDPR : IF contact has optout : can't select him-->
+                                                        <!-- <template if:false={con.HasOptedOutOfEmail}> -->
+                                                            <input class="checkboxContact" type="checkbox" name="options" id={con.indexMobile} data-item={con.Id} data-device="mobile" onchange={updateSelection}/>
+                                                        <!-- </template>
+                                                        <template if:true={con.HasOptedOutOfEmail}>
+                                                            <input class="checkboxContact" type="checkbox" name="options" disabled>
+                                                        </template> -->
+                                                        <label class="slds-checkbox__label" for={con.indexMobile}>
+                                                            <span class="slds-checkbox_faux" style="border-radius: 50%; background-color:white; border:0.5px solid; width: 17px; height: 17px;"></span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </fieldset>
+                                            <template if:true={isTypeTeam} >
+                                                <img src={con.LU_TECH_ProfilePicture__c} alt="">
+                                            </template>
+                                            <span >
+                                                <div class="hideOnDesktop">
+                                                    <a href={con.Link_To_Record__c} style="cursor: pointer;">{con.FirstName} {con.LastName}</a>
+                                                </div>
+                                                <div class="hideOnMobile">
+                                                    {con.FirstName} {con.LastName}
+                                                </div>
+                                            </span>
+                                        </div>
+
+                                        <!-- DESKTOP-->
+                                        <div class="hideOnMobile">
+                                            
+                                            <!-- IF TYPE IS CUSTOMER -->
+                                            <template if:true={isTypeCustomer}>
+                                                <div class="content-info" key={con}>
+                                                    <div class="elem">
+                                                        <span class="label">{labels.lbl_lastOrderDate}</span><br/>
+                                                        <span class="value padding">
+                                                            <lightning-formatted-date-time value={con.LastDateToOrder__c} year="numeric" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="elem">
+                                                        <span class="label">{contactObj.fields.LU_Sum_My_OrderItems_Last_Order__c.label}</span><br/>
+                                                        <span class="value">{con.LU_Sum_My_OrderItems_Last_Order__c} €</span>
+                                                    </div>
+                                                    <div class="elem" if:true={isFRA}>
+                                                        <span class="label">{contactObj.fields.LU_Sum_My_OrderItems_With_Tax_Last_Order__c.label}</span><br/>
+                                                        <span class="value">{con.LU_Sum_My_OrderItems_With_Tax_Last_Order__c} €</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                            <!-- IF TYPE IS TEAM -->
+                                            <template if:true={isTypeTeam}>
+                                                <!-- contact info : phone-->
+                                                <div class="content-info" key={con}>
+                                                    <div class="elem">
+                                                        <span class="label">{contactObj.fields.MobilePhone.label}</span><br/>
+                                                        <span class="value">{con.MobilePhone}</span>
+                                                    </div>
+                                                    <!-- <p>Téléphone</p>
+                                                    <span >{con.MobilePhone}</span> -->
+                                                </div>
+
+                                                <!-- contact info more : mail, postal address -->
+                                                <div class="content-info hideInfo" key={con} data-idcon={con.Id}>
+                                                    <div class="locate">
+                                                        <div class="elem">
+                                                            <span class="label">{contactObj.fields.Email.label}</span><br/>
+                                                            <span class="value">{con.Email}</span>
+                                                        </div>
+                                                        <div class="elem">
+                                                            <span class="label">{labels.lbl_Contact_PostalAddress}</span><br/>
+                                                            <span class="value">{con.MailingStreet}<br/>{con.MailingPostalCode} {con.MailingCity}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                        </div>
+
+                                        <!-- MOBILE -->
+                                        <div class="hideOnDesktop">
+                                            <!-- IF TYPE IS TEAM -->
+                                            <template if:true={isTypeTeam} >
+
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.MobilePhone.label}</span><br/>
+                                                    <span class="value">
+                                                        <a href={con.mobileClickToCall}>{con.MobilePhone}</a>
+                                                    </span>
+                                                </div>
+
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.STHID__c.label}</span><br/>
+                                                    <span class="value">{con.STHID__c}</span>
+                                                </div>
+                                                <div class="elem" if:true={isFRA}>
+                                                    <span class="label">{contactObj.fields.Title.label}</span><br/>
+                                                    <span class="value">{con.Title}</span>
+                                                </div>
+                                                <div class="elem" if:false={isFRA}>
+                                                    <span class="label">{contactObj.fields.Title.label}</span><br/>
+                                                    <template if:true={con.displayActSegment}>
+                                                        <span class="value">{con.Title}&nbsp;{con.ActivitySegment__c}</span>
+                                                    </template>
+                                                    <template if:false={con.displayActSegment}>
+                                                        <span class="value">{con.Title}</span>
+                                                    </template>
+                                                </div>
+                                                <p class="last-order">{labels.lbl_Contact_LastOrder}</p>
+
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.Last_Order_Total_Amount__c.label}</span>
+                                                    <span class="value padding">
+                                                        <lightning-formatted-number value={con.Last_Order_Total_Amount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </span>
+                                                </div>
+
+                                                <div class="elem">
+                                                    <template if:false={con.isV2}>
+                                                        <span class="label">{contactObj.fields.LastOrderDate__c.label}</span>
+                                                        <span class="value padding">
+                                                            <lightning-formatted-date-time value={con.LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                                        </span>
+                                                    </template>
+                                                    <template if:true={con.isV2}>
+                                                        <span class="label">{contactObj.fields.LU_LastOrderDate__c.label}</span>
+                                                        <span class="value padding">
+                                                            <lightning-formatted-date-time value={con.LU_LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                                        </span>
+                                                    </template>
+                                                </div>
+                                            
+                                            </template>
+                                        </div>
+                                        
+                                    </span>
+
+                                </div>
+
+                                <!-- DESKTOP -->
+                                
+                                
+                                <!-- Second column -->
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 hideOnMobile">
+                                    <span >
+                                        <div class="content-info-right" key={con}>
+
+                                            <!-- IF TYPE IS TEAM -->
+                                            <template if:true={isTypeTeam} >
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.STHID__c.label}</span><br/>
+                                                    <span class="value">{con.STHID__c}</span>
+                                                </div>
+                                                <div class="elem" if:true={isFRA}>
+                                                    <span class="label">{contactObj.fields.Title.label}</span><br/>
+                                                    <span class="value">{con.Title} {con.LU_Tech_Sales_Segment__c}</span>
+                                                </div>
+                                                <div class="elem" if:false={isFRA}>
+                                                    <span class="label">{contactObj.fields.Title.label}</span><br/>
+                                                    <template if:true={con.displayActSegment}>
+                                                        <span class="value">{con.Title}&nbsp;{con.ActivitySegment__c}</span>
+                                                    </template>
+                                                    <template if:false={con.displayActSegment}>
+                                                        <span class="value">{con.Title}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="hideInfo" key={con} data-idcon={con.Id}>
+                                                    <div class="elem">
+                                                        <span class="label">{contactObj.fields.AccountName__c.label}</span><br/>
+                                                        <span class="value">{con.AccountName__c}</span>
+                                                    </div>
+                                                    <div class="elem">
+                                                        <span class="label">{contactObj.fields.ReportsToName__c.label}</span><br/>
+                                                        <span class="value">{con.ReportsToName__c}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                            <!-- IF TYPE IS CUSTOMER -->
+                                            <template if:true={isTypeCustomer}>
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.Email.label}</span><br/>
+                                                    <span class="value">{con.Email}</span>
+                                                </div>
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.MobilePhone.label}</span><br/>
+                                                    <span class="value">
+                                                        {con.MobilePhone}
+                                                    </span>
+                                                </div>
+                                            </template>
+                                        </div>
+
+                                    </span>
+                                </div>
+
+                                <!-- Third column -->
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 hideOnMobile">
+                                    <span >
+
+                                        <div class="content-order" key={con}>
+
+                                            <!-- IF TYPE IS TEAM -->
+                                            <template if:true={isTypeTeam}>
+                                                <!-- <p class="last-order">{labels.lbl_Contact_LastOrder}</p> -->
+
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.Last_Order_Total_Amount__c.label}</span>
+                                                    <span class="value padding">
+                                                        <lightning-formatted-number value={con.Last_Order_Total_Amount__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </span>
+                                                </div>
+
+                                                <div class="elem">
+                                                    <span class="label">{contactObj.fields.LastOrderDate__c.label}</span>
+                                                    <span class="value padding">
+                                                        <template if:true={con.LU_LastOrderDate__c}>
+                                                            <lightning-formatted-date-time value={con.LU_LastOrderDate__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time>
+                                                        </template>
+                                                    </span>
+                                                </div>
+                                                <template if:true={isFRA}>
+                                                    <div class="elem">
+                                                        <span class="label">{contactObj.fields.Success_Bearing__c.label}</span>
+                                                        <span class="value padding">
+                                                            <template if:true={con.Success_Bearing__c}>
+                                                                <span class="value">{con.Success_Bearing__c}</span>
+                                                            </template>
+                                                        </span>
+                                                    </div>
+                                                    <div class="elem">
+                                                        <span class="label">{labels.lbl_contact_cumulated_turnover_year}</span>
+                                                        <span class="value padding">
+                                                            <lightning-formatted-number value={con.LU_Cumulated_Turnover_Year__c} format-style="currency" currency-code="EUR" currency-display-as="symbol"></lightning-formatted-number>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={isITA}>
+                                                    <div class="elem">
+                                                        <span class="label">{labels.lbl_SeniorSegmentation}</span>
+                                                        <span class="value padding">
+                                                            {con.DealerSenioritySegment__c}
+                                                        </span>
+                                                    </div>
+                                                    <div class="elem">
+                                                        <span class="label">{labels.lbl_contact_current_turnover}</span>
+                                                        <span class="value padding">
+                                                            {con.Turnover_Current_Period__c}
+                                                        </span>
+                                                    </div>
+                                                    <div class="elem">
+                                                        <span class="label">{labels.lbl_contact_last2cycle_turnover}</span>
+                                                        <span class="value padding">
+                                                            {con.Turnover_Previous_Period__c}
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                <div class="hideInfo" key={con} data-idcon={con.Id}>
+                                                    <template if:true={isFRA}>
+                                                        <div class="elem">
+                                                            <span class="label">{contactObj.fields.TECH_Level__c.label}</span>
+                                                            <span class="value padding">
+                                                                <template if:true={con.TECH_Level__c}>
+                                                                    <span class="value">{con.TECH_Level__c}</span>
+                                                                </template>
+                                                            </span>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+
+                                            <!-- IF TYPE IS CUSTOMER -->
+                                            <template if:true={isTypeCustomer}>
+                                                <div class="elem">
+                                                    <span class="label">{labels.lbl_Contact_PostalAddress}</span><br/>
+                                                    <span class="value">{con.MailingStreet}<br/>{con.MailingPostalCode} {con.MailingCity}</span>
+                                                </div>
+                                                <div class="elem">
+                                                    <span class="label">{labels.lbl_source}</span><br/>
+                                                    <span if:true={con.LU_Id_Online__c} class="value">{labels.lbl_source_Stanhome}</span>
+                                                    <span if:false={con.LU_Id_Online__c} class="value">{labels.lbl_source_personal}</span>
+                                                </div>
+                                            </template>
+
+                                        </div>
+
+                                        <!-- NOT LINKED TO DATA YET -->
+                                        <!-- <span class="container-dot">
+                                            <div class="dot" key={con}></div>
+                                        </span> -->
+                                        
+                                        <!-- Button to navigate to contact detail page -->
+                                        <a href={con.Link_To_Record__c} class="btn-action hideInfo" key={con} data-idcon={con.Id} >
+                                            {labels.lbl_View}
+                                        </a>
+
+                                    </span>
+                                </div>
+
+                            </div>
+                    
+                        </div>
+                    
+                    </template>
+                </div>
+                
+                </template>
+                <br/>
+                <div class="slds-grid slds-grid_vertical-align-center margin-actions paginationButtonsContainer">
+                    <span>{labels.lbl_pagination_postion_edited}</span> &nbsp;
+
+                    <button class="slds-button slds-button_icon" title="Settings" onclick={firstPage}>
+                        <svg class="slds-button__icon verticalMirror" aria-hidden="true">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.28.0#macros"></use>
+                        </svg>
+                    </button> &nbsp;
+                    
+                    <lightning-button-icon icon-name="utility:chevronleft" onclick={previousPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                    <lightning-button-icon icon-name="utility:chevronright" onclick={nextPage} variant="bare" size="10px"></lightning-button-icon> &nbsp;
+                    <lightning-button-icon icon-name="utility:macros" onclick={lastPage} variant="bare" size="10px"></lightning-button-icon>
+                </div>
+
+             </div>
+
+        </div>
+
+    </section>
+
+    <!-- 4 - ACTION MODALS -->
+
+    <!-- EMAIL -->
+    <c-lwc03_emailform open-email={openEmail} oncloseemail={handleCloseEmail} selected-from-list={selectedReady} selectedtargets={selectedReady}></c-lwc03_emailform>
+    <!-- WHATSAPP -->
+    <template if:true={displayWhatsApp}>
+        <c-lwc42_communication_whatsapp onclosewhatsapp={hideWhatsApp} ></c-lwc42_communication_whatsapp>
+    </template>
+
+
+    <br/><br/>
+ 
+</template>

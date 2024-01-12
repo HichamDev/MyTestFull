@@ -1,0 +1,31 @@
+<template>
+  <div style="display: flex;"><span style="color: white;">{label.Colissimo_Header_Search} : &nbsp;</span><span>{orderStreet}</span></div>
+  <br/>
+  <div class="slds-grid slds-gutters" style="width: 100%;">
+    <div class="slds-col slds-size_1-of-3">
+      <lightning-accordion active-section-name={activeSections} onsectiontoggle={handleSectionToggle} class="accordion">
+        <template for:each={listmapMarkers} for:item="pt">
+          <lightning-accordion-section key={pt.value} name={pt.value} label={pt.value}>
+            <p>{pt.title}</p>
+            <p>{pt.location.Street}</p>
+            <p>{pt.location.PostalCode} {pt.location.City}</p>
+            <lightning-button key={pt.value} label={label.select} value={pt.value} title={label.select} style="float: right;" onclick={handleclick}></lightning-button>
+        </lightning-accordion-section>
+        </template>
+      </lightning-accordion>
+      </div>
+    <div class="slds-col slds-size_2-of-3">
+      <lightning-map
+          class="map"
+          map-markers={mapMarkers}
+          center={center}
+          markers-title={markersTitle}
+          show-footer={showFooter}
+          list-view="hidden"
+          onmarkerselect={handleMarkerSelect}
+          selected-marker-value={selectedMarkerValue}
+          >
+        </lightning-map>
+      </div>
+      </div>
+</template>

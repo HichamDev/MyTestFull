@@ -1,0 +1,20 @@
+.contain-image img {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: -999 ;
+    /* height: 60vh; */
+    margin-top: -40px !important;
+}
+.contain-image {
+    margin-top: -40px !important;
+}
+
+
+/* RESPONSIVE IMAGE HEADER  */
+
+@media screen and (max-width: 1024px) {
+    .contain-image img {
+        display: none;
+    }
+}

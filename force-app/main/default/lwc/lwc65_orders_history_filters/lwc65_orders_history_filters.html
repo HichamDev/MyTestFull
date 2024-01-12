@@ -1,0 +1,216 @@
+<template>
+
+    <div class="order-statement" id="orderStatement-27-26">
+    
+        <template if:true={isITA}>
+            <h2 class="title-order">{labels.lbl_orderFilterTitle}</h2>
+            <input type="text" placeholder={labels.lbl_search} onkeyup={updateOrderSearchedTerms} aria-autocomplete="list" aria-controls="listbox-50" autocomplete="off" role="textbox" data-id="combobox" class="slds-input slds-combobox__input has-custom-height searchField">
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_timePeriod}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayTimePeriod}>
+                </div>
+                <template if:true={displayTimePeriod}>
+                    <div class="a-container">
+                        <template for:each={optionsTimePeriod} for:item="opt">
+                            <div key={opt.label} class="a-c">
+                                <input id={opt.label} type="checkbox" value={opt.label} class="timePeriod" onchange={updateTimePeriodValue}>
+                                <label for={opt.label}>{opt.label}</label>
+                                <template if:true={opt.islist} >
+                                    &nbsp; &nbsp; <img src={iconDown} alt="" onclick={updateDisplayChooseTimePeriod} class={opt.label}>
+                                    <lightning-combobox name={opt.label}
+                                    onchange={selectionOptionTimePeriod}
+                                    class="timePeriodList slds-hide"></lightning-combobox>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_orderStatus}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayOrderStatus}>
+                </div>
+                <template if:true={displayOrderStatus}>
+                    <div class="a-container">
+                        <template for:each={optionsOrderStatus} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt} type="checkbox" value={opt} class="orderStatus" onchange={updateOrderStatusValue}>
+                                <label for={opt}>{opt}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <template if:true={displayDealerCodeFilter}>
+                <div class="accordeon">
+                    <div class="a-head">
+                        <h3>{labels.lbl_dealerCode}</h3>
+                    </div>
+                    <div class="a-container">
+                        <input type="text" placeholder={labels.lbl_search} onkeyup={updateDealerSearchedTerms} aria-autocomplete="list" aria-controls="listbox-50" autocomplete="off" role="textbox" data-id="combobox" class="slds-input slds-combobox__input has-custom-height">
+                    </div>
+                </div>
+            </template>
+
+        </template>
+
+        <template if:true={isFRA}>
+
+            <h2 class="title-order">{labels.lbl_orderFilterTitle}</h2>
+
+            <input type="text" placeholder={labels.lbl_search} 
+                    onkeyup={updateOrderSearchedTerms} aria-autocomplete="list" aria-controls="listbox-50" 
+                    autocomplete="off" role="textbox" data-id="combobox" class="slds-input slds-combobox__input has-custom-height searchField">
+
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_orderStatus}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayOrderStatusFra}>
+                </div>
+                <template if:true={displayOrderStatusFra}>
+                    <div class="a-container">
+                        <template for:each={optionsOrderStatusFra} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt.value} type="checkbox" value={opt.value} class="orderStatus" onchange={updateOrderStatusValueFRA}>
+                                <label for={opt.value}>{opt.label}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_orderType}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayOrderType}>
+                </div>
+                <template if:true={displayOrderType}>
+                    <div class="a-container">
+                        <template for:each={optionsOrderType} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt} type="checkbox" value={opt} class="orderType" onchange={updateOrderTypeValue}>
+                                <label for={opt}>{opt}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <template if:true={displayforWhoFilter}>
+                <div class="accordeon">
+                    <div class="a-head">
+                        <h3>{labels.lbl_forWho}</h3>
+                        <img src={iconDown} alt="" onclick={updateDisplayForWho}>
+                    </div>
+                    <template if:true={displayForWho}>
+                        <div class="a-container">
+                            <template for:each={optionsForWho} for:item="opt">
+                                <div key={opt} class="a-c">
+                                    <input id={opt} type="checkbox" value={opt} class="forWho" onchange={updateForWhoValue}>
+                                    <label for={opt}>{opt}</label>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:true={isFRA}>
+                <template if:true={displayTeamFilter}>
+                    <template if:true={optionsDealerManagerSegmentationMap}>
+                        <div class="a-head">
+                            <h3>{labels.lbl_DealerManagerSegmentation}</h3>
+                            <img src={iconDown} alt="" onclick={updateDisplayDealerManagerSegmentationMap}>
+                        </div>
+                        <template if:true={displayDealerManagerSegmentationMap}>
+                            <lightning-accordion allow-multiple-sections-open class="lineup-accordeon">
+                                <template if:true={optionsDealerManagerSegmentationMap}>
+                                    <template for:each={optionsDealerManagerSegmentationMap} for:item="item1">
+                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item1}>
+                                            <input id={item1.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item1.value} onchange={updateDealerManagerSegmentation}/>
+                                        </span>
+                                        <lightning-accordion-section name={item1.label} label={item1.label} key={item1} class="accordeonSection">
+                                            <lightning-accordion allow-multiple-sections-open key={item1}>
+                                                <template for:each={item1.childs} for:item="item2">
+                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item2}>
+                                                        <input id={item2.value} type="checkbox" key={item1} class="accordeonCheckbox slds-checkbox" data-id={item2.value} onchange={updateDealerManagerSegmentation}/>
+                                                    </span>
+                                                    <lightning-accordion-section name={item2.label} label={item2.label} key={item2} class="accordeonSection">
+                                                        <lightning-accordion allow-multiple-sections-open key={item2}>
+                                                            <template for:each={item2.childs} for:item="item3">
+                                                                <span class="slds-checkbox spanAccordeonCheckbox" key={item3}>
+                                                                    <input id={item3.value} type="checkbox" key={item3} class="accordeonCheckbox slds-checkbox" data-id={item3.value} onchange={updateDealerManagerSegmentation}/>
+                                                                </span>
+                                                                <lightning-accordion-section name={item3.label} label={item3.label} key={item3} class="accordeonSection">
+                                                                    <lightning-accordion allow-multiple-sections-open key={item3}>
+                                                                        <template for:each={item3.childs} for:item="item4">
+                                                                            <span class="slds-checkbox spanAccordeonCheckbox" key={item4}>
+                                                                                <input id={item4.value} type="checkbox" key={item4} class="accordeonCheckbox slds-checkbox" data-id={item4.value} onchange={updateDealerManagerSegmentation}/>
+                                                                            </span>
+                                                                            <lightning-accordion-section name={item4.label} label={item4.label} key={item4} class="accordeonSection">
+                                                                                <lightning-accordion allow-multiple-sections-open key={item4}>
+                                                                                    <template for:each={item4.childs} for:item="item5">
+                                                                                        <span class="slds-checkbox spanAccordeonCheckbox" key={item5}>
+                                                                                            <input id={item5.value} type="checkbox" key={item5} class="accordeonCheckbox slds-checkbox" data-id={item5.value} onchange={updateDealerManagerSegmentation}/>
+                                                                                        </span>
+                                                                                        <lightning-accordion-section name={item5.label} label={item5.label} key={item5} class="accordeonSection">
+                                                                                            <lightning-accordion allow-multiple-sections-open key={item5}>
+                                                                                                <template for:each={item5.childs} for:item="item6">
+                                                                                                    <span class="slds-checkbox spanAccordeonCheckbox" key={item6}>
+                                                                                                        <input id={item6.value} type="checkbox" key={item6} class="accordeonCheckbox slds-checkbox" data-id={item6.value} onchange={updateDealerManagerSegmentation}/>
+                                                                                                    </span>
+                                                                                                    <lightning-accordion-section name={item6.label} label={item6.label} key={item6} class="accordeonSection"></lightning-accordion-section>
+                                                                                                    <br key={item6} />
+                                                                                                </template>
+                                                                                            </lightning-accordion>
+                                                                                        </lightning-accordion-section>
+                                                                                        <br key={item5} />
+                                                                                    </template>
+                                                                                </lightning-accordion>
+                                                                            </lightning-accordion-section>
+                                                                            <br key={item4} />
+                                                                        </template>
+                                                                    </lightning-accordion>
+                                                                </lightning-accordion-section>
+                                                                <br key={item3} />
+                                                            </template>
+                                                        </lightning-accordion>
+                                                    </lightning-accordion-section>
+                                                    <br key={item2} />
+                                                </template>
+                                            </lightning-accordion>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </template>
+                            </lightning-accordion>
+                        </template>
+                    </template>
+                </template>
+            </template>
+
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_invoiceStatus}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayInvoiceStatus}>
+                </div>
+                <template if:true={displayInvoiceStatus}>
+                    <div class="a-container">
+                        <template for:each={optionsInvoiceStatus} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt} type="checkbox" value={opt} class="invoiceStatus" onchange={updateInvoiceStatusValue}>
+                                <label for={opt}>{opt}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+        </template>
+
+    </div>
+
+</template>

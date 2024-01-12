@@ -1,0 +1,117 @@
+.lineup-colors{
+    --lightBlue: #E3EDF2;
+    --blue: #042B60;
+    --error: #FF3D61;
+    --warning: #FFB41C;
+    --done: #00800E;
+    --grey: #D3DFE4;
+}
+
+.searchInfo {
+    margin-top: 10px;
+    display: flex;
+    color: var(--blue);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.pointSelected {
+    font-weight: bold;
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: var(--blue);
+}
+
+.i-c{
+    display: flex;
+    margin-bottom: 24px;
+    width: 100%;
+}
+.i-c:first-child{
+    margin-top: 24px;
+}
+.i-c input{
+    width: 100%;
+    display: flex;
+    border-radius: 4px;
+    padding: 14px;
+    border: 1px solid var(--grey);
+}
+
+.btn {
+    background-color: var(--blue);
+    color: #ffffff;
+    font-size: 12px;
+    border: none;
+    padding: 5px;
+    border-radius: 5%;
+}
+
+.map {
+    height : 400px;
+}
+
+.map h2{
+    background: none;
+    padding: 0px 0px 0px 10px;
+}
+
+.accordion {
+    height: 400px !important;
+    overflow: overlay;
+    width: 111%;
+}
+
+.slds-coordinates{
+    background: none;
+    padding: 0px 0px 0px 10px;
+}
+
+
+
+/** Titres des sections accordion **/
+span .slds-truncate {
+    font-size: small;
+    white-space: pre-line !important;
+}
+
+/** Intérieur des sections **/
+p {
+    font-size: smaller;
+}
+
+/** Bouton sélectionner dans les sections **/
+div .slds-accordion__content {
+    margin-bottom: 30px;
+}
+
+lightning-button{
+    font-size: smaller;
+    margin-right: 12px;
+    margin-top: 5px;
+}
+
+/** dans la map **/
+h4 {
+    margin: 0px;
+}
+
+.point-selected_container{
+    color: #ff0000;
+}
+
+@media (max-width: 767px){
+    .slds-grid{
+        display: flex;
+        flex-direction: column;
+    }
+    .slds-size_1-of-3{
+        width: 100%;
+    }
+    .slds-size_2-of-3{
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 24px;
+    }
+}

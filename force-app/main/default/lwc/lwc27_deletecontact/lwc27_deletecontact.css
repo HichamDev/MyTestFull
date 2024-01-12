@@ -1,0 +1,15 @@
+.btn {
+    border: 1px solid #6ca5c1;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.imgIcon{
+    /* width: 15%!important; */
+    width: 18px;
+    height: 20px;
+    margin-left: 5px;
+    /* margin-left: 11%; */
+}

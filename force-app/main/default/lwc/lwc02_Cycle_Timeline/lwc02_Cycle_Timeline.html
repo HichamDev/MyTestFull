@@ -1,0 +1,51 @@
+<template>
+
+    <template if:true={cycle}>
+
+        <!-- Cycle, Period information -->
+        <template if:true={isIta}>
+            <b>{cycle.cycleInfo}&nbsp;-&nbsp;{cycle.weekInfo}</b>
+        </template>
+        <template if:true={isFra}>
+            <b>{cycle.cycleInfo}</b>
+            <br/>
+            {cycle.weekInfo}
+        </template>    
+
+        <!-- Progress bar -->
+        <lightning-progress-bar id="cycleStatus" value={progressPct} size="large" variant="circular"></lightning-progress-bar>
+        <!-- <progress id="cycleStatus" max="100" value={progressPct} style={getCSSProgressBar}></progress> -->
+
+
+        <!-- Time left -->
+        <!-- <template if:true={isGreenFlag}> -->
+            
+            <!-- <progress id="file1" max="100" value={progressPct} style="background: #02BC48;">  </progress> -->
+            <!-- <img src={label.lbl_FlagGreen} width="20px"/> -->
+            <!-- <lightning-progress-bar value={progressPct} size="large" variant="circular" style="background: #02BC48;"></lightning-progress-bar> -->
+        <!-- </template> -->
+        <!-- <template if:true={isOrangeFlag}> -->
+            <!-- <img src={label.lbl_FlagOrange} width="20px"/> -->
+            <!-- <lightning-progress-bar value={progressPct} size="large" variant="circular" style="background: #02BC48;"></lightning-progress-bar> -->
+        <!-- </template> -->
+        <!-- <template if:true={isRedFlag}> -->
+            <!-- <img src={label.lbl_FlagRed} width="20px"/> -->
+            <!-- <lightning-progress-bar value={progressPct} size="large" variant="circular" style="background: #02BC48;"></lightning-progress-bar> -->
+        <!-- </template> -->
+
+        <!-- &nbsp; -->
+        <!-- <br/> -->
+        
+        <template if:true={daysToDisplay}>
+            {cycle.daysleft}&nbsp;{txtDays}&nbsp;
+        </template>
+        <template if:true={hoursToDisplay}>
+            {cycle.hoursleft}&nbsp;{txtHours}&nbsp;
+        </template>
+        <template if:true={minutesToDisplay}>
+            {cycle.minutesleft}&nbsp;{txtMinutes}&nbsp;
+        </template>
+        {label.lbl_RemainingTime}
+    </template>
+
+</template>

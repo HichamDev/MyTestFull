@@ -1,0 +1,158 @@
+<template>
+
+    <template if:true={associatedContact}>
+
+        <template if:true={objectInfo}>
+            
+            <span class="body">
+
+                <!-- Address -->
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.MailingStreet.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isAdressEditable}>
+                            <input type="text" id="text-input-id-7" required="" class="slds-input input-style" value={associatedContact.MailingStreet} onchange={updateValueMailingStreet} />
+                        </template>
+                        <template if:false={isAdressEditable}>
+                            <input disabled type="text" id="text-input-id-71" required="" class="slds-input input-style" value={associatedContact.MailingStreet}  />
+
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.MailingPostalCode.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isAdressEditable}>
+                            <input type="text" id="text-input-id-2" required="" class="slds-input input-style" value={associatedContact.MailingPostalCode} onchange={updateValueMailingPostalCode} />
+                        </template>
+                        <template if:false={isAdressEditable}>
+                            <input disabled type="text" id="text-input-id-21" required="" class="slds-input input-style" value={associatedContact.MailingPostalCode} />
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.MailingCity.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isAdressEditable}>
+                            <input type="text" id="text-input-id-3" required="" class="slds-input input-style" value={associatedContact.MailingCity} onchange={updateValueMailingCity} />
+                        </template>
+                        <template if:false={isAdressEditable}>
+                            <input disabled type="text" id="text-input-id-31" required="" class="slds-input input-style" value={associatedContact.MailingCity} onchange={updateValueMailingCity} />
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.MailingCountry.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isAdressEditable}>
+                            <input type="text" id="text-input-id-4" required="" class="slds-input input-style" value={associatedContact.MailingCountry} onchange={updateValueMailingCountry} />
+                        </template>
+                        <template if:false={isAdressEditable}>
+                            <input disabled type="text" id="text-input-id-41" required="" class="slds-input input-style" value={associatedContact.MailingCountry} onchange={updateValueMailingCountry} />
+                        </template>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.Phone.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isPhoneEditable}>
+                            <input type="text" id="text-input-id-5" required="" class="slds-input input-style" value={associatedContact.Phone} onchange={updateValuePhone} />
+                        </template>
+                        <template if:false={isPhoneEditable}>
+                            <input disabled type="tel" id="text-input-id-51" required="" class="slds-input input-style" value={associatedContact.Phone} onchange={updateValuePhone} />
+                        </template>
+                    </div>
+                </div>
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.MobilePhone.label}</label>
+                    <div class="slds-form-element__control input-border">
+                        <template if:true={isMobilePhoneEditable}>
+                            <input type="text" id="text-input-id-6" required="" class="slds-input input-style" value={associatedContact.MobilePhone} onchange={updateValueMobile} />
+                        </template>
+                        <template if:false={isMobilePhoneEditable}>
+                            <input disabled type="tel" id="text-input-id-61" required="" class="slds-input input-style" value={associatedContact.MobilePhone} onchange={updateValueMobile} />
+                        </template>
+                    </div>
+                </div>
+
+                <template if:true={isITA}>
+
+                    <!-- Birthdate -->
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.Birthdate.label}</label>
+                        <div class="slds-form-element__control input-border">
+                            <input disabled type="text" id="text-input-id-8" class="slds-input input-style" value={birthdate}  />
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.Title.label}</label>
+                        <div class="slds-form-element__control input-border">
+                            <input disabled type="text" id="text-input-id-9" class="slds-input input-style" value={associatedContact.Title}  />
+                        </div>
+                    </div>
+
+                    <!-- Activity Segment -->
+                    <template if:true={displayActivitySegment}>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-id-1">{objectInfo.fields.ActivitySegment__c.label}</label>
+                            <div class="slds-form-element__control input-border">
+                                <input disabled type="text" id="text-input-id-11" class="slds-input input-style" value={associatedContact.ActivitySegment__c}  />
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Account owner -->
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">{labels.lbl_label_AccountOwner}</label>
+                        <div class="slds-form-element__control input-border">
+                            <input disabled type="text" id="text-input-id-10" class="slds-input input-style" value={associatedContact.Account.Owner.Name}  />
+                        </div>
+                    </div>
+
+                </template>
+
+                <!-- Link FB -->
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="text-input-id-1">{labels.lbl_label_Facebook_Link}</label>
+                    <div class="slds-form-element__control input-border">
+                        <input type="text" id="text-input-id-12" class="slds-input input-style" value={associatedContact.LU_Facebook_URL__c}  onchange={updateValueFB} />
+                    </div>
+                </div>
+
+                <!-- Marketing consent -->
+                <template if:true={isITA}>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">{labels.lbl_label_Marketing_Consent}</label>
+                        <div class="slds-form-element__control input-border">
+                            <lightning-radio-group options={optionsMarketingConsent} value={optinNewsLetter} type="radio" onchange={updateValueMarketingConsent}></lightning-radio-group>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-id-1">{labels.lbl_label_email}</label>
+                        <div class="slds-form-element__control input-border">
+                            <input type="text" id="text-input-id-19"  required="" class="slds-input input-style" value={associatedContact.Email} onchange={updateValueEmail} />
+                        </div>
+                </div> -->
+
+                <div class="content-btn-save">
+                    <button class="btn-save" onclick={updateContact}>{labels.lbl_label_updatebutton}</button>
+                </div>
+
+            </span>
+
+        </template>
+
+    </template>
+
+</template>

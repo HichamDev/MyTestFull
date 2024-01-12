@@ -1,0 +1,19 @@
+<template >
+    <div  class="banner-discount" lwc:if={isEligible}>
+        <div class="banner-discount_list">
+            <ul>
+                <li>{labels.lbl_Discount_eligiblediscount}</li>
+                <template for:each={orderRules} for:item="rule">
+                    <template lwc:if={rule.hasInferiorCriteria}>
+                        <template lwc:if={rule.hasSuperiorCriteria}>
+                            <li key={rule.Id}>{rule.Discount__c}{labels.lbl_Discount_forOrdersBetwen} {rule.LU_Criteria_Value_1__c}€ {labels.lbl_WAT00032} {rule.LU_Criteria_Value_2__c}€</li>
+                        </template>
+                        <template lwc:else>
+                            <li key={rule.Id}>{rule.Discount__c}{labels.lbl_Discount_forOrdersHigher} {rule.LU_Criteria_Value_1__c}€</li>
+                        </template>
+                    </template>
+                </template>
+            </ul>
+        </div>
+    </div>
+</template>

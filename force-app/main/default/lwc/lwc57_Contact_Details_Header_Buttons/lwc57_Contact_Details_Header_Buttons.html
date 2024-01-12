@@ -1,0 +1,50 @@
+<template>
+    <template if:true={displayComponent}>
+        <section>
+            <div class="container-order displayOnMobile">
+                <div class="btn-group displayOnMobile">
+                    <button onclick={toContactsPage} class="btn-action hideInfo btn-toContactPage" >
+                        {labels.lbl_Back}
+                    </button>
+
+                    <template if:true={isCustomer}>
+                        <button class="btn-whatsapp" onclick={handleEditCustomerOpen}>{labels.lbl_Customer_Edit}<img src={btn_edit} alt="" class="imgIcon"></button>
+                        <c-lwc27_deletecontact selectedcontact-id={recordId} ></c-lwc27_deletecontact>
+                    </template>
+
+                    <template if:true={isDealer}>
+                        <span class="lbl">{labels.lbl_Contact}</span>
+                        <button class="btn-whatsapp" onclick={showWhatsapp}>
+                            <span class="displayOnDesktop labelButton">
+                                {labels.lbl_Whatsapp}
+                            </span>
+                            <img src={btn_whastapp} alt="" class="imgIcon">
+                        </button>
+                        <button class="btn-mail" onclick={showEmail}>
+                            <span class="displayOnDesktop labelButton">
+                                {labels.lbl_Email}
+                            </span>
+                            <img src={btn_mail} alt="" class="imgIcon">
+                        </button> 
+                    </template>
+                    
+                    <template if:true={isCustomer}>
+                        <br/>
+                    </template>
+                    
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- ACTIONS POPUPs -->
+    <!-- Email -->
+    <template if:true={displayEmail}>
+        <c-lwc03_emailform hide-recipient-edition=true open-email={displayEmail} oncloseemail={hideEmailForm} selected-from-list={selectedReady} selectedtargets={l_manager}></c-lwc03_emailform>
+    </template>
+
+    <!-- Whatsapp -->
+    <template if:true={displayWhatsApp}>
+        <c-lwc42_communication_whatsapp onclosewhatsapp={hideWhatsApp} manager-mobile={contact.MobilePhone} ></c-lwc42_communication_whatsapp>
+    </template>
+</template>

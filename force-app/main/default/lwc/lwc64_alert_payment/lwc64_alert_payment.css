@@ -1,0 +1,12 @@
+span{
+    width: 25%;
+    display: inline-block;
+    color: #3c6f8a;
+    font-size: 10pt;
+    height: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+div{
+    width: 100%;
+}

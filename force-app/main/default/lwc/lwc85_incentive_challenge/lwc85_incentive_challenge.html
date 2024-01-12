@@ -1,0 +1,126 @@
+<template>
+    <template if:true={isComponentDisplayed}>
+        <div class="incentive-challenge">
+            <div class="order-list_title">
+                <img src={photoIDTitle} alt="title-order">
+                <h2 class="title-order">{labels.lbl_challenge_title}</h2>
+                <c-lwc61_orderhome_nbarticles onordertype={gotOrderType} show-order-infos="false"></c-lwc61_orderhome_nbarticles>
+            </div>
+
+            <div class="box">
+                <h4 key={chall} >{labels.lbl_challenge_introduction}</h4>
+
+                <template for:each={l_challenges} for:item="chall">
+                    <div key={chall} class="r-item" style="flex-wrap: wrap; flex-direction: column;">
+                        <div class="r-item" style="flex-wrap: wrap;">
+                            <div class="r-l" if:true={chall.hasContentImg}>
+                                <img src={chall.contentImg} alt="">
+                            </div>
+                            <div class="r-l winLooseMessage">
+                                <template if:true={chall.isWon}>
+                                    <p>
+                                        <lightning-formatted-rich-text value={chall.resultTextWon}></lightning-formatted-rich-text>
+                                    </p>
+                                </template>
+                                <template if:false={chall.isWon}>
+                                    <p>
+                                        <lightning-formatted-rich-text escape="false" value={chall.contentText} style="color: #042b60;"></lightning-formatted-rich-text>
+                                    </p>
+                                </template>
+                            </div>
+                            <template if:true={chall.isWon}>
+                                <template if:false={chall.isWebmasterMessage}>
+                                    <div class="r-l" style="color: #042b60;">
+                                        <lightning-icon icon-name="action:approval" alternative-text="Approved" title="Approved"></lightning-icon>
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                        <div class="r-item"  style="flex-wrap: wrap;">
+                            <!-- Pour les challenges cadeau à sélectionner  -->
+                            <template if:true={chall.isWon}>
+                                <template if:true={chall.l_child}>
+                                    <div class="r-item" style="flex-wrap: wrap;">
+                                        <h4 key={chall} >{labels.lbl_challenge_choose_gift_product}</h4><br/>
+                                        <h4 key={chall} style="width: 100%;margin: 0;">{messageGifts1}{chall.numberGiftSelected}{messageGifts2} {chall.numberGift}</h4>
+                                        <div class="r-item" style="flex-wrap: wrap;">
+                                            <template for:each={chall.l_child} for:item="child" >
+                                                <div key={child} class="r-c">
+                                                    <img src={child.imageUrl} alt="">
+                                                    <input type="checkbox" name="size" id={child.id} data-id={child.id} data-value={chall.externalId} onclick={handleGiftSelection} disabled={child.isDisabled}/>
+                                                    <label for={child.id}>{child.title}</label>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template for:each={l_WebmasterChall} for:item="chall">
+                    <!-- SFT-1687, Added style="flex-wrap: wrap;" -->
+                    <div key={chall.orderRuleId} class="r-item" style="flex-wrap: wrap;">
+                        <div class="r-l" if:true={chall.hasContentImg}>
+                            <img src={chall.contentImg} alt="">
+                        </div>
+                        <div class="r-l winLooseMessage">
+                            <template if:true={chall.isWon}>
+                                <p> 
+                                    <lightning-formatted-rich-text value={chall.resultTextWon}></lightning-formatted-rich-text>
+                                </p>
+                            </template>
+                            <template if:false={chall.isWon}>
+                                <p>
+                                    <lightning-formatted-rich-text value={chall.contentText} style="color: #042b60;"></lightning-formatted-rich-text>
+                                </p>
+                            </template>
+                        </div>
+                        <!-- JJE 23/04/2021 - Pas de tick vert pour les webmasters -->
+                        <!-- <template if:true={chall.isWon}>
+                            <div class="r-l" style="color: #042b60;">
+                                <lightning-icon icon-name="action:approval" alternative-text="Approved" title="Approved"></lightning-icon>
+                            </div>
+                        </template> -->
+                    </div>
+                </template>
+
+                <!-- SFT-1716, Displaying Offers" -->
+                <template for:each={l_OfferChall} for:item="chall">
+                    <div key={chall.orderRuleId} >
+                        <c-lwc88_offer_products is-i-t-a={isITA} is-f-r-a={isFRA} product-group-to-display={chall.techExternalIdOfferGroup} onchildlwc88={listenToChild}></c-lwc88_offer_products>
+                    </div>
+                </template>
+                <!--
+                add by amine
+                <div>
+                    <c-lwc83_push_product is-on-order-basket=true country="France" product-group-to-display="A" onchildlwc88={listenToChild}></c-lwc83_push_product>
+                </div>-->
+                <!-- JJE - 22/04/2021 - DEPRECATED - Les cadeaux sont affichés en dessous de chaque challenge -->
+                <!-- <template for:each={l_giftChallWon} for:item="chall">
+                    <div key={chall} class="r-choice">
+                        <lightning-formatted-rich-text value={chall.resultTextWon}></lightning-formatted-rich-text>
+                        <h4 key={chall} >{labels.lbl_challenge_choose_gift_product}</h4>
+                        <template for:each={chall.l_child} for:item="child">
+                            <div key={child} class="r-c">
+                                <img src={imgGift} alt="">
+                                <input type="checkbox" name="size" id={child.id} data-id={child.id} data-value={chall.externalId} onclick={handleGiftSelection} disabled={child.isDisabled}/>
+                                <label for={child.id}>{child.title}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template> -->
+
+                <!-- <template if:true={isFRA}>
+                    <h4 key={chall} >NB: Le CA indiqué tient compte des commandes, avoirs et factures additionnelles. Si vous avez un CA négatif, ceci est lié à un avoir.</h4>
+                </template> -->
+                
+                <div class="c-btn">
+                    <a href="#" class="btn-secondary" onclick={handleBack}>{labels.lbl_challenge_back_button}</a>
+                    <a href="#" class="btn-primary" onclick={toCheckout}>{labels.lbl_challenge_next_button}</a>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

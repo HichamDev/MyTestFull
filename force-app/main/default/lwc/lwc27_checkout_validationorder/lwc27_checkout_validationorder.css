@@ -1,0 +1,14 @@
+/* top of the page messages */
+.page-error-message{
+    background: #FF3D61;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-top: 16px;
+    width: fit-content;
+}
+.page-error-message img{
+    filter: invert(100%) sepia(3%) saturate(13%) hue-rotate(81deg) brightness(106%) contrast(106%);
+}

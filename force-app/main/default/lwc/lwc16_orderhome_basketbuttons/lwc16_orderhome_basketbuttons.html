@@ -1,0 +1,23 @@
+<template>
+    <div style={isdisplay} >
+        <!-- SPINNER -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+        <!-- / SPINNER -->
+        
+        <template if:true={isITA}>
+            <template if:true={showBtnAddToBasketAndContinue}>
+                <button class="btn-order" style="margin-right:2%; margin-bottom:2%" onclick={addBasketContinue}>{labels.lbl_basket_addtobasketcontinue}</button>
+            </template>
+            <button class="btn-order" onclick={addBasketOrder}>{labels.lbl_basket_addtobasketorder}</button>
+        <!--  <button class="btn-order" onclick={goToOrder} style="margin-top: 15px;">{labels.lbl_basket_gotoorder}</button> -->
+        </template>
+
+        <template if:true={isFRA}>
+            <div style="display: flex; align-items: center;flex-flow: column;">
+                <button class="btn-order" onclick={addBasketContinueFRA}>{labels.lbl_basket_addtobasketcontinue}</button>
+            </div>
+        </template>
+    </div>
+</template>

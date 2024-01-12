@@ -1,0 +1,47 @@
+<template>
+    <div class="order-statement">
+    
+        <template if:true={isFRA}>
+
+            <h2 class="title-order">{labels.lbl_statementFilterTitle}</h2>
+
+            <input type="text" placeholder={labels.lbl_search} onkeyup={updateOrderSearchedTerms} aria-autocomplete="list" aria-controls="listbox-50" autocomplete="off" role="textbox" data-id="combobox" class="slds-input slds-combobox__input has-custom-height searchField">
+            
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_type}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayStatementType}>
+                </div>
+                <template if:true={displayStatementType}>
+                    <div class="a-container">
+                        <template for:each={optionsStatementType} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt} type="checkbox" value={opt} class="statementType" onchange={updateStatementTypeValue}>
+                                <label for={opt}>{opt}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <div class="accordeon">
+                <div class="a-head">
+                    <h3>{labels.lbl_forWho}</h3>
+                    <img src={iconDown} alt="" onclick={updateDisplayForWho}>
+                </div>
+                <template if:true={displayForWho}>
+                    <div class="a-container">
+                        <template for:each={optionsForWho} for:item="opt">
+                            <div key={opt} class="a-c">
+                                <input id={opt} type="checkbox" value={opt} class="forWho" onchange={updateForWhoValue}>
+                                <label for={opt}>{opt}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+        </template>
+
+    </div>
+</template>

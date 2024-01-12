@@ -1,0 +1,138 @@
+.container-total {
+    background: #E3EDF2;
+    border-radius: 4px;
+    padding: 22px 48px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.order-price{
+    display: flex;
+    justify-content: space-between;
+    /* background: #E3EDF2;
+    border-radius: 4px;
+    padding: 22px 48px;
+    margin-top: 10px;
+    margin-bottom: 20px; */
+}
+
+@media (max-width: 767px){
+    .container-total{
+        padding: 24px;
+    }
+    .order-price{
+        flex-direction: column;
+    }
+    .order-price_title{
+        margin-bottom: 24px;
+    }
+}
+
+.order-price div{
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+}
+
+.order-price_title{
+    font-size: 14px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #396F8A;
+}
+
+.p-t{
+    margin-right: 0;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+.flex{display: flex;}
+.m-0{margin-right: 0 !important;}
+
+.order-price_item, .order-price_item_small{
+    font-size: 16px;
+    line-height: 1;
+    color: #000;
+    margin-right: 80px;
+    margin-bottom: 16px;
+    font-weight: 300;
+}
+
+
+
+.order-price_item:first-child{
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 500;
+}
+
+.order-price_item span{
+    font-size: 12px;
+    line-height: 1;
+    color: #3B6F89;
+}
+
+
+
+
+/* .order-price{
+    background: #E3EDF2;
+    border-radius: 4px;
+    padding: 22px 48px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+} */
+
+/* .order-price .firstLineContainer{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.order-price .secondLineContainer{
+    margin-left: 0%;
+}
+
+.order-price .titleContainer, .order-price .firstLineTotalContainer{
+    display: flex;
+    align-items: center;
+}
+
+.order-price_title{
+    font-size: 14px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #396F8A;
+}
+
+.order-price_item{
+    font-size: 16px;
+    line-height: 1;
+    color: #000;
+    margin-right: 80px;
+}
+span.order-price_item{
+    text-align: right;
+    width: 75%;
+    display: inline-block;
+}
+
+.order-price_item span{
+    font-size: 12px;
+    line-height: 1;
+    color: #3B6F89;
+} */
+
+.titleColumn{
+    text-align: right;
+    width: 80%;
+}
+.totalColumn{
+    text-align: right;
+    width: 20%;
+}
+
+table{
+    margin-top: 15px;
+}

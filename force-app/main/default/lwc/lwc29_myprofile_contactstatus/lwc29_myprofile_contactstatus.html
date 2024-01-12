@@ -1,0 +1,23 @@
+<template>
+    <template if:true={associatedContact}>
+        <div class="grade-user">
+                <template if:true={isITA}>
+                    <template if:true={displayTitle}>
+                        <p><span>{associatedContact.Title}</span></p>
+                    </template>
+                    <p>{associatedContact.ActivitySegment__c}</p>
+                </template>
+                <template if:false={isITA}>
+                    <p><strong>{associatedContact.JobTitle_Function__c} {associatedContact.SalesSegment__c}</strong></p>
+                </template>
+                <p>{labels.field_startdate} : <span> <lightning-formatted-date-time value={associatedContact.Start_date__c} year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date-time></span></p>
+                <p>{labels.field_commissionrate} : <span>{associatedContact.DirectCommissionRate__c} %</span></p>
+                <template if:false={isITA}>
+                    <p>{labels.field_currentbalance} : <span>{associatedContact.CurrentBalance__c} €</span></p>
+                </template>
+                <template if:false={isITA}>
+                    <p>{labels.lbl_label_currentbalancetotal} : <span>{associatedContact.LU_Current_Balance_Total__c} €</span></p>
+                </template>
+            </div>
+    </template>
+</template>

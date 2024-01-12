@@ -1,0 +1,11 @@
+<template>
+    <!-- <lightning-radio-group options={catalogList}  value={selectedValue} onchange={handleChange}></lightning-radio-group> -->
+
+    <div class="order-select">
+        <template for:each={displayedCatalogList} for:item="element">
+            <input class="checkboxCatalog" id={element.value} type="radio" name="radio" value={element.value} onclick={handleChange} key={element}>
+            <label for={element.value} key={element}>{element.label}</label>
+        </template>
+    </div>
+
+</template>

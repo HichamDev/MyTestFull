@@ -1,0 +1,51 @@
+<template>
+     
+    <div if:true={isOpen}>
+        <div class="order-list" if:true={displayMode}>
+            <div class="order-list_title">
+                <h2 class="title-order">
+                    <img src={iconPayment} style="left: 0; margin-right: 10px;width: 30px;"/>
+                    {labels.lbl_Title}
+                </h2>
+            </div>
+            <div class="order-list_container">
+
+                <!-- CASH -->
+                <template if:true={displayCash}>
+                    <div class="c-container">
+                        <div class="choice">
+                            <input id="bp" type="radio" name="radioPayment" value="1" checked={bpChoosed} disabled={bpDisabled} onclick={handleClickCash}>
+                            <label for="bp">{labels.lbl_paymentCash}</label>
+                        </div>
+                    </div>
+                </template>
+    
+                <!-- CBP : Credit card -->
+                <template if:true={displayCBP}>
+                    <div class="c-container">
+                        <div class="choice">
+                            <input id="cc" type="radio" name="radioPayment" value="1" checked={cbpChoosed} disabled={cbpDisabled} onclick={handleClickCBP} >
+                            <label for="cc">{labels.lbl_paymentCBP}</label>
+                            <div if:true={cbpChoosed} >
+                                <br/>
+                                <iframe src={urlPaymentVF} if:true={urlPaymentVF} width="100%" height="620px" style="border: none;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+    
+                <!-- DDR : Direct Debit -->
+                <template if:true={displayDDR}>
+                    <div class="c-container">
+                        <div class="choice">
+                            <input id="dd" type="radio" name="radioPayment" value="1" checked={ddrChoosed} disabled={ddrDisabled}>
+                            <label for="dd">{labels.lbl_paymentDDR}</label>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+
+</template>

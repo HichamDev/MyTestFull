@@ -1,0 +1,36 @@
+<template>
+    <template if:true={displayComponent}>
+        <span class="info">{labels.lbl_changetodirectdebit_action}</span>&nbsp;
+        <button class="button" onclick={showPopover}>
+            <img src={labels.lbl_img} width="18px" />
+        </button>
+    </template>
+
+    <template if:true={displayPopover}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header hideHeader">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={close}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">{labels.lbl_Close}</span>
+                    </button>
+                    {labels.lbl_changetodirectdebit_action}
+                </header>
+                
+                <div class="container-manager">
+                        {labels.lbl_changetodirectdebit_text}
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label={labels.lbl_changetodirectdebit_close} variant="neutral" onclick={close}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <lightning-button label={labels.lbl_changetodirectdebit_download} variant="brand" onclick={downloadPdf}></lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

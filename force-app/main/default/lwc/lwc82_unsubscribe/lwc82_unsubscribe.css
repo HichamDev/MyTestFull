@@ -1,0 +1,57 @@
+.unsubscribe-container{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    color: #000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    margin-top: -2rem;
+    height: 100vh;
+}
+
+.unsubscribe-container h2{
+    display: block;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.unsubscribe-container span{
+    display: block;
+    font-size: 12px;
+    line-height: 1;
+    margin-top: 8px;
+    color: #9E9E9E;
+}
+
+.u-input{
+    display: flex;
+    flex-direction: column;
+    margin: 32px 0;
+}
+
+input{
+    display: flex;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 8px;
+    width: 240px;
+    border: 1px solid #d3dfe4;
+}
+
+label{
+    display: block;
+    margin-bottom: 6px;
+}
+
+button{
+    background-color: #042b60;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 80px;
+    font-size: 14px;
+}

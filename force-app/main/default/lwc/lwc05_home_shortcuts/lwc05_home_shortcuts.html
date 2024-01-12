@@ -1,0 +1,26 @@
+<template>
+
+    <div class="container">
+
+        <template if:true={links} >
+
+            <template for:each={links} for:item="link">
+
+                <div class="item" key={link.label}>
+                    
+                    <a href={link.link} target="_blank">
+                        <figure>
+                            <img class="item-img" src={link.icon} />
+                            <figcaption>{link.label}</figcaption>
+                        </figure>
+                    </a>
+                    
+                </div>
+
+            </template>
+
+        </template>
+
+    </div>
+
+</template>
